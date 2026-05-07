@@ -1,0 +1,189 @@
+/* Palette SmarTounsi */
+.root {
+    -fx-primary-dark: #00334E;
+    -fx-accent-gold: #FFB800;
+    -fx-bg-light: #F8F9FA;
+    -fx-white: #FFFFFF;
+    -fx-text-dark: #2D3436;
+    -fx-text-muted: #636E72;
+}
+
+.main-container {
+    -fx-background-color: -fx-bg-light;
+}
+
+.sidebar {
+    -fx-background-color: -fx-primary-dark;
+}
+
+/* Boutons */
+.button {
+    -fx-background-radius: 12;
+    -fx-padding: 18 35;
+    -fx-font-size: 22;
+    -fx-cursor: hand;
+    -fx-font-weight: bold;
+}
+
+.button-primary {
+    -fx-background-color: -fx-accent-gold;
+    -fx-text-fill: -fx-primary-dark;
+}
+
+.button-primary:hover {
+    -fx-background-color: #E6A600;
+}
+
+.button-link {
+    -fx-background-color: transparent;
+    -fx-text-fill: -fx-primary-dark;
+    -fx-underline: true;
+    -fx-font-size: 18;
+}
+
+.button-link:hover {
+    -fx-text-fill: #004D74;
+}
+
+/* Champs de texte */
+.text-field, .password-field {
+    -fx-background-color: -fx-white;
+    -fx-border-color: #DFE6E9;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-padding: 18;
+    -fx-font-size: 18;
+}
+
+.text-field:focused, .password-field:focused {
+    -fx-border-color: -fx-primary-dark;
+    -fx-border-width: 2.0;
+}
+
+/* Titres */
+.title {
+    -fx-font-family: "Inter", "Segoe UI", sans-serif;
+    -fx-font-weight: 900;
+    -fx-font-size: 72;
+    -fx-text-fill: linear-gradient(to bottom right, #00334E, #005682);
+    -fx-letter-spacing: -15px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 51, 78, 0.5), 60, 0, 0, 35);
+    -fx-padding: 0 0 40 0;
+}
+
+.title-container {
+    -fx-padding: 20 0 10 0;
+    -fx-alignment: center;
+}
+
+.subtitle {
+    -fx-font-family: "Inter", "Segoe UI", sans-serif;
+    -fx-font-size: 48;
+    -fx-text-fill: #636E72;
+    -fx-font-style: italic;
+    -fx-letter-spacing: 3px;
+}
+
+/* Cartes / Conteneurs */
+.login-card {
+    -fx-background-color: -fx-white;
+    -fx-background-radius: 40;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 50, 0, 0, 20);
+    -fx-padding: 100;
+    -fx-min-width: 1200; /* Container encore plus grand */
+}
+
+/* Sidebar */
+.sidebar {
+    -fx-background-color: #00334E;
+    -fx-padding: 30 15 30 15;
+}
+
+.sidebar-title {
+    -fx-text-fill: #FFB800;
+    -fx-font-size: 28;
+    -fx-font-weight: 900;
+    -fx-padding: 0 0 40 0;
+}
+
+.sidebar-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-size: 18;
+    -fx-font-weight: bold;
+    -fx-alignment: center-left;
+    -fx-padding: 15 20;
+    -fx-background-radius: 10;
+    -fx-cursor: hand;
+}
+
+.sidebar-button:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.1);
+}
+
+.logout-button {
+    -fx-text-fill: #FF6B6B;
+}
+
+.logout-button:hover {
+    -fx-background-color: rgba(255, 107, 107, 0.1);
+}
+
+/* Event Cards */
+.event-card {
+    -fx-background-color: white;
+    -fx-background-radius: 15;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 5);
+    -fx-padding: 25;
+    -fx-pref-width: 300;
+    -fx-pref-height: 200;
+    -fx-cursor: hand;
+}
+
+.event-card:hover {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 15, 0, 0, 8);
+    -fx-translate-y: -2;
+}
+
+.event-title {
+    -fx-font-size: 22;
+    -fx-font-weight: bold;
+    -fx-text-fill: #00334E;
+}
+
+.event-type {
+    -fx-font-size: 14;
+    -fx-text-fill: #FFB800;
+    -fx-font-weight: bold;
+}
+
+.event-details {
+    -fx-font-size: 14;
+    -fx-text-fill: #636E72;
+}
+
+/* Add Event Card */
+.add-event-card {
+    -fx-background-color: #F0F4F8;
+    -fx-border-color: #DFE6E9;
+    -fx-border-width: 2;
+    -fx-border-style: dashed;
+    -fx-border-radius: 15;
+    -fx-background-radius: 15;
+    -fx-alignment: center;
+}
+
+.add-event-icon {
+    -fx-font-size: 60;
+    -fx-text-fill: #00334E;
+    -fx-font-weight: bold;
+}
+
+
+.label-message {
+    -fx-font-size: 16;
+}
+
+.login-card .label {
+    -fx-font-size: 20;
+}

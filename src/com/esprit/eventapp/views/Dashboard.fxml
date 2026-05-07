@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane stylesheets="@../assets/css/style.css" styleClass="main-container" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esprit.eventapp.controllers.DashboardController">
+   <left>
+      <VBox prefWidth="350.0" spacing="10.0" styleClass="sidebar" BorderPane.alignment="CENTER">
+         <children>
+            <Label alignment="CENTER" maxWidth="1.7976931348623157E308" styleClass="sidebar-title" text="SmarTounsi" />
+            <VBox spacing="20.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#showEvents" styleClass="sidebar-button" text="📅 Événements" />
+                  <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#showHistory" styleClass="sidebar-button" text="🕒 Histoire Événements" />
+                  <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#showAvis" styleClass="sidebar-button" text="⭐ Avis Événements" />
+               </children>
+               <VBox.margin>
+                  <Insets top="30.0" />
+               </VBox.margin>
+            </VBox>
+            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#logout" styleClass="sidebar-button, logout-button" text="🚪 Déconnexion" />
+         </children>
+      </VBox>
+   </left>
+   <center>
+      <StackPane fx:id="contentArea" BorderPane.alignment="CENTER">
+         <children>
+            <!-- Par défaut, on affiche la vue des événements -->
+            <VBox spacing="20.0" fx:id="eventsView">
+               <children>
+                  <Label styleClass="title" style="-fx-font-size: 48; -fx-padding: 0 0 0 20; -fx-letter-spacing: 0; -fx-effect: none;" text="Liste des Événements" />
+                  <ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-border-color: transparent;" VBox.vgrow="ALWAYS">
+                     <content>
+                        <FlowPane fx:id="eventsGrid" hgap="30.0" vgap="30.0">
+                           <padding>
+                              <Insets bottom="30.0" left="30.0" right="30.0" top="10.0" />
+                           </padding>
+                        </FlowPane>
+                     </content>
+                  </ScrollPane>
+               </children>
+               <padding>
+                  <Insets bottom="30.0" left="30.0" right="30.0" top="40.0" />
+               </padding>
+            </VBox>
+         </children>
+      </StackPane>
+   </center>
+</BorderPane>
