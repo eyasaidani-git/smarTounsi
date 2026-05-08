@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controllers.ProjetController"
+            stylesheets="@stylesprojet.css"
+            prefWidth="1200"
+            prefHeight="750"
+            styleClass="root-pane">
+
+    <top>
+        <HBox styleClass="top-bar" alignment="CENTER_LEFT">
+            <Label text="🌺  SmarTounsi.com" styleClass="logo-text"/>
+            <Pane HBox.hgrow="ALWAYS"/>
+            <Label text="🎓  Étudiant" styleClass="student-text"/>
+        </HBox>
+    </top>
+
+    <left>
+        <VBox styleClass="side-bar" spacing="18">
+            <Label text="PRINCIPAL" styleClass="menu-title"/>
+            <Label text="🏠  Dashboard" styleClass="menu-item"/>
+            <Label text="📁  Modules" styleClass="menu-item"/>
+            <Label text="📚  Bibliothèque" styleClass="menu-item"/>
+
+            <Label text="OUTILS" styleClass="menu-title"/>
+            <Label text="⬆️  Upload" styleClass="menu-item"/>
+            <Label text="📅  Calendrier" styleClass="menu-item"/>
+            <Label text="⭐  Favoris" styleClass="menu-item"/>
+            <Label text="🧩  Quiz" styleClass="menu-item"/>
+            <Label text="📁  Projets" styleClass="menu-item-active"/>
+            <Label text="🎉  Événements" styleClass="menu-item"/>
+
+            <Label text="AUTRE" styleClass="menu-title"/>
+            <Label text="👤  Profil" styleClass="menu-item"/>
+            <Label text="🔔  Notifications" styleClass="menu-item"/>
+            <Label text="🚪  Déconnexion" styleClass="menu-item"/>
+        </VBox>
+    </left>
+
+    <center>
+        <VBox styleClass="content" spacing="20">
+            <HBox alignment="CENTER_LEFT">
+                <Label text="Projets" styleClass="page-title"/>
+                <Pane HBox.hgrow="ALWAYS"/>
+                <Button text="+ Nouveau projet" onAction="#ajouterProjet" styleClass="new-button"/>
+            </HBox>
+
+            <HBox spacing="10">
+                <TextField fx:id="searchField"
+                           promptText="Rechercher un projet..."
+                           styleClass="search-field"
+                           HBox.hgrow="ALWAYS"/>
+                <Button text="🔍" styleClass="search-button"/>
+            </HBox>
+
+            <ScrollPane fitToWidth="true" styleClass="scroll-pane">
+                <FlowPane fx:id="cardsContainer"
+                          hgap="18"
+                          vgap="18"
+                          prefWrapLength="900"/>
+            </ScrollPane>
+        </VBox>
+    </center>
+
+</BorderPane>
