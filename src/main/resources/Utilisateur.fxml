@@ -17,7 +17,7 @@
 <BorderPane prefHeight="760.0" prefWidth="1180.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.UtilisateurController">
     <left>
         <VBox prefWidth="235.0" spacing="12.0" styleClass="sidebar">
-            <Label styleClass="logo-title" text="SmarTounsi.com" />
+            <Label styleClass="logo-title" text="SmarTounsi" />
             <Label styleClass="logo-subtitle" text="Espace admin • utilisateurs" />
             <Region prefHeight="16.0" />
             <Button maxWidth="Infinity" styleClass="nav-button" text="🏠 Dashboard" />

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane prefHeight="760.0" prefWidth="1180.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MessagesPrivesController">
+    <left>
+        <VBox prefWidth="235.0" spacing="12.0" styleClass="sidebar">
+            <Label text="SmarTounsi.com" styleClass="logo-title" />
+            <Label text="Espace collaboratif" styleClass="logo-subtitle" />
+            <Region prefHeight="16.0" />
+            <Button text="🏠 Dashboard" maxWidth="Infinity" styleClass="nav-button" />
+            <Button text="📚 Modules" maxWidth="Infinity" styleClass="nav-button" />
+            <Button text="📖 Bibliothèque" maxWidth="Infinity" styleClass="nav-button" />
+            <Button text="📅 Calendrier" maxWidth="Infinity" styleClass="nav-button" />
+            <Button text="🧪 Quiz" maxWidth="Infinity" styleClass="nav-button" />
+            <Button text="💼 Projets" maxWidth="Infinity" styleClass="nav-button" />
+            <Button text="🎉 Événements" maxWidth="Infinity" styleClass="nav-button" />
+            <Button text="👥 Utilisateurs" maxWidth="Infinity" onAction="#ouvrirUtilisateurs" styleClass="nav-button" />
+            <Button text="💬 Messages privés" maxWidth="Infinity" styleClass="nav-button-active" />
+            <Button text="🔔 Notifications" maxWidth="Infinity" styleClass="nav-button" />
+            <Region VBox.vgrow="ALWAYS" />
+            <Button text="Déconnexion" maxWidth="Infinity" styleClass="nav-button" />
+        </VBox>
+    </left>
+
+    <center>
+        <VBox spacing="18" BorderPane.alignment="CENTER">
+            <padding><Insets bottom="24" left="28" right="28" top="24" /></padding>
+            <HBox alignment="CENTER_LEFT" spacing="12">
+                <VBox spacing="4" HBox.hgrow="ALWAYS">
+                    <Label text="Messages privés" styleClass="page-title" />
+                    <Label text="Contact direct entre administrateurs, professeurs et étudiants." styleClass="page-subtitle" />
+                </VBox>
+                <Label fx:id="currentUserLabel" text="Connecté : utilisateur demo" styleClass="small-card" />
+            </HBox>
+
+            <HBox spacing="18" VBox.vgrow="ALWAYS">
+                <VBox spacing="12" prefWidth="330" styleClass="card">
+                    <Label text="👥 Contacts" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #134E4A;" />
+                    <TextField fx:id="searchContactField" promptText="Chercher un utilisateur..." />
+                    <ComboBox fx:id="roleFilterCombo" promptText="Filtrer par rôle" maxWidth="Infinity" />
+                    <Button text="Rechercher" onAction="#rechercherContacts" styleClass="secondary-button" maxWidth="Infinity" />
+                    <ListView fx:id="contactsList" VBox.vgrow="ALWAYS" />
+                    <Label fx:id="unreadLabel" text="Messages non lus : 0" styleClass="page-subtitle" />
+                </VBox>
+
+                <VBox spacing="12" HBox.hgrow="ALWAYS" styleClass="card">
+                    <HBox alignment="CENTER_LEFT">
+                        <VBox HBox.hgrow="ALWAYS">
+                            <Label fx:id="conversationTitle" text="Sélectionnez un contact" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #134E4A;" />
+                            <Label fx:id="conversationSubtitle" text="La conversation apparaîtra ici." styleClass="page-subtitle" />
+                        </VBox>
+                        <Button text="Actualiser" onAction="#actualiserConversation" styleClass="secondary-button" />
+                    </HBox>
+                    <ListView fx:id="messagesList" VBox.vgrow="ALWAYS" />
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <TextArea fx:id="messageArea" promptText="Écrire un message privé..." prefRowCount="2" HBox.hgrow="ALWAYS" wrapText="true" />
+                        <Button text="Envoyer" onAction="#envoyerMessage" styleClass="primary-button" />
+                    </HBox>
+                    <Label fx:id="statusLabel" text="Choisissez un contact pour commencer." styleClass="page-subtitle" />
+                </VBox>
+            </HBox>
+        </VBox>
+    </center>
+</BorderPane>
