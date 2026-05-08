@@ -1,14 +1,36 @@
 package services;
 import models.Document;
+import models.Notification;
 import util.DBConnection;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import services.NotificationService;
 
 public class DocumentService implements IService<Document> {
     private Connection conn;
+    private int idUtilisateurQuiAAjouteDocument;
+
     public DocumentService(Connection conn) {
         this.conn = DBConnection.getInstance().getConn();
+    }
+    public int getIdUtilisateurDocument(int idDocument) {
+        String req = "SELECT id_utilisateur FROM document WHERE id=?";
+
+        try (PreparedStatement ps = conn.prepareStatement(req)) {
+
+            ps.setInt(1, idDocument);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt("id_utilisateur");
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Erreur getIdUtilisateurDocument : " + e.getMessage());
+        }
+
+        return -1;
     }
     @Override
     public void add(Document d) {
@@ -22,12 +44,24 @@ public class DocumentService implements IService<Document> {
             ps.setInt(5, d.getIdUtilisateur());
             ps.executeUpdate();
             System.out.println("Document ajouté (en attente d'approbation).");
+            NotificationService notificationService = new NotificationService(conn);
+
+            notificationService.notifierTousLesUtilisateurs(
+                    "Nouveau document",
+                    "Un nouveau document a ete ajoute : " + d.getTitre(),
+                    "DOCUMENT"
+            );
+            notificationService.envoyer(new Notification(
+                    "Document approuve",
+                    "Votre document a ete approuve par l administrateur.",
+                    "DOCUMENT",
+                    idUtilisateurQuiAAjouteDocument
+            ));
         } catch (SQLException e) {
             System.out.println("Erreur add document : " + e.getMessage());
         }
 
     }
-
     @Override
     public void update(Document d) {
         String req = "UPDATE document SET titre=?, type=?, contenu=?, id_module=? WHERE id=?";
@@ -75,10 +109,24 @@ public class DocumentService implements IService<Document> {
     }
     public void approuver(int idDocument) {
         String req = "UPDATE document SET approuve=1 WHERE id=?";
+
         try (PreparedStatement ps = conn.prepareStatement(req)) {
+
             ps.setInt(1, idDocument);
             ps.executeUpdate();
-            System.out.println("Document approuvé ✔");
+            System.out.println("Document approuve.");
+
+            int idUtilisateur = getIdUtilisateurDocument(idDocument);
+
+            if (idUtilisateur != -1) {
+                NotificationService notificationService = new NotificationService(conn);
+                notificationService.envoyer(new Notification(
+                        "Document approuve",
+                        "Votre document a ete approuve par l administrateur.",
+                        "DOCUMENT",
+                        idUtilisateur
+                ));
+            }
         } catch (SQLException e) {
             System.out.println("Erreur approbation : " + e.getMessage());
         }
@@ -107,4 +155,5 @@ public class DocumentService implements IService<Document> {
         d.setApprouve(rs.getBoolean("approuve"));
         return d;
     }
+
 }

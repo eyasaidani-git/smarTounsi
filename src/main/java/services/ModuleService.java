@@ -5,6 +5,7 @@ import util.DBConnection;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import services.NotificationService;
 public class ModuleService implements IService<Module> {
     private Connection conn;
 
@@ -23,6 +24,13 @@ public class ModuleService implements IService<Module> {
             ps.setString(3, m.getIcone());
 
             ps.executeUpdate();
+            NotificationService notificationService = new NotificationService(conn);
+
+            notificationService.notifierTousLesUtilisateurs(
+                    "Nouveau module",
+                    "Un nouveau module a ete ajoute : " + m.getNom(),
+                    "MODULE"
+            );
             System.out.println("Module ajoute avec succes.");
 
         } catch (SQLException e) {
@@ -44,7 +52,12 @@ public class ModuleService implements IService<Module> {
 
             ps.executeUpdate();
             System.out.println("Module modifie avec succes.");
-
+            NotificationService notificationService = new NotificationService(conn);
+            notificationService.notifierTousLesUtilisateurs(
+                    "Nouveau module",
+                    "Un nouveau module a ete ajoute : " + m.getNom(),
+                    "MODULE"
+            );
         } catch (SQLException e) {
             System.out.println("Erreur update module : " + e.getMessage());
         }

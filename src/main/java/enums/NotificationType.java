@@ -1,0 +1,5 @@
+package enums;
+
+public enum NotificationType {
+    DOCUMENT,MODULE,TODO,PLANNING,QUIZ,PROJET,EVENEMENT,UTILISATEUR,SYSTEME
+}

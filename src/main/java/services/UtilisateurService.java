@@ -9,6 +9,7 @@ public class UtilisateurService implements IService<Utilisateur> {
     public UtilisateurService() {
         this.conn = DBConnection.getInstance().getConn();
     }
+
     @Override
     public void add(Utilisateur u) {
         String req = "INSERT INTO utilisateur (nom, prenom, email, mot_de_passe, role) " +
@@ -77,23 +78,35 @@ public class UtilisateurService implements IService<Utilisateur> {
     }
     public Utilisateur login(String email, String motDePasse) {
         String req = "SELECT * FROM utilisateur WHERE email=? AND mot_de_passe=? AND actif=1";
+
         try (PreparedStatement ps = conn.prepareStatement(req)) {
+
             ps.setString(1, email);
-            ps.setString(2, motDePasse); // comparer avec le hash
+            ps.setString(2, motDePasse);
+
             ResultSet rs = ps.executeQuery();
+
             if (rs.next()) {
                 Utilisateur u = new Utilisateur();
+
                 u.setId(rs.getInt("id"));
                 u.setNom(rs.getString("nom"));
                 u.setPrenom(rs.getString("prenom"));
                 u.setEmail(rs.getString("email"));
+                u.setMotDePasse(rs.getString("mot_de_passe"));
                 u.setRole(rs.getString("role"));
+                u.setPhotoProfil(rs.getString("photo_profil"));
+                u.setActif(rs.getBoolean("actif"));
+
                 return u;
             }
+
         } catch (SQLException e) {
             System.out.println("Erreur login : " + e.getMessage());
         }
+
         return null;
     }
+
 }
 

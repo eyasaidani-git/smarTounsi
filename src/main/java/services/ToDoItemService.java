@@ -5,6 +5,8 @@ import util.DBConnection;
 import java.sql.*;
 import java.util.List;
 import java.util.ArrayList;
+import models.Notification;
+import models.Utilisateur;
 public class ToDoItemService implements IService<ToDoItem> {
     private Connection conn;
 
@@ -25,6 +27,15 @@ public class ToDoItemService implements IService<ToDoItem> {
             if (t.getIdDocument() > 0) ps.setInt(6, t.getIdDocument());
             else ps.setNull(6, Types.INTEGER);
             ps.executeUpdate();
+            NotificationService notificationService = new NotificationService(conn);
+
+            int idUtilisateur = 3;
+            notificationService.envoyer(new Notification(
+                    "Revision planifiee",
+                    "Votre revision a ete planifiee. Vous recevrez un rappel quand la date sera proche.",
+                    "TODO",
+                    idUtilisateur
+            ));
         } catch (SQLException e) {
             System.out.println("Erreur add todo : " + e.getMessage());
         }
