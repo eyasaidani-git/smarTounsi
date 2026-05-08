@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane prefHeight="800.0"
+            prefWidth="1200.0"
+            styleClass="root-pane"
+            stylesheets="@styles.css"
+            xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controleurs.PlanningController">
+
+    <top>
+        <HBox alignment="CENTER_LEFT"
+              prefHeight="82.0"
+              spacing="16.0"
+              styleClass="top-bar">
+
+            <padding>
+                <Insets top="16.0" right="28.0" bottom="16.0" left="28.0"/>
+            </padding>
+
+            <VBox spacing="3.0">
+                <Label text="Planning" styleClass="page-title"/>
+                <Label text="Organisez vos révisions, documents et tâches"
+                       styleClass="page-subtitle"/>
+            </VBox>
+
+            <Region HBox.hgrow="ALWAYS"/>
+
+            <Label fx:id="selectedDateBadge"
+                   text="Aujourd'hui"
+                   styleClass="selected-date-badge"/>
+        </HBox>
+    </top>
+
+    <center>
+        <HBox spacing="24.0" styleClass="main-content">
+
+            <padding>
+                <Insets top="24.0" right="28.0" bottom="28.0" left="28.0"/>
+            </padding>
+
+            <VBox spacing="18.0"
+                  prefWidth="760.0"
+                  HBox.hgrow="ALWAYS"
+                  styleClass="calendar-card">
+
+                <HBox alignment="CENTER_LEFT" spacing="12.0">
+
+                    <VBox spacing="4.0">
+                        <Label text="Calendrier" styleClass="section-title"/>
+                        <Label text="Cliquez sur une journée pour voir ou ajouter des tâches"
+                               styleClass="section-subtitle"/>
+                    </VBox>
+
+                    <Region HBox.hgrow="ALWAYS"/>
+
+                    <Button text="&lt;"
+                            onAction="#goPreviousMonth"
+                            styleClass="calendar-nav-button"/>
+
+                    <Label fx:id="monthLabel"
+                           text="Mois Année"
+                           minWidth="190.0"
+                           alignment="CENTER"
+                           styleClass="month-label"/>
+
+                    <Button text="&gt;"
+                            onAction="#goNextMonth"
+                            styleClass="calendar-nav-button"/>
+                </HBox>
+
+                <Separator/>
+
+                <GridPane fx:id="calendarGrid"
+                          hgap="10.0"
+                          vgap="10.0"
+                          VBox.vgrow="ALWAYS"
+                          styleClass="calendar-grid">
+
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="14.285"/>
+                        <ColumnConstraints percentWidth="14.285"/>
+                        <ColumnConstraints percentWidth="14.285"/>
+                        <ColumnConstraints percentWidth="14.285"/>
+                        <ColumnConstraints percentWidth="14.285"/>
+                        <ColumnConstraints percentWidth="14.285"/>
+                        <ColumnConstraints percentWidth="14.285"/>
+                    </columnConstraints>
+
+                    <rowConstraints>
+                        <RowConstraints minHeight="38.0"/>
+                        <RowConstraints minHeight="90.0"/>
+                        <RowConstraints minHeight="90.0"/>
+                        <RowConstraints minHeight="90.0"/>
+                        <RowConstraints minHeight="90.0"/>
+                        <RowConstraints minHeight="90.0"/>
+                        <RowConstraints minHeight="90.0"/>
+                    </rowConstraints>
+
+                </GridPane>
+            </VBox>
+
+            <VBox spacing="16.0"
+                  prefWidth="360.0"
+                  minWidth="340.0"
+                  maxWidth="390.0"
+                  styleClass="todo-panel">
+
+                <HBox alignment="CENTER_LEFT" spacing="10.0">
+                    <VBox spacing="4.0">
+                        <Label text="To Do" styleClass="section-title"/>
+                        <Label text="Ajouter un document ou une tâche"
+                               styleClass="section-subtitle"/>
+                    </VBox>
+
+                    <Region HBox.hgrow="ALWAYS"/>
+
+                    <Label fx:id="todoCounterLabel"
+                           text="0 élément(s)"
+                           styleClass="counter-badge"/>
+                </HBox>
+
+                <Separator/>
+
+                <VBox spacing="12.0" styleClass="form-box">
+
+                    <VBox spacing="6.0">
+                        <Label text="Type" styleClass="input-label"/>
+                        <ComboBox fx:id="typeComboBox"
+                                  maxWidth="1.7976931348623157E308"
+                                  promptText="Choisir un type"
+                                  styleClass="input-field"/>
+                    </VBox>
+
+                    <VBox spacing="6.0">
+                        <Label text="Titre / Document" styleClass="input-label"/>
+                        <TextField fx:id="titleField"
+                                   promptText="Ex : Révision JavaFX, PDF cours..."
+                                   styleClass="input-field"/>
+                    </VBox>
+
+                    <HBox spacing="10.0">
+                        <VBox spacing="6.0" HBox.hgrow="ALWAYS">
+                            <Label text="Heure" styleClass="input-label"/>
+                            <TextField fx:id="timeField"
+                                       promptText="Ex : 10:30"
+                                       styleClass="input-field"/>
+                        </VBox>
+
+                        <VBox spacing="6.0" HBox.hgrow="ALWAYS">
+                            <Label text="Module" styleClass="input-label"/>
+                            <TextField fx:id="moduleField"
+                                       promptText="Ex : Java"
+                                       styleClass="input-field"/>
+                        </VBox>
+                    </HBox>
+
+                    <VBox fx:id="dropZone"
+                          alignment="CENTER"
+                          spacing="8.0"
+                          minHeight="118.0"
+                          styleClass="drop-zone">
+
+                        <Label text="Déposer un fichier ici"
+                               styleClass="drop-zone-title"/>
+
+                        <Label text="PDF, Word, PowerPoint, image, vidéo..."
+                               styleClass="drop-zone-subtitle"/>
+
+                        <Button text="+ Ajouter un fichier"
+                                onAction="#chooseFile"
+                                styleClass="secondary-button"/>
+                    </VBox>
+
+                    <HBox alignment="CENTER_LEFT" spacing="8.0">
+                        <Label fx:id="fileNameLabel"
+                               text="Aucun fichier sélectionné"
+                               maxWidth="230.0"
+                               styleClass="file-name-label"/>
+
+                        <Region HBox.hgrow="ALWAYS"/>
+
+                        <Button text="Retirer"
+                                onAction="#clearFile"
+                                styleClass="clear-button"/>
+                    </HBox>
+
+                    <Button text="+ Ajouter au Planning"
+                            maxWidth="1.7976931348623157E308"
+                            onAction="#addPlanning"
+                            styleClass="primary-button"/>
+                </VBox>
+
+                <Separator/>
+
+                <VBox fx:id="emptyBox"
+                      alignment="CENTER"
+                      spacing="8.0"
+                      minHeight="90.0"
+                      styleClass="empty-box">
+
+                    <Label text="Aucune tâche pour cette date"
+                           styleClass="empty-title"/>
+
+                    <Label text="Sélectionnez une journée puis ajoutez un élément."
+                           wrapText="true"
+                           styleClass="empty-subtitle"/>
+                </VBox>
+
+                <ScrollPane fitToWidth="true"
+                            hbarPolicy="NEVER"
+                            vbarPolicy="AS_NEEDED"
+                            VBox.vgrow="ALWAYS"
+                            styleClass="todo-scroll">
+
+                    <content>
+                        <VBox fx:id="todoListBox"
+                              spacing="10.0"
+                              styleClass="todo-list">
+                            <padding>
+                                <Insets top="4.0" right="4.0" bottom="4.0" left="4.0"/>
+                            </padding>
+                        </VBox>
+                    </content>
+                </ScrollPane>
+
+            </VBox>
+
+        </HBox>
+    </center>
+
+</BorderPane>

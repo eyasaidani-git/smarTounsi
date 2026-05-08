@@ -1,0 +1,382 @@
+.root-pane {
+    -fx-background-color: #F5F7FA;
+    -fx-font-family: "Segoe UI", "Arial", sans-serif;
+}
+
+.top-bar {
+    -fx-background-color: #F5F7FA;
+}
+
+.page-title {
+    -fx-text-fill: #FEB707;
+    -fx-font-family: "Georgia", "Times New Roman", serif;
+    -fx-font-size: 42px;
+    -fx-font-weight: 900;
+}
+
+.page-subtitle {
+    -fx-text-fill: #6D7E8D;
+    -fx-font-size: 15px;
+    -fx-padding: 18 0 0 0;
+}
+
+.main-content {
+    -fx-background-color: #F5F7FA;
+}
+
+.calendar-card,
+.todo-card-panel {
+    -fx-background-color: white;
+    -fx-background-radius: 22px;
+    -fx-border-radius: 22px;
+    -fx-border-color: #DDE8EF;
+    -fx-effect: dropshadow(gaussian, rgba(2, 48, 71, 0.14), 20, 0, 0, 8);
+    -fx-padding: 24px;
+}
+
+.calendar-card {
+    -fx-min-width: 700px;
+}
+
+.calendar-header {
+    -fx-padding: 0 0 4 0;
+}
+
+.month-label {
+    -fx-text-fill: #023047;
+    -fx-font-family: "Georgia", "Times New Roman", serif;
+    -fx-font-size: 27px;
+    -fx-font-weight: 900;
+}
+
+.nav-button {
+    -fx-background-color: white;
+    -fx-background-radius: 50%;
+    -fx-border-color: #023047;
+    -fx-border-width: 2px;
+    -fx-border-radius: 50%;
+    -fx-text-fill: #023047;
+    -fx-font-size: 24px;
+    -fx-font-weight: 800;
+    -fx-min-width: 48px;
+    -fx-min-height: 48px;
+    -fx-cursor: hand;
+}
+
+.nav-button:hover {
+    -fx-background-color: #8ECBE6;
+}
+
+.calendar-grid {
+    -fx-background-color: #D6E5EE;
+    -fx-border-color: #BED2DD;
+    -fx-border-width: 1px;
+    -fx-border-radius: 14px;
+    -fx-background-radius: 14px;
+    -fx-padding: 1px;
+}
+
+.weekday-label {
+    -fx-background-color: #F5F7FA;
+    -fx-text-fill: #607483;
+    -fx-font-size: 14px;
+    -fx-font-weight: 800;
+    -fx-border-color: #D6E5EE;
+    -fx-border-width: 0 1 1 0;
+    -fx-padding: 8 0 8 0;
+}
+
+.calendar-cell {
+    -fx-background-color: white;
+    -fx-border-color: #D6E5EE;
+    -fx-border-width: 0 1 1 0;
+    -fx-padding: 10px;
+    -fx-cursor: hand;
+    -fx-min-height: 88px;
+}
+
+.calendar-cell:hover {
+    -fx-background-color: #ECF8FD;
+}
+
+.calendar-cell-outside {
+    -fx-background-color: #F2F5F7;
+    -fx-opacity: 0.65;
+}
+
+.calendar-cell-today {
+    -fx-border-color: #FEB707;
+    -fx-border-width: 2px;
+}
+
+.calendar-cell-selected {
+    -fx-background-color: #E7F7FC;
+    -fx-border-color: #229DBC;
+    -fx-border-width: 2px;
+}
+
+.day-number {
+    -fx-text-fill: #023047;
+    -fx-font-size: 16px;
+    -fx-font-weight: 900;
+}
+
+.count-badge {
+    -fx-background-color: #229DBC;
+    -fx-background-radius: 999px;
+    -fx-text-fill: white;
+    -fx-font-size: 11px;
+    -fx-font-weight: 900;
+    -fx-padding: 2 8 2 8;
+    -fx-translate-x: 8px;
+}
+
+.event-chip {
+    -fx-background-radius: 8px;
+    -fx-font-size: 11px;
+    -fx-font-weight: 800;
+    -fx-padding: 4 7 4 7;
+    -fx-text-overrun: ellipsis;
+}
+
+.more-label {
+    -fx-text-fill: #6D7E8D;
+    -fx-font-size: 11px;
+    -fx-font-weight: 700;
+}
+
+.side-title {
+    -fx-text-fill: #023047;
+    -fx-font-size: 27px;
+    -fx-font-weight: 900;
+}
+
+.todo-icon {
+    -fx-text-fill: #023047;
+    -fx-font-size: 24px;
+}
+
+.date-badge {
+    -fx-background-color: #229DBC;
+    -fx-background-radius: 999px;
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+    -fx-font-weight: 900;
+    -fx-padding: 8 13 8 13;
+}
+
+.field-label,
+.section-title {
+    -fx-text-fill: #023047;
+    -fx-font-size: 14px;
+    -fx-font-weight: 900;
+}
+
+.text-input-custom,
+.combo-custom {
+    -fx-background-color: white;
+    -fx-background-radius: 10px;
+    -fx-border-color: #C5D5DF;
+    -fx-border-radius: 10px;
+    -fx-border-width: 1.5px;
+    -fx-text-fill: #023047;
+    -fx-prompt-text-fill: #A2ADB5;
+    -fx-font-size: 14px;
+    -fx-padding: 10 12 10 12;
+}
+
+.text-input-custom:focused,
+.combo-custom:focused {
+    -fx-border-color: #229DBC;
+    -fx-effect: dropshadow(gaussian, rgba(34, 157, 188, 0.20), 10, 0, 0, 2);
+}
+
+.drop-zone {
+    -fx-background-color: #EAF5FB;
+    -fx-background-radius: 14px;
+    -fx-border-color: #229DBC;
+    -fx-border-radius: 14px;
+    -fx-border-width: 2px;
+    -fx-border-style: dashed;
+    -fx-padding: 18px;
+}
+
+.drop-zone-active {
+    -fx-background-color: #D7F0FA;
+    -fx-border-color: #FB8402;
+}
+
+.drop-icon {
+    -fx-text-fill: #023047;
+    -fx-font-size: 21px;
+}
+
+.drop-title {
+    -fx-text-fill: #023047;
+    -fx-font-size: 15px;
+    -fx-font-weight: 900;
+}
+
+.drop-subtitle,
+.selected-file-label {
+    -fx-text-fill: #58707F;
+    -fx-font-size: 12px;
+}
+
+.selected-file-label {
+    -fx-font-weight: 800;
+}
+
+.add-button {
+    -fx-background-color: #229DBC;
+    -fx-background-radius: 12px;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: 900;
+    -fx-padding: 14 18 14 18;
+    -fx-cursor: hand;
+}
+
+.add-button:hover {
+    -fx-background-color: #023047;
+}
+
+.secondary-button {
+    -fx-background-color: #023047;
+    -fx-background-radius: 10px;
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+    -fx-font-weight: 900;
+    -fx-padding: 9 12 9 12;
+    -fx-cursor: hand;
+}
+
+.secondary-button:hover {
+    -fx-background-color: #229DBC;
+}
+
+.ghost-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 10px;
+    -fx-border-color: #C5D5DF;
+    -fx-border-radius: 10px;
+    -fx-text-fill: #023047;
+    -fx-font-size: 12px;
+    -fx-font-weight: 900;
+    -fx-padding: 8 12 8 12;
+    -fx-cursor: hand;
+}
+
+.counter-label {
+    -fx-text-fill: #7A8B97;
+    -fx-font-size: 13px;
+}
+
+.empty-box {
+    -fx-padding: 24px;
+}
+
+.empty-title {
+    -fx-text-fill: #7A8B97;
+    -fx-font-size: 14px;
+    -fx-font-weight: 800;
+}
+
+.empty-subtitle {
+    -fx-text-fill: #8B99A3;
+    -fx-font-size: 13px;
+}
+
+.todo-scroll {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+    -fx-padding: 0;
+}
+
+.todo-scroll > .viewport {
+    -fx-background-color: transparent;
+}
+
+.todo-card {
+    -fx-background-color: white;
+    -fx-background-radius: 14px;
+    -fx-border-color: #DDE8EF;
+    -fx-border-radius: 14px;
+    -fx-padding: 12px;
+    -fx-effect: dropshadow(gaussian, rgba(2, 48, 71, 0.08), 12, 0, 0, 4);
+}
+
+.todo-title {
+    -fx-text-fill: #023047;
+    -fx-font-size: 14px;
+    -fx-font-weight: 900;
+}
+
+.todo-meta,
+.file-label {
+    -fx-text-fill: #607483;
+    -fx-font-size: 12px;
+    -fx-font-weight: 700;
+}
+
+.type-badge {
+    -fx-background-radius: 999px;
+    -fx-font-size: 11px;
+    -fx-font-weight: 900;
+    -fx-padding: 4 8 4 8;
+}
+
+.delete-button {
+    -fx-background-color: #F5F7FA;
+    -fx-background-radius: 999px;
+    -fx-text-fill: #FB8402;
+    -fx-font-size: 15px;
+    -fx-font-weight: 900;
+    -fx-min-width: 28px;
+    -fx-min-height: 28px;
+    -fx-cursor: hand;
+}
+
+.delete-button:hover {
+    -fx-background-color: #FFE4CC;
+}
+
+.small-button {
+    -fx-background-color: #8ECBE6;
+    -fx-background-radius: 9px;
+    -fx-text-fill: #023047;
+    -fx-font-size: 12px;
+    -fx-font-weight: 900;
+    -fx-padding: 6 10 6 10;
+    -fx-cursor: hand;
+}
+
+.chip-turquoise {
+    -fx-background-color: #229DBC;
+    -fx-text-fill: white;
+}
+
+.chip-blue-light {
+    -fx-background-color: #8ECBE6;
+    -fx-text-fill: #023047;
+}
+
+.chip-night {
+    -fx-background-color: #023047;
+    -fx-text-fill: white;
+}
+
+.chip-yellow {
+    -fx-background-color: #FEB707;
+    -fx-text-fill: #023047;
+}
+
+.chip-orange {
+    -fx-background-color: #FB8402;
+    -fx-text-fill: white;
+}
+
+.chip-default {
+    -fx-background-color: #E5EDF3;
+    -fx-text-fill: #023047;
+}
