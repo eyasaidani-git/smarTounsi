@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="Controllers.QuizController">
+
+    <!-- MENU GAUCHE -->
+
+    <left>
+        <VBox spacing="15" prefWidth="220" styleClass="sidebar">
+
+            <padding>
+                <Insets top="20" left="20"/>
+            </padding>
+
+            <Label text="SmarTounsi.com" styleClass="logo"/>
+
+            <Button text="Dashboard" styleClass="menu-button"/>
+            <Button text="Modules" styleClass="menu-button"/>
+            <Button text="Bibliothèque" styleClass="menu-button"/>
+            <Button text="Upload" styleClass="menu-button"/>
+            <Button text="Calendrier" styleClass="menu-button"/>
+            <Button text="Favoris" styleClass="menu-button"/>
+            <Button text="Quiz" styleClass="menu-selected"/>
+            <Button text="Profil" styleClass="menu-button"/>
+            <Button text="Notifications" styleClass="menu-button"/>
+            <Button text="Déconnexion" styleClass="menu-button"/>
+
+        </VBox>
+    </left>
+
+    <!-- CONTENU -->
+
+    <center>
+
+        <VBox spacing="20" styleClass="main-content">
+
+            <padding>
+                <Insets top="25" left="25" right="25"/>
+            </padding>
+
+            <!-- HEADER -->
+
+            <HBox spacing="15">
+
+                <Label text="Quiz" styleClass="title"/>
+
+                <Region HBox.hgrow="ALWAYS"/>
+
+                <TextField fx:id="searchField"
+                           promptText="Rechercher un quiz..."
+                           prefWidth="250"/>
+
+                <ComboBox fx:id="comboMatiere"
+                          promptText="Matière"
+                          prefWidth="180"/>
+
+                <Button text="+ Créer un quiz"
+                        styleClass="yellow-button"
+                        onAction="#creerQuiz"/>
+
+            </HBox>
+
+            <!-- GRID QUIZ -->
+
+            <GridPane hgap="20" vgap="20">
+
+                <!-- CARD 1 -->
+
+                <VBox GridPane.rowIndex="0"
+                      GridPane.columnIndex="0"
+                      spacing="10"
+                      styleClass="quiz-card">
+
+                    <padding>
+                        <Insets top="20" left="20"/>
+                    </padding>
+
+                    <Label text="Quiz Mathématiques — Chapitre 1"
+                           styleClass="quiz-title"/>
+
+                    <Label text="Mathématiques | 10 questions | QCM"/>
+
+                    <Button text="▶ Commencer"
+                            styleClass="yellow-button"
+                            onAction="#commencerQuiz"/>
+
+                </VBox>
+
+                <!-- CARD 2 -->
+
+                <VBox GridPane.rowIndex="0"
+                      GridPane.columnIndex="1"
+                      spacing="10"
+                      styleClass="quiz-card">
+
+                    <padding>
+                        <Insets top="20" left="20"/>
+                    </padding>
+
+                    <Label text="Quiz Réseaux — Routage IP"
+                           styleClass="quiz-title"/>
+
+                    <Label text="Réseaux | 8 questions | QCM + Texte"/>
+
+                    <Button text="▶ Commencer"
+                            styleClass="yellow-button"
+                            onAction="#commencerQuiz"/>
+
+                </VBox>
+
+                <!-- CARD 3 -->
+
+                <VBox GridPane.rowIndex="1"
+                      GridPane.columnIndex="0"
+                      spacing="10"
+                      styleClass="quiz-card">
+
+                    <padding>
+                        <Insets top="20" left="20"/>
+                    </padding>
+
+                    <Label text="Quiz Java — POO Fondamentaux"
+                           styleClass="quiz-title"/>
+
+                    <Label text="Java | 12 questions | Mixte"/>
+
+                    <Button text="▶ Commencer"
+                            styleClass="yellow-button"
+                            onAction="#commencerQuiz"/>
+
+                </VBox>
+
+            </GridPane>
+
+        </VBox>
+
+    </center>
+
+</BorderPane>
