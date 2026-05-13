@@ -1,15 +1,26 @@
 package models;
 
 public class Reponse {
-    private int id , idQuestion;
-    private String contenu;
+
+    private int id;
+    private int idQuestion;
+    private String texteReponse;
     private boolean estCorrecte;
+
     public Reponse() {
     }
-    public Reponse(String contenu, boolean estCorrecte, int idQuestion) {
-        this.contenu = contenu;
-        this.estCorrecte = estCorrecte;
+
+    public Reponse(int idQuestion, String texteReponse, boolean estCorrecte) {
         this.idQuestion = idQuestion;
+        this.texteReponse = texteReponse;
+        this.estCorrecte = estCorrecte;
+    }
+
+    public Reponse(int id, int idQuestion, String texteReponse, boolean estCorrecte) {
+        this.id = id;
+        this.idQuestion = idQuestion;
+        this.texteReponse = texteReponse;
+        this.estCorrecte = estCorrecte;
     }
 
     public int getId() {
@@ -20,13 +31,32 @@ public class Reponse {
         this.id = id;
     }
 
+
+    public int getIdQuestion() {
+        return idQuestion;
+    }
+
+    public void setIdQuestion(int idQuestion) {
+        this.idQuestion = idQuestion;
+    }
+
+
+    public String getTexteReponse() {
+        return texteReponse;
+    }
+
+    public void setTexteReponse(String texteReponse) {
+        this.texteReponse = texteReponse;
+    }
+
     public String getContenu() {
-        return contenu;
+        return texteReponse;
     }
 
     public void setContenu(String contenu) {
-        this.contenu = contenu;
+        this.texteReponse = contenu;
     }
+
 
     public boolean isEstCorrecte() {
         return estCorrecte;
@@ -36,11 +66,21 @@ public class Reponse {
         this.estCorrecte = estCorrecte;
     }
 
-    public int getIdQuestion() {
-        return idQuestion;
+    public boolean isCorrecte() {
+        return estCorrecte;
     }
 
-    public void setIdQuestion(int idQuestion) {
-        this.idQuestion = idQuestion;
+    public void setCorrecte(boolean correcte) {
+        this.estCorrecte = correcte;
     }
+
+    @Override
+    public String toString() {
+        return "Reponse{" +
+                "id=" + id +
+                ", idQuestion=" + idQuestion +
+                ", texteReponse='" + texteReponse + '\'' +
+                ", estCorrecte=" + estCorrecte +
+                '}';
+}
 }

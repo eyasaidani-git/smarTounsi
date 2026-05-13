@@ -1,19 +1,55 @@
 package models;
 
-public class Projet {
-    private int id, idCreateur;
-    private String nom, description, fichierCode, fichierPresentation, fichierRapport;
-    private boolean aCode, aPresentation, aRapport;
+import java.time.LocalDateTime;
 
-    public Projet() {}
-    public Projet(String nom, String description, boolean aCode,
-                  boolean aPresentation, boolean aRapport, int idCreateur) {
-        this.nom = nom;
+public class Projet {
+
+    private int id;
+    private String nomProjet;
+    private String description;
+    private int idCreateur;
+
+    private boolean contientCode;
+    private boolean contientPresentation;
+    private boolean contientRapport;
+
+    private String fichierCode;
+    private String fichierPresentation;
+    private String fichierRapport;
+
+    private String statut;
+    private LocalDateTime dateCreation;
+
+    public Projet() {
+    }
+
+    public Projet(String nomProjet, String description, int idCreateur,
+                  boolean contientCode, boolean contientPresentation, boolean contientRapport) {
+        this.nomProjet = nomProjet;
         this.description = description;
-        this.aCode = aCode;
-        this.aPresentation = aPresentation;
-        this.aRapport = aRapport;
         this.idCreateur = idCreateur;
+        this.contientCode = contientCode;
+        this.contientPresentation = contientPresentation;
+        this.contientRapport = contientRapport;
+        this.statut = "en_cours";
+    }
+
+    public Projet(int id, String nomProjet, String description, int idCreateur,
+                  boolean contientCode, boolean contientPresentation, boolean contientRapport,
+                  String fichierCode, String fichierPresentation, String fichierRapport,
+                  String statut, LocalDateTime dateCreation) {
+        this.id = id;
+        this.nomProjet = nomProjet;
+        this.description = description;
+        this.idCreateur = idCreateur;
+        this.contientCode = contientCode;
+        this.contientPresentation = contientPresentation;
+        this.contientRapport = contientRapport;
+        this.fichierCode = fichierCode;
+        this.fichierPresentation = fichierPresentation;
+        this.fichierRapport = fichierRapport;
+        this.statut = statut;
+        this.dateCreation = dateCreation;
     }
 
     public int getId() {
@@ -24,21 +60,23 @@ public class Projet {
         this.id = id;
     }
 
-    public int getIdCreateur() {
-        return idCreateur;
+
+    public String getNomProjet() {
+        return nomProjet;
     }
 
-    public void setIdCreateur(int idCreateur) {
-        this.idCreateur = idCreateur;
+    public void setNomProjet(String nomProjet) {
+        this.nomProjet = nomProjet;
     }
 
     public String getNom() {
-        return nom;
+        return nomProjet;
     }
 
     public void setNom(String nom) {
-        this.nom = nom;
+        this.nomProjet = nom;
     }
+
 
     public String getDescription() {
         return description;
@@ -47,6 +85,40 @@ public class Projet {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public int getIdCreateur() {
+        return idCreateur;
+    }
+
+    public void setIdCreateur(int idCreateur) {
+        this.idCreateur = idCreateur;
+    }
+
+
+    public boolean isContientCode() {
+        return contientCode;
+    }
+
+    public void setContientCode(boolean contientCode) {
+        this.contientCode = contientCode;
+    }
+
+    public boolean isContientPresentation() {
+        return contientPresentation;
+    }
+
+    public void setContientPresentation(boolean contientPresentation) {
+        this.contientPresentation = contientPresentation;
+    }
+
+    public boolean isContientRapport() {
+        return contientRapport;
+    }
+
+    public void setContientRapport(boolean contientRapport) {
+        this.contientRapport = contientRapport;
+    }
+
 
     public String getFichierCode() {
         return fichierCode;
@@ -72,27 +144,39 @@ public class Projet {
         this.fichierRapport = fichierRapport;
     }
 
-    public boolean isaCode() {
-        return aCode;
+
+    public String getStatut() {
+        return statut;
     }
 
-    public void setaCode(boolean aCode) {
-        this.aCode = aCode;
+    public void setStatut(String statut) {
+        this.statut = statut;
     }
 
-    public boolean isaPresentation() {
-        return aPresentation;
+
+    public LocalDateTime getDateCreation() {
+        return dateCreation;
     }
 
-    public void setaPresentation(boolean aPresentation) {
-        this.aPresentation = aPresentation;
+    public void setDateCreation(LocalDateTime dateCreation) {
+        this.dateCreation = dateCreation;
     }
 
-    public boolean isaRapport() {
-        return aRapport;
-    }
-
-    public void setaRapport(boolean aRapport) {
-        this.aRapport = aRapport;
+    @Override
+    public String toString() {
+        return "Projet{" +
+                "id=" + id +
+                ", nomProjet='" + nomProjet + '\'' +
+                ", description='" + description + '\'' +
+                ", idCreateur=" + idCreateur +
+                ", contientCode=" + contientCode +
+                ", contientPresentation=" + contientPresentation +
+                ", contientRapport=" + contientRapport +
+                ", fichierCode='" + fichierCode + '\'' +
+                ", fichierPresentation='" + fichierPresentation + '\'' +
+                ", fichierRapport='" + fichierRapport + '\'' +
+                ", statut='" + statut + '\'' +
+                ", dateCreation=" + dateCreation +
+                '}';
     }
 }

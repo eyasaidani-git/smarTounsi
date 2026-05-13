@@ -1,80 +1,58 @@
 package services;
+
 import models.Module;
 import util.DBConnection;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import services.NotificationService;
-public class ModuleService implements IService<Module> {
-    private Connection conn;
 
-    public ModuleService(Connection conn) {
+public class ModuleService implements IService<Module> {
+    private final Connection conn;
+
+    public ModuleService() {
         this.conn = DBConnection.getInstance().getConn();
     }
 
     @Override
     public void add(Module m) {
-        String req = "INSERT INTO modules (nom, description, icone) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO modules (nom_module, description, id_createur) VALUES (?, ?, ?)";
 
-        try (PreparedStatement ps = conn.prepareStatement(req)) {
-
-            ps.setString(1, m.getNom());
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, m.getNomModule());
             ps.setString(2, m.getDescription());
-            ps.setString(3, m.getIcone());
-
+            setNullableInt(ps, 3, m.getIdCreateur());
             ps.executeUpdate();
-            NotificationService notificationService = new NotificationService(conn);
-
-            notificationService.notifierTousLesUtilisateurs(
-                    "Nouveau module",
-                    "Un nouveau module a ete ajoute : " + m.getNom(),
-                    "MODULE"
-            );
             System.out.println("Module ajoute avec succes.");
-
         } catch (SQLException e) {
             System.out.println("Erreur add module : " + e.getMessage());
         }
-
     }
 
     @Override
     public void update(Module m) {
-        String req = "UPDATE modules SET nom=?, description=?, icone=? WHERE id=?";
+        String sql = "UPDATE modules SET nom_module=?, description=?, id_createur=? WHERE id_module=?";
 
-        try (PreparedStatement ps = conn.prepareStatement(req)) {
-
-            ps.setString(1, m.getNom());
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, m.getNomModule());
             ps.setString(2, m.getDescription());
-            ps.setString(3, m.getIcone());
+            setNullableInt(ps, 3, m.getIdCreateur());
             ps.setInt(4, m.getId());
-
             ps.executeUpdate();
             System.out.println("Module modifie avec succes.");
-            NotificationService notificationService = new NotificationService(conn);
-            notificationService.notifierTousLesUtilisateurs(
-                    "Nouveau module",
-                    "Un nouveau module a ete ajoute : " + m.getNom(),
-                    "MODULE"
-            );
         } catch (SQLException e) {
             System.out.println("Erreur update module : " + e.getMessage());
         }
-
     }
 
     @Override
     public void delete(Module m) {
-        String req = "DELETE FROM modules WHERE id=?";
+        String sql = "DELETE FROM modules WHERE id_module=?";
 
-        try (PreparedStatement ps = conn.prepareStatement(req)) {
-
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, m.getId());
-
             ps.executeUpdate();
             System.out.println("Module supprime avec succes.");
-
         } catch (SQLException e) {
             System.out.println("Erreur delete module : " + e.getMessage());
         }
@@ -82,21 +60,29 @@ public class ModuleService implements IService<Module> {
 
     @Override
     public List<Module> getAll() {
-        return getModules("SELECT * FROM modules");    }
+        List<Module> list = new ArrayList<>();
+        String sql = "SELECT * FROM modules ORDER BY nom_module ASC";
 
-    public Module getById(int id) {
-        String req = "SELECT * FROM modules WHERE id=?";
+        try (Statement st = conn.createStatement(); ResultSet rs = st.executeQuery(sql)) {
+            while (rs.next()) {
+                list.add(mapRow(rs));
+            }
+        } catch (SQLException e) {
+            System.out.println("Erreur getAll modules : " + e.getMessage());
+        }
 
-        try (PreparedStatement ps = conn.prepareStatement(req)) {
+        return list;
+    }
 
-            ps.setInt(1, id);
+    public Module getById(int idModule) {
+        String sql = "SELECT * FROM modules WHERE id_module=?";
 
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, idModule);
             ResultSet rs = ps.executeQuery();
-
             if (rs.next()) {
                 return mapRow(rs);
             }
-
         } catch (SQLException e) {
             System.out.println("Erreur getById module : " + e.getMessage());
         }
@@ -104,21 +90,16 @@ public class ModuleService implements IService<Module> {
         return null;
     }
 
-    public List<Module> searchByNom(String keyword) {
+    public List<Module> searchByNom(String motCle) {
         List<Module> list = new ArrayList<>();
+        String sql = "SELECT * FROM modules WHERE nom_module LIKE ? ORDER BY nom_module ASC";
 
-        String req = "SELECT * FROM modules WHERE nom LIKE ?";
-
-        try (PreparedStatement ps = conn.prepareStatement(req)) {
-
-            ps.setString(1, "%" + keyword + "%");
-
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, "%" + motCle + "%");
             ResultSet rs = ps.executeQuery();
-
             while (rs.next()) {
                 list.add(mapRow(rs));
             }
-
         } catch (SQLException e) {
             System.out.println("Erreur searchByNom module : " + e.getMessage());
         }
@@ -126,37 +107,23 @@ public class ModuleService implements IService<Module> {
         return list;
     }
 
-    private List<Module> getModules(String sql) {
-        List<Module> list = new ArrayList<>();
-
-        try (Statement st = conn.createStatement();
-             ResultSet rs = st.executeQuery(sql)) {
-
-            while (rs.next()) {
-                list.add(mapRow(rs));
-            }
-
-        } catch (SQLException e) {
-            System.out.println("Erreur getModules : " + e.getMessage());
-        }
-
-        return list;
-    }
-
     private Module mapRow(ResultSet rs) throws SQLException {
         Module m = new Module();
-
-        m.setId(rs.getInt("id"));
-        m.setNom(rs.getString("nom"));
+        m.setId(rs.getInt("id_module"));
+        m.setNomModule(rs.getString("nom_module"));
         m.setDescription(rs.getString("description"));
-        m.setIcone(rs.getString("icone"));
-
-        Timestamp timestamp = rs.getTimestamp("date_creation");
-        if (timestamp != null) {
-            m.setDateCreation(timestamp.toLocalDateTime());
-        }
-
+        int idCreateur = rs.getInt("id_createur");
+        m.setIdCreateur(rs.wasNull() ? null : idCreateur);
+        Timestamp dateCreation = rs.getTimestamp("date_creation");
+        m.setDateCreation(dateCreation == null ? null : dateCreation.toLocalDateTime());
         return m;
     }
-}
 
+    private void setNullableInt(PreparedStatement ps, int index, Integer value) throws SQLException {
+        if (value == null) {
+            ps.setNull(index, Types.INTEGER);
+        } else {
+            ps.setInt(index, value);
+        }
+    }
+}

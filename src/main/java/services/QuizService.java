@@ -1,14 +1,14 @@
 package services;
-import models.Question;
+
 import models.Quiz;
-import models.Reponse;
 import util.DBConnection;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+
 public class QuizService implements IService<Quiz> {
-    private Connection conn;
+    private final Connection conn;
 
     public QuizService() {
         this.conn = DBConnection.getInstance().getConn();
@@ -16,13 +16,19 @@ public class QuizService implements IService<Quiz> {
 
     @Override
     public void add(Quiz q) {
-        String req = "INSERT INTO quiz (titre, description, id_module, id_createur) VALUES (?,?,?,?)";
-        try (PreparedStatement ps = conn.prepareStatement(req)) {
+        String sql = "INSERT INTO quiz (titre, description, id_module, id_createur, temps_limite, score_total, est_actif) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, q.getTitre());
             ps.setString(2, q.getDescription());
             ps.setInt(3, q.getIdModule());
             ps.setInt(4, q.getIdCreateur());
+            setNullableInt(ps, 5, q.getTempsLimite());
+            ps.setInt(6, q.getScoreTotal());
+            ps.setBoolean(7, q.isEstActif());
             ps.executeUpdate();
+            System.out.println("Quiz ajoute avec succes.");
         } catch (SQLException e) {
             System.out.println("Erreur add quiz : " + e.getMessage());
         }
@@ -30,12 +36,19 @@ public class QuizService implements IService<Quiz> {
 
     @Override
     public void update(Quiz q) {
-        String req = "UPDATE quiz SET titre=?, description=? WHERE id=?";
-        try (PreparedStatement ps = conn.prepareStatement(req)) {
+        String sql = "UPDATE quiz SET titre=?, description=?, id_module=?, temps_limite=?, score_total=?, est_actif=? " +
+                "WHERE id_quiz=?";
+
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, q.getTitre());
             ps.setString(2, q.getDescription());
-            ps.setInt(3, q.getId());
+            ps.setInt(3, q.getIdModule());
+            setNullableInt(ps, 4, q.getTempsLimite());
+            ps.setInt(5, q.getScoreTotal());
+            ps.setBoolean(6, q.isEstActif());
+            ps.setInt(7, q.getId());
             ps.executeUpdate();
+            System.out.println("Quiz modifie avec succes.");
         } catch (SQLException e) {
             System.out.println("Erreur update quiz : " + e.getMessage());
         }
@@ -43,9 +56,12 @@ public class QuizService implements IService<Quiz> {
 
     @Override
     public void delete(Quiz q) {
-        try (PreparedStatement ps = conn.prepareStatement("DELETE FROM quiz WHERE id=?")) {
+        String sql = "DELETE FROM quiz WHERE id_quiz=?";
+
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, q.getId());
             ps.executeUpdate();
+            System.out.println("Quiz supprime avec succes.");
         } catch (SQLException e) {
             System.out.println("Erreur delete quiz : " + e.getMessage());
         }
@@ -54,73 +70,75 @@ public class QuizService implements IService<Quiz> {
     @Override
     public List<Quiz> getAll() {
         List<Quiz> list = new ArrayList<>();
-        try (Statement st = conn.createStatement();
-             ResultSet rs = st.executeQuery("SELECT * FROM quiz")) {
+        String sql = "SELECT * FROM quiz ORDER BY date_creation DESC";
+
+        try (Statement st = conn.createStatement(); ResultSet rs = st.executeQuery(sql)) {
             while (rs.next()) {
-                Quiz q = new Quiz();
-                q.setId(rs.getInt("id"));
-                q.setTitre(rs.getString("titre"));
-                q.setDescription(rs.getString("description"));
-                q.setIdModule(rs.getInt("id_module"));
-                q.setIdCreateur(rs.getInt("id_createur"));
-                list.add(q);
+                list.add(mapRow(rs));
             }
         } catch (SQLException e) {
             System.out.println("Erreur getAll quiz : " + e.getMessage());
         }
+
         return list;
     }
 
-    public void addQuestion(Question q) {
-        String req = "INSERT INTO question (enonce, type, id_quiz) VALUES (?, ?, ?)";
-        try (PreparedStatement ps = conn.prepareStatement(req)) {
-            ps.setString(1, q.getEnonce());
-            ps.setString(2, q.getType());
-            ps.setInt(3, q.getIdQuiz());
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println("Erreur addQuestion : " + e.getMessage());
-        }
-    }
-    public void addReponse(Reponse r) {
-        String req = "INSERT INTO reponse (contenu, est_correcte, id_question) VALUES (?, ?, ?)";
-        try (PreparedStatement ps = conn.prepareStatement(req)) {
-            ps.setString(1, r.getContenu());
-            ps.setBoolean(2, r.isEstCorrecte());
-            ps.setInt(3, r.getIdQuestion());
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println("Erreur addReponse : " + e.getMessage());
-        }
-    }
-    public List<Question> getQuestions(int idQuiz) {
-        List<Question> list = new ArrayList<>();
-        String req = "SELECT * FROM question WHERE id_quiz=?";
-        try (PreparedStatement ps = conn.prepareStatement(req)) {
+    public Quiz getById(int idQuiz) {
+        String sql = "SELECT * FROM quiz WHERE id_quiz=?";
+
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, idQuiz);
             ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                Question q = new Question();
-                q.setId(rs.getInt("id"));
-                q.setEnonce(rs.getString("enonce"));
-                q.setType(rs.getString("type"));
-                q.setIdQuiz(idQuiz);
-                list.add(q);
+            if (rs.next()) {
+                return mapRow(rs);
             }
         } catch (SQLException e) {
-            System.out.println("Erreur getQuestions : " + e.getMessage());
+            System.out.println("Erreur getById quiz : " + e.getMessage());
         }
+
+        return null;
+    }
+
+    public List<Quiz> getByModule(int idModule) {
+        List<Quiz> list = new ArrayList<>();
+        String sql = "SELECT * FROM quiz WHERE id_module=? AND est_actif=1 ORDER BY date_creation DESC";
+
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, idModule);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(mapRow(rs));
+            }
+        } catch (SQLException e) {
+            System.out.println("Erreur getByModule quiz : " + e.getMessage());
+        }
+
         return list;
     }
-    public void saveResultat(int idUtilisateur, int idQuiz, float score) {
-        String req = "INSERT INTO resultat_quiz (score, id_quiz, id_utilisateur) VALUES (?, ?, ?)";
-        try (PreparedStatement ps = conn.prepareStatement(req)) {
-            ps.setFloat(1, score);
-            ps.setInt(2, idQuiz);
-            ps.setInt(3, idUtilisateur);
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println("Erreur saveResultat : " + e.getMessage());
+
+    private Quiz mapRow(ResultSet rs) throws SQLException {
+        Quiz q = new Quiz();
+        q.setId(rs.getInt("id_quiz"));
+        q.setTitre(rs.getString("titre"));
+        q.setDescription(rs.getString("description"));
+        q.setIdModule(rs.getInt("id_module"));
+        q.setIdCreateur(rs.getInt("id_createur"));
+
+        int tempsLimite = rs.getInt("temps_limite");
+        q.setTempsLimite(rs.wasNull() ? null : tempsLimite);
+
+        q.setScoreTotal(rs.getInt("score_total"));
+        Timestamp dateCreation = rs.getTimestamp("date_creation");
+        q.setDateCreation(dateCreation == null ? null : dateCreation.toLocalDateTime());
+        q.setEstActif(rs.getBoolean("est_actif"));
+        return q;
+    }
+
+    private void setNullableInt(PreparedStatement ps, int index, Integer value) throws SQLException {
+        if (value == null) {
+            ps.setNull(index, Types.INTEGER);
+        } else {
+            ps.setInt(index, value);
         }
     }
 }

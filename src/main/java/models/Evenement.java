@@ -1,7 +1,9 @@
 package models;
+
 import enums.EvenementType;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+
 public class Evenement {
     private int id;
     private String titre;
@@ -32,4 +34,118 @@ public class Evenement {
         this.imageEvenement = imageEvenement;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+
+    public String getTitre() {
+        return titre;
+    }
+
+    public void setTitre(String titre) {
+        this.titre = titre;
+    }
+
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+
+    public EvenementType getTypeEvenement() {
+        return typeEvenement;
+    }
+
+    public void setTypeEvenement(EvenementType typeEvenement) {
+        this.typeEvenement = typeEvenement;
+    }
+
+
+    public String getLieu() {
+        return lieu;
+    }
+
+    public void setLieu(String lieu) {
+        this.lieu = lieu;
+    }
+
+
+    public LocalDateTime getDateDebut() {
+        return dateDebut;
+    }
+
+    public void setDateDebut(LocalDateTime dateDebut) {
+        this.dateDebut = dateDebut;
+    }
+
+
+    public LocalDateTime getDateFin() {
+        return dateFin;
+    }
+
+    public void setDateFin(LocalDateTime dateFin) {
+        this.dateFin = dateFin;
+    }
+
+
+    public BigDecimal getTarif() {
+        return tarif;
+    }
+
+    public void setTarif(BigDecimal tarif) {
+        this.tarif = tarif;
+    }
+
+
+    public int getIdCreateur() {
+        return idCreateur;
+    }
+
+    public void setIdCreateur(int idCreateur) {
+        this.idCreateur = idCreateur;
+    }
+
+
+    public String getImageEvenement() {
+        return imageEvenement;
+    }
+
+    public void setImageEvenement(String imageEvenement) {
+        this.imageEvenement = imageEvenement;
+    }
+
+
+    public LocalDateTime getDateCreation() {
+        return dateCreation;
+    }
+
+    public void setDateCreation(LocalDateTime dateCreation) {
+        this.dateCreation = dateCreation;
+    }
+
+    @Override
+    public String toString() {
+        return "Evenement{" +
+                "id=" + id +
+                ", titre='" + titre + '\'' +
+                ", description='" + description + '\'' +
+                ", typeEvenement=" + typeEvenement +
+                ", lieu='" + lieu + '\'' +
+                ", dateDebut=" + dateDebut +
+                ", dateFin=" + dateFin +
+                ", tarif=" + tarif +
+                ", idCreateur=" + idCreateur +
+                ", imageEvenement='" + imageEvenement + '\'' +
+                ", dateCreation=" + dateCreation +
+                '}';
+    }
 }

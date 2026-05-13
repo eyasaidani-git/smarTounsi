@@ -92,6 +92,14 @@ public class Utilisateur {
         this.estActif = estActif;
     }
 
+    public boolean isActif() {
+        return estActif;
+    }
+
+    public void setActif(boolean actif) {
+        this.estActif = actif;
+    }
+
     @Override
     public String toString() {
         return "Utilisateur{" +

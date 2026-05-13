@@ -1,4 +1,5 @@
 package services;
+
 import models.Notification;
 import util.DBConnection;
 
@@ -6,273 +7,191 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NotificationService {
-    private Connection conn;
+public class NotificationService implements IService<Notification> {
 
-    public NotificationService(Connection conn) {
+    private final Connection conn;
+
+    public NotificationService() {
         this.conn = DBConnection.getInstance().getConn();
     }
-    public void envoyer(Notification n) {
-        String req = "INSERT INTO notification (titre, message, type, id_utilisateur) VALUES (?, ?, ?, ?)";
 
-        try (PreparedStatement ps = conn.prepareStatement(req)) {
+    @Override
+    public void add(Notification n) {
+        String sql = "INSERT INTO notification " +
+                "(id_utilisateur, titre, message, type_notification, est_lue) " +
+                "VALUES (?, ?, ?, ?, ?)";
 
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, n.getIdUtilisateur());
+            ps.setString(2, n.getTitre());
+            ps.setString(3, n.getMessage());
+            ps.setString(4, n.getType());
+            ps.setBoolean(5, n.isLu());
+
+            ps.executeUpdate();
+            System.out.println("Notification ajoutée avec succès.");
+
+        } catch (SQLException e) {
+            System.out.println("Erreur add notification : " + e.getMessage());
+        }
+    }
+
+    @Override
+    public void update(Notification n) {
+        String sql = "UPDATE notification SET titre=?, message=?, type_notification=?, est_lue=? " +
+                "WHERE id_notification=?";
+
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, n.getTitre());
             ps.setString(2, n.getMessage());
             ps.setString(3, n.getType());
-            ps.setInt(4, n.getIdUtilisateur());
+            ps.setBoolean(4, n.isLu());
+            ps.setInt(5, n.getId());
 
             ps.executeUpdate();
-            System.out.println("Notification envoyee.");
+            System.out.println("Notification modifiée avec succès.");
 
         } catch (SQLException e) {
-            System.out.println("Erreur envoyer notification : " + e.getMessage());
+            System.out.println("Erreur update notification : " + e.getMessage());
         }
     }
 
-    public void notifierAdmins(String titre, String message, String type) {
-        String req = "SELECT id FROM utilisateur WHERE role='admin' AND actif=1";
+    @Override
+    public void delete(Notification n) {
+        String sql = "DELETE FROM notification WHERE id_notification=?";
+
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, n.getId());
+
+            ps.executeUpdate();
+            System.out.println("Notification supprimée avec succès.");
+
+        } catch (SQLException e) {
+            System.out.println("Erreur delete notification : " + e.getMessage());
+        }
+    }
+
+    @Override
+    public List<Notification> getAll() {
+        List<Notification> notifications = new ArrayList<>();
+        String sql = "SELECT * FROM notification ORDER BY date_creation DESC";
 
         try (Statement st = conn.createStatement();
-             ResultSet rs = st.executeQuery(req)) {
+             ResultSet rs = st.executeQuery(sql)) {
 
             while (rs.next()) {
-                envoyer(new Notification(
-                        titre,
-                        message,
-                        type,
-                        rs.getInt("id")
-                ));
+                notifications.add(mapRow(rs));
             }
 
         } catch (SQLException e) {
-            System.out.println("Erreur notifierAdmins : " + e.getMessage());
+            System.out.println("Erreur getAll notification : " + e.getMessage());
         }
+
+        return notifications;
     }
 
-    public void notifierEtudiants(String titre, String message, String type) {
-        String req = "SELECT id FROM utilisateur WHERE role='etudiant' AND actif=1";
+    public List<Notification> getByUtilisateur(int idUtilisateur) {
+        List<Notification> notifications = new ArrayList<>();
+        String sql = "SELECT * FROM notification WHERE id_utilisateur=? ORDER BY date_creation DESC";
 
-        try (Statement st = conn.createStatement();
-             ResultSet rs = st.executeQuery(req)) {
-
-            while (rs.next()) {
-                envoyer(new Notification(
-                        titre,
-                        message,
-                        type,
-                        rs.getInt("id")
-                ));
-            }
-
-        } catch (SQLException e) {
-            System.out.println("Erreur notifierEtudiants : " + e.getMessage());
-        }
-    }
-
-    public void notifierEnseignants(String titre, String message, String type) {
-        String req = "SELECT id FROM utilisateur WHERE role='enseignant' AND actif=1";
-
-        try (Statement st = conn.createStatement();
-             ResultSet rs = st.executeQuery(req)) {
-
-            while (rs.next()) {
-                envoyer(new Notification(
-                        titre,
-                        message,
-                        type,
-                        rs.getInt("id")
-                ));
-            }
-
-        } catch (SQLException e) {
-            System.out.println("Erreur notifierEnseignants : " + e.getMessage());
-        }
-    }
-
-    public void notifierTousLesUtilisateurs(String titre, String message, String type) {
-        String req = "SELECT id FROM utilisateur WHERE actif=1";
-
-        try (Statement st = conn.createStatement();
-             ResultSet rs = st.executeQuery(req)) {
-
-            while (rs.next()) {
-                envoyer(new Notification(
-                        titre,
-                        message,
-                        type,
-                        rs.getInt("id")
-                ));
-            }
-
-        } catch (SQLException e) {
-            System.out.println("Erreur notifierTousLesUtilisateurs : " + e.getMessage());
-        }
-    }
-
-    public List<Notification> getNotificationsUtilisateur(int idUtilisateur) {
-        List<Notification> list = new ArrayList<>();
-
-        String req = "SELECT * FROM notification WHERE id_utilisateur=? ORDER BY date_creation DESC";
-
-        try (PreparedStatement ps = conn.prepareStatement(req)) {
-
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, idUtilisateur);
-            ResultSet rs = ps.executeQuery();
 
-            while (rs.next()) {
-                list.add(mapRow(rs));
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    notifications.add(mapRow(rs));
+                }
             }
 
         } catch (SQLException e) {
-            System.out.println("Erreur getNotificationsUtilisateur : " + e.getMessage());
+            System.out.println("Erreur getByUtilisateur notification : " + e.getMessage());
         }
 
-        return list;
+        return notifications;
     }
 
-    public List<Notification> getNotificationsNonLues(int idUtilisateur) {
-        List<Notification> list = new ArrayList<>();
+    public List<Notification> getNonLuesByUtilisateur(int idUtilisateur) {
+        List<Notification> notifications = new ArrayList<>();
+        String sql = "SELECT * FROM notification WHERE id_utilisateur=? AND est_lue=0 ORDER BY date_creation DESC";
 
-        String req = "SELECT * FROM notification WHERE id_utilisateur=? AND lu=0 ORDER BY date_creation DESC";
-
-        try (PreparedStatement ps = conn.prepareStatement(req)) {
-
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, idUtilisateur);
-            ResultSet rs = ps.executeQuery();
 
-            while (rs.next()) {
-                list.add(mapRow(rs));
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    notifications.add(mapRow(rs));
+                }
             }
 
         } catch (SQLException e) {
-            System.out.println("Erreur getNotificationsNonLues : " + e.getMessage());
+            System.out.println("Erreur getNonLuesByUtilisateur notification : " + e.getMessage());
         }
 
-        return list;
+        return notifications;
     }
 
-    public int countNonLues(int idUtilisateur) {
-        String req = "SELECT COUNT(*) AS total FROM notification WHERE id_utilisateur=? AND lu=0";
+    public void marquerCommeLue(int idNotification) {
+        String sql = "UPDATE notification SET est_lue=1 WHERE id_notification=?";
 
-        try (PreparedStatement ps = conn.prepareStatement(req)) {
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, idNotification);
 
+            ps.executeUpdate();
+            System.out.println("Notification marquée comme lue.");
+
+        } catch (SQLException e) {
+            System.out.println("Erreur marquerCommeLue notification : " + e.getMessage());
+        }
+    }
+
+    public void marquerToutCommeLu(int idUtilisateur) {
+        String sql = "UPDATE notification SET est_lue=1 WHERE id_utilisateur=?";
+
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, idUtilisateur);
-            ResultSet rs = ps.executeQuery();
 
-            if (rs.next()) {
-                return rs.getInt("total");
+            ps.executeUpdate();
+            System.out.println("Toutes les notifications sont marquées comme lues.");
+
+        } catch (SQLException e) {
+            System.out.println("Erreur marquerToutCommeLu notification : " + e.getMessage());
+        }
+    }
+
+    public int compterNonLues(int idUtilisateur) {
+        String sql = "SELECT COUNT(*) FROM notification WHERE id_utilisateur=? AND est_lue=0";
+
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, idUtilisateur);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
             }
 
         } catch (SQLException e) {
-            System.out.println("Erreur countNonLues : " + e.getMessage());
+            System.out.println("Erreur compterNonLues notification : " + e.getMessage());
         }
 
         return 0;
     }
 
-    public void marquerCommeLue(int idNotification) {
-        String req = "UPDATE notification SET lu=1 WHERE id=?";
-
-        try (PreparedStatement ps = conn.prepareStatement(req)) {
-
-            ps.setInt(1, idNotification);
-            ps.executeUpdate();
-
-            System.out.println("Notification marquee comme lue.");
-
-        } catch (SQLException e) {
-            System.out.println("Erreur marquerCommeLue : " + e.getMessage());
-        }
-    }
-
-    public void marquerToutesCommeLues(int idUtilisateur) {
-        String req = "UPDATE notification SET lu=1 WHERE id_utilisateur=?";
-
-        try (PreparedStatement ps = conn.prepareStatement(req)) {
-
-            ps.setInt(1, idUtilisateur);
-            ps.executeUpdate();
-
-            System.out.println("Toutes les notifications sont marquees comme lues.");
-
-        } catch (SQLException e) {
-            System.out.println("Erreur marquerToutesCommeLues : " + e.getMessage());
-        }
-    }
-
-    public void notifierTodosAujourdhui() {
-        String req = "SELECT t.titre, p.id_utilisateur " +
-                "FROM todo_item t " +
-                "JOIN planning p ON t.id_planning = p.id " +
-                "WHERE p.date_revision = CURDATE() " +
-                "AND t.statut <> 'termine'";
-
-        try (Statement st = conn.createStatement();
-             ResultSet rs = st.executeQuery(req)) {
-
-            while (rs.next()) {
-                String titreTodo = rs.getString("titre");
-                int idUtilisateur = rs.getInt("id_utilisateur");
-
-                envoyer(new Notification(
-                        "Rappel revision",
-                        "Vous avez une revision prevue aujourd hui : " + titreTodo,
-                        "TODO",
-                        idUtilisateur
-                ));
-            }
-
-        } catch (SQLException e) {
-            System.out.println("Erreur notifierTodosAujourdhui : " + e.getMessage());
-        }
-    }
-
-    public void notifierTodosProches() {
-        String req = "SELECT t.titre, p.date_revision, p.id_utilisateur " +
-                "FROM todo_item t " +
-                "JOIN planning p ON t.id_planning = p.id " +
-                "WHERE p.date_revision BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 2 DAY) " +
-                "AND t.statut <> 'termine'";
-
-        try (Statement st = conn.createStatement();
-             ResultSet rs = st.executeQuery(req)) {
-
-            while (rs.next()) {
-                String titreTodo = rs.getString("titre");
-                Date dateRevision = rs.getDate("date_revision");
-                int idUtilisateur = rs.getInt("id_utilisateur");
-
-                envoyer(new Notification(
-                        "Revision proche",
-                        "Vous avez une revision proche : " + titreTodo + " le " + dateRevision,
-                        "TODO",
-                        idUtilisateur
-                ));
-            }
-
-        } catch (SQLException e) {
-            System.out.println("Erreur notifierTodosProches : " + e.getMessage());
-        }
-    }
-
     private Notification mapRow(ResultSet rs) throws SQLException {
         Notification n = new Notification();
 
-        n.setId(rs.getInt("id"));
+        n.setId(rs.getInt("id_notification"));
+        n.setIdUtilisateur(rs.getInt("id_utilisateur"));
         n.setTitre(rs.getString("titre"));
         n.setMessage(rs.getString("message"));
-        n.setType(rs.getString("type"));
-        n.setLu(rs.getBoolean("lu"));
+        n.setType(rs.getString("type_notification"));
+        n.setLu(rs.getBoolean("est_lue"));
 
-        Timestamp timestamp = rs.getTimestamp("date_creation");
-        if (timestamp != null) {
-            n.setDateCreation(timestamp.toLocalDateTime());
+        Timestamp dateCreation = rs.getTimestamp("date_creation");
+        if (dateCreation != null) {
+            n.setDateCreation(dateCreation.toLocalDateTime());
         }
-
-        n.setIdUtilisateur(rs.getInt("id_utilisateur"));
 
         return n;
     }
-
 }
