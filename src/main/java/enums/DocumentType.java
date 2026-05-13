@@ -1,5 +1,5 @@
 package enums;
 
 public enum DocumentType {
-    COURS,TD,DS,EXAMEN,VIDEO,ILAGE,LIEN_UTILITAIRE;
+    COURS,TD,EXAMEN_DS,LIEN_UTILE,IMAGE,VIDEO;
 }
