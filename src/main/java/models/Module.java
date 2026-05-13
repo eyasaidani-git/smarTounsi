@@ -3,16 +3,17 @@ import java.time.LocalDateTime;
 
 public class Module {
     private int id;
-    private String nom,description,icone;
+    private String nomModule,description;
+    private Integer idCreateur;
     private LocalDateTime dateCreation;
 
     public Module() {
     }
 
-    public Module(String nom, String description, String icone) {
-        this.nom = nom;
+    public Module(String nomModule, String description, Integer idCreateur) {
+        this.nomModule = nomModule;
         this.description = description;
-        this.icone = icone;
+        this.idCreateur = idCreateur;
     }
 
     public int getId() {
@@ -23,12 +24,12 @@ public class Module {
         this.id = id;
     }
 
-    public String getNom() {
-        return nom;
+    public String getNomModule() {
+        return nomModule;
     }
 
-    public void setNom(String nom) {
-        this.nom = nom;
+    public void setNomModule(String nomModule) {
+        this.nomModule = nomModule;
     }
 
     public String getDescription() {
@@ -39,12 +40,12 @@ public class Module {
         this.description = description;
     }
 
-    public String getIcone() {
-        return icone;
+    public Integer getIdCreateur() {
+        return idCreateur;
     }
 
-    public void setIcone(String icone) {
-        this.icone = icone;
+    public void setIdCreateur(Integer idCreateur) {
+        this.idCreateur = idCreateur;
     }
 
     public LocalDateTime getDateCreation() {
@@ -59,9 +60,9 @@ public class Module {
     public String toString() {
         return "Module{" +
                 "id=" + id +
-                ", nom='" + nom + '\'' +
+                ", nomModule='" + nomModule + '\'' +
                 ", description='" + description + '\'' +
-                ", icone='" + icone + '\'' +
+                ", idCreateur=" + idCreateur +
                 ", dateCreation=" + dateCreation +
                 '}';
     }

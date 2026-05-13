@@ -1,5 +1,5 @@
 package enums;
 
 public enum TodoStatus {
-    A_FAIRE,EN_COURS,TERMINE
+    A_FAIRE,EN_COURS,TERMINE,RATE
 }

@@ -1,18 +1,28 @@
 package models;
-
+import enums.TodoStatus;
+import java.time.LocalTime;
 public class ToDoItem {
-    private int id, idPlanning, idDocument, dureeMinutes;
-    private String titre, description, statut, heureDebut;
+    private int id,idPlanning,ordre;
+    private Integer idDocument;
+    private String lienExterne,fichierUrl,nomDocument,description;
+    private LocalTime heure;
+    private TodoStatus statut;
+
     public ToDoItem() {
     }
 
-    public ToDoItem(int dureeMinutes, String titre, String description, String statut, String heureDebut) {
-
-        this.dureeMinutes = dureeMinutes;
-        this.titre = titre;
+    public ToDoItem(int idPlanning, Integer idDocument, String lienExterne,
+                    String fichierUrl, String nomDocument, String description,
+                    LocalTime heure, int ordre, TodoStatus statut) {
+        this.idPlanning = idPlanning;
+        this.idDocument = idDocument;
+        this.lienExterne = lienExterne;
+        this.fichierUrl = fichierUrl;
+        this.nomDocument = nomDocument;
         this.description = description;
+        this.heure = heure;
+        this.ordre = ordre;
         this.statut = statut;
-        this.heureDebut = heureDebut;
     }
 
     public int getId() {
@@ -31,28 +41,36 @@ public class ToDoItem {
         this.idPlanning = idPlanning;
     }
 
-    public int getIdDocument() {
+    public Integer getIdDocument() {
         return idDocument;
     }
 
-    public void setIdDocument(int idDocument) {
+    public void setIdDocument(Integer idDocument) {
         this.idDocument = idDocument;
     }
 
-    public int getDureeMinutes() {
-        return dureeMinutes;
+    public String getLienExterne() {
+        return lienExterne;
     }
 
-    public void setDureeMinutes(int dureeMinutes) {
-        this.dureeMinutes = dureeMinutes;
+    public void setLienExterne(String lienExterne) {
+        this.lienExterne = lienExterne;
     }
 
-    public String getTitre() {
-        return titre;
+    public String getFichierUrl() {
+        return fichierUrl;
     }
 
-    public void setTitre(String titre) {
-        this.titre = titre;
+    public void setFichierUrl(String fichierUrl) {
+        this.fichierUrl = fichierUrl;
+    }
+
+    public String getNomDocument() {
+        return nomDocument;
+    }
+
+    public void setNomDocument(String nomDocument) {
+        this.nomDocument = nomDocument;
     }
 
     public String getDescription() {
@@ -63,33 +81,43 @@ public class ToDoItem {
         this.description = description;
     }
 
-    public String getStatut() {
+    public LocalTime getHeure() {
+        return heure;
+    }
+
+    public void setHeure(LocalTime heure) {
+        this.heure = heure;
+    }
+
+    public int getOrdre() {
+        return ordre;
+    }
+
+    public void setOrdre(int ordre) {
+        this.ordre = ordre;
+    }
+
+    public TodoStatus getStatut() {
         return statut;
     }
 
-    public void setStatut(String statut) {
+    public void setStatut(TodoStatus statut) {
         this.statut = statut;
-    }
-
-    public String getHeureDebut() {
-        return heureDebut;
-    }
-
-    public void setHeureDebut(String heureDebut) {
-        this.heureDebut = heureDebut;
     }
 
     @Override
     public String toString() {
-        return "TodoItem{" +
+        return "ToDoItem{" +
                 "id=" + id +
                 ", idPlanning=" + idPlanning +
                 ", idDocument=" + idDocument +
-                ", dureeMinutes=" + dureeMinutes +
-                ", titre='" + titre + '\'' +
+                ", lienExterne='" + lienExterne + '\'' +
+                ", fichierUrl='" + fichierUrl + '\'' +
+                ", nomDocument='" + nomDocument + '\'' +
                 ", description='" + description + '\'' +
-                ", statut='" + statut + '\'' +
-                ", heureDebut='" + heureDebut + '\'' +
+                ", heure=" + heure +
+                ", ordre=" + ordre +
+                ", statut=" + statut +
                 '}';
     }
 }

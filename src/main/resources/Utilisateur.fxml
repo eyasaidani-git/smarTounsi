@@ -6,12 +6,9 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
 <BorderPane prefHeight="760.0" prefWidth="1180.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.UtilisateurController">
@@ -19,7 +16,6 @@
         <VBox prefWidth="235.0" spacing="12.0" styleClass="sidebar">
             <Label styleClass="logo-title" text="SmarTounsi" />
             <Label styleClass="logo-subtitle" text="Espace admin • utilisateurs" />
-            <Region prefHeight="16.0" />
             <Button maxWidth="Infinity" styleClass="nav-button" text="🏠 Dashboard" />
             <Button maxWidth="Infinity" styleClass="nav-button" text="📚 Modules" />
             <Button maxWidth="Infinity" styleClass="nav-button" text="⬆ Upload" />
@@ -27,10 +23,9 @@
             <Button maxWidth="Infinity" styleClass="nav-button" text="🧪 Quiz" />
             <Button maxWidth="Infinity" styleClass="nav-button" text="💼 Projets" />
             <Button maxWidth="Infinity" styleClass="nav-button" text="🎉 Événements" />
-            <Button maxWidth="Infinity" styleClass="nav-button-active" text="👥 Utilisateurs" />
+            <Button maxWidth="Infinity" style="-fx-background-color: #023047; -fx-background-color: #8ECBE6;" styleClass="nav-button-active" text="👥 Utilisateurs" />
             <Button maxWidth="Infinity" onAction="#ouvrirMessages" styleClass="nav-button" text="💬 Messages privés" />
             <Button maxWidth="Infinity" styleClass="nav-button" text="✅ Approbations" />
-            <Region VBox.vgrow="ALWAYS" />
             <Button maxWidth="Infinity" styleClass="nav-button" text="Déconnexion" />
         </VBox>
     </left>
@@ -72,16 +67,6 @@
                         <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #229DBC;" text="👥 Liste des utilisateurs" textFill="#229dbc" HBox.hgrow="ALWAYS" />
                         <Button onAction="#chargerUtilisateurs" prefHeight="33.0" prefWidth="94.0" styleClass="secondary-button" text="Actualiser" textAlignment="CENTER" translateX="465.0" />
                     </HBox>
-                    <TableView fx:id="userTable" VBox.vgrow="ALWAYS">
-                        <columns>
-                            <TableColumn fx:id="idCol" prefWidth="55" text="ID" />
-                            <TableColumn fx:id="nomCol" prefWidth="125" text="Nom" />
-                            <TableColumn fx:id="prenomCol" prefWidth="136.0" text="Prénom" />
-                            <TableColumn fx:id="emailCol" prefWidth="229.60003662109375" text="Email" />
-                            <TableColumn fx:id="roleCol" prefWidth="116.79998779296875" text="Rôle" />
-                            <TableColumn fx:id="actifCol" prefWidth="89.599853515625" text="Actif" />
-                        </columns>
-                    </TableView>
                 </VBox>
             </HBox>
         </VBox>
