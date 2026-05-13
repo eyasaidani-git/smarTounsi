@@ -85,7 +85,7 @@ public class AvisController {
         colType.setCellValueFactory(new PropertyValueFactory<>("typeEvenement"));
         colDate.setCellValueFactory(cellData ->
                 new javafx.beans.property.SimpleStringProperty(
-                        cellData.getValue().getDateEvenement() != null ? cellData.getValue().getDateEvenement().toString() : ""
+                        cellData.getValue().getDateDebut() != null ? cellData.getValue().getDateDebut().toLocalDate().toString() : ""
                 )
         );
         colLieu.setCellValueFactory(new PropertyValueFactory<>("lieu"));

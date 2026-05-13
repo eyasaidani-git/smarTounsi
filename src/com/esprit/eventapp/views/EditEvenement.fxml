@@ -10,14 +10,14 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-background: transparent;" stylesheets="@../assets/css/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esprit.eventapp.controllers.AddEvenementController">
+<ScrollPane fitToWidth="true" style="-fx-background-color: transparent; -fx-background: transparent;" stylesheets="@../assets/css/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esprit.eventapp.controllers.EditEvenementController">
    <content>
       <VBox spacing="20.0">
          <children>
             <HBox alignment="CENTER_LEFT" spacing="15.0">
                <children>
                   <Button mnemonicParsing="false" onAction="#goBack" styleClass="button-link" text="⬅ Retour" />
-                  <Label style="-fx-font-size: 48; -fx-padding: 0; -fx-letter-spacing: 0; -fx-effect: none;" styleClass="title" text="Créer un nouvel événement" />
+                  <Label style="-fx-font-size: 48; -fx-padding: 0; -fx-letter-spacing: 0; -fx-effect: none;" styleClass="title" text="Modifier l'événement" />
                </children>
             </HBox>
 
@@ -90,31 +90,19 @@
                               </VBox>
                               <VBox spacing="5.0" HBox.hgrow="ALWAYS">
                                  <children>
-                                    <Label text="Places disponibles" textFill="#2d3436" />
+                                    <Label text="Places Disponibles" textFill="#2d3436" />
                                     <TextField fx:id="placesField" promptText="Ex: 100" />
                                  </children>
                               </VBox>
                            </children>
                         </HBox>
-
-                        <VBox spacing="5.0">
-                           <children>
-                              <Label text="Image de l'événement" textFill="#2d3436" />
-                              <HBox alignment="CENTER_LEFT" spacing="10.0">
-                                 <children>
-                                    <Button onAction="#handleChooseImage" styleClass="button-secondary" text="Choisir une image..." />
-                                    <Label fx:id="imagePathLabel" text="Aucune image sélectionnée" textFill="#7f8c8d" />
-                                 </children>
-                              </HBox>
-                           </children>
-                        </VBox>
                      </children>
                   </VBox>
 
                   <HBox alignment="CENTER_RIGHT" spacing="15.0">
                      <children>
                         <Label fx:id="messageLabel" textFill="#d63031" />
-                        <Button mnemonicParsing="false" onAction="#handleSave" styleClass="button-primary" text="Enregistrer l'événement" />
+                        <Button mnemonicParsing="false" onAction="#handleSave" styleClass="button-primary" text="💾 Sauvegarder les modifications" />
                      </children>
                   </HBox>
                </children>

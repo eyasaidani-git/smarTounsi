@@ -2,6 +2,7 @@ package com.esprit.eventapp.controllers;
 
 import com.esprit.eventapp.models.User;
 import com.esprit.eventapp.services.UserDAO;
+import com.esprit.eventapp.utils.SessionManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,7 +18,7 @@ import java.io.IOException;
 
 public class SignInController {
 
-    @FXML private TextField emailField;
+    @FXML private TextField usernameField;
     @FXML private PasswordField passwordField;
     @FXML private Label messageLabel;
 
@@ -25,16 +26,17 @@ public class SignInController {
 
     @FXML
     void handleSignIn(ActionEvent event) {
-        String email = emailField.getText();
+        String username = usernameField.getText();
         String password = passwordField.getText();
 
-        if (email.isEmpty() || password.isEmpty()) {
+        if (username.isEmpty() || password.isEmpty()) {
             messageLabel.setText("Veuillez remplir tous les champs.");
             return;
         }
 
-        User user = userDAO.login(email, password);
+        User user = userDAO.login(username, password);
         if (user != null) {
+            SessionManager.getInstance().setCurrentUser(user);
             messageLabel.setText("Connexion réussie ! Bienvenue " + user.getPrenom());
             
             // Redirection vers le Dashboard
@@ -51,7 +53,7 @@ public class SignInController {
                 messageLabel.setText("Erreur lors du chargement du Dashboard.");
             }
         } else {
-            messageLabel.setText("Email ou mot de passe incorrect.");
+            messageLabel.setText("Nom d'utilisateur ou mot de passe incorrect.");
         }
     }
 

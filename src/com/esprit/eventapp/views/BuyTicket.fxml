@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.Region?>
+
+<VBox prefWidth="450.0" spacing="20.0" style="-fx-background-color: white; -fx-background-radius: 15; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 20, 0, 0, 10);" stylesheets="@../assets/css/style.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esprit.eventapp.controllers.BuyTicketController">
+   <children>
+      <VBox alignment="CENTER" spacing="10.0" style="-fx-background-color: #2c3e50; -fx-background-radius: 15 15 0 0; -fx-padding: 30;">
+         <children>
+            <Label text="🎫 Achat de Billet" style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: white;" />
+            <Label fx:id="lblEventTitle" text="Nom de l'événement" style="-fx-font-size: 16px; -fx-text-fill: #bdc3c7;" />
+         </children>
+      </VBox>
+      
+      <VBox spacing="15.0" style="-fx-padding: 30;">
+         <children>
+            <VBox spacing="5.0">
+               <children>
+                  <Label text="Nom complet" style="-fx-font-weight: bold; -fx-text-fill: #34495e;" />
+                  <TextField fx:id="txtName" promptText="Votre nom" editable="false" styleClass="text-field" />
+               </children>
+            </VBox>
+            
+            <VBox spacing="5.0">
+               <children>
+                  <Label text="Email" style="-fx-font-weight: bold; -fx-text-fill: #34495e;" />
+                  <TextField fx:id="txtEmail" promptText="votre@email.com" editable="false" styleClass="text-field" />
+               </children>
+            </VBox>
+            
+            <Separator />
+            
+            <HBox alignment="CENTER_LEFT" spacing="15.0">
+               <children>
+                  <VBox HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label text="Nombre de places" style="-fx-font-weight: bold; -fx-text-fill: #34495e;" />
+                        <Label text="Standard" style="-fx-font-size: 12px; -fx-text-fill: #7f8c8d;" />
+                     </children>
+                  </VBox>
+                  <HBox alignment="CENTER" spacing="10.0">
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#decrementQty" style="-fx-background-color: #ecf0f1; -fx-text-fill: #2c3e50; -fx-font-weight: bold;" text="-" />
+                        <Label fx:id="lblQty" text="1" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
+                        <Button mnemonicParsing="false" onAction="#incrementQty" style="-fx-background-color: #ecf0f1; -fx-text-fill: #2c3e50; -fx-font-weight: bold;" text="+" />
+                     </children>
+                  </HBox>
+               </children>
+            </HBox>
+            
+            <Separator />
+            
+            <HBox alignment="CENTER_RIGHT" spacing="10.0">
+               <children>
+                  <Label text="Total à payer :" style="-fx-font-size: 16px; -fx-text-fill: #7f8c8d;" />
+                  <Label fx:id="lblTotalPrice" text="50 TND" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #e74c3c;" />
+               </children>
+            </HBox>
+            
+            <Button mnemonicParsing="false" onAction="#handleConfirmPurchase" prefHeight="50.0" maxWidth="Infinity" styleClass="button-primary" style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Confirmer l'achat" />
+            <Button mnemonicParsing="false" onAction="#handleCancel" maxWidth="Infinity" style="-fx-background-color: transparent; -fx-text-fill: #95a5a6;" text="Annuler" />
+         </children>
+      </VBox>
+   </children>
+</VBox>

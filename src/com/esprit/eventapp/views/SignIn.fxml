@@ -20,14 +20,14 @@
       
       <StackPane VBox.vgrow="ALWAYS">
          <children>
-            <VBox alignment="CENTER" maxWidth="800.0" spacing="45.0" styleClass="login-card">
+            <VBox alignment="CENTER" maxWidth="800.0" spacing="45.0" styleClass="login-card login-card-wide">
                <children>
                   <VBox spacing="25.0">
                      <children>
                         <VBox spacing="10.0">
                            <children>
-                              <Label text="Email" textFill="#2d3436" />
-                              <TextField fx:id="emailField" promptText="nom@exemple.com" />
+                              <Label text="Nom d'utilisateur" textFill="#2d3436" />
+                              <TextField fx:id="usernameField" promptText="Votre nom d'utilisateur" />
                            </children>
                         </VBox>
                         <VBox spacing="10.0">

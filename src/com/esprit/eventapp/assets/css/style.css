@@ -28,10 +28,44 @@
 .button-primary {
     -fx-background-color: -fx-accent-gold;
     -fx-text-fill: -fx-primary-dark;
+    -fx-background-radius: 12;
+    -fx-padding: 14 32;
+    -fx-font-size: 16;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    -fx-transition: all 0.2s ease;
 }
 
 .button-primary:hover {
     -fx-background-color: #E6A600;
+    -fx-translate-y: -2;
+    -fx-effect: dropshadow(three-pass-box, rgba(255, 184, 0, 0.4), 10, 0, 0, 4);
+}
+
+.button-primary:pressed {
+    -fx-background-color: #CC9500;
+    -fx-translate-y: 0;
+}
+
+.button-secondary {
+    -fx-background-color: #F1F2F6;
+    -fx-text-fill: -fx-primary-dark;
+    -fx-background-radius: 12;
+    -fx-padding: 14 28;
+    -fx-font-size: 16;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    -fx-transition: all 0.2s ease;
+}
+
+.button-secondary:hover {
+    -fx-background-color: #DFE6E9;
+    -fx-translate-y: -2;
+}
+
+.button-secondary:pressed {
+    -fx-background-color: #CFD8DC;
+    -fx-translate-y: 0;
 }
 
 .button-link {
@@ -84,13 +118,52 @@
     -fx-letter-spacing: 3px;
 }
 
-/* Cartes / Conteneurs */
+/* Cartes : base compacte (détails événement, avis) */
 .login-card {
     -fx-background-color: -fx-white;
+    -fx-background-radius: 12;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.08), 18, 0, 0, 4);
+    -fx-padding: 24 28;
+}
+
+/* Panneau connexion plein écran (large) */
+.login-card-wide {
     -fx-background-radius: 40;
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 50, 0, 0, 20);
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 50, 0, 0, 20);
     -fx-padding: 100;
-    -fx-min-width: 1200; /* Container encore plus grand */
+    -fx-min-width: 1200;
+}
+
+.login-card-wide .label {
+    -fx-font-size: 20;
+}
+
+/* Typographie style billetterie / premium */
+.tesk-hero-title {
+    -fx-font-family: "Segoe UI", "Montserrat", sans-serif;
+    -fx-font-weight: bold;
+    -fx-font-size: 42px;
+    -fx-text-fill: -fx-text-dark;
+}
+
+.tesk-section-title {
+    -fx-font-family: "Segoe UI", "Montserrat", sans-serif;
+    -fx-font-weight: bold;
+    -fx-font-size: 22px;
+    -fx-text-fill: -fx-text-dark;
+}
+
+.tesk-body {
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-font-size: 15px;
+    -fx-text-fill: -fx-text-dark;
+    -fx-line-spacing: 4px;
+}
+
+.tesk-caption {
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-font-size: 13px;
+    -fx-text-fill: -fx-text-muted;
 }
 
 /* Sidebar */
@@ -108,17 +181,19 @@
 
 .sidebar-button {
     -fx-background-color: transparent;
-    -fx-text-fill: white;
-    -fx-font-size: 18;
+    -fx-text-fill: rgba(255, 255, 255, 0.7);
+    -fx-font-size: 17;
     -fx-font-weight: bold;
     -fx-alignment: center-left;
-    -fx-padding: 15 20;
-    -fx-background-radius: 10;
+    -fx-padding: 18 25;
+    -fx-background-radius: 15;
     -fx-cursor: hand;
+    -fx-transition: all 0.2s ease;
 }
 
 .sidebar-button:hover {
-    -fx-background-color: rgba(255, 255, 255, 0.1);
+    -fx-background-color: rgba(255, 255, 255, 0.08);
+    -fx-text-fill: white;
 }
 
 .logout-button {
@@ -129,37 +204,110 @@
     -fx-background-color: rgba(255, 107, 107, 0.1);
 }
 
-/* Event Cards */
+/* Event Cards Modernized */
 .event-card {
     -fx-background-color: white;
-    -fx-background-radius: 15;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 5);
-    -fx-padding: 25;
-    -fx-pref-width: 300;
-    -fx-pref-height: 200;
+    -fx-background-radius: 20;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.1), 20, 0, 0, 10);
     -fx-cursor: hand;
+    -fx-transition: all 0.3s ease-in-out;
 }
 
 .event-card:hover {
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 15, 0, 0, 8);
-    -fx-translate-y: -2;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 30, 0, 0, 15);
+    -fx-translate-y: -10;
+}
+
+.event-image-container {
+    -fx-background-radius: 20 20 0 0;
+    -fx-overflow: hidden;
+}
+
+.event-image-view {
+    -fx-transition: all 0.5s ease;
+}
+
+.event-card:hover .event-image-view {
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+}
+
+.event-overlay {
+    -fx-background-color: linear-gradient(to top, rgba(0,0,0,0.85), transparent);
+    -fx-background-radius: 0 0 0 0;
 }
 
 .event-title {
-    -fx-font-size: 22;
-    -fx-font-weight: bold;
+    -fx-font-size: 24;
+    -fx-font-weight: 900;
     -fx-text-fill: #00334E;
+    -fx-font-family: "Outfit", "Segoe UI", sans-serif;
 }
 
-.event-type {
-    -fx-font-size: 14;
-    -fx-text-fill: #FFB800;
+.event-date-badge {
+    -fx-background-color: -fx-accent-gold;
+    -fx-background-radius: 10;
+    -fx-padding: 8 15;
+    -fx-text-fill: -fx-primary-dark;
     -fx-font-weight: bold;
+    -fx-font-size: 14;
 }
 
-.event-details {
+/* Comments Style (Facebook/LinkedIn like) */
+.comment-card {
+    -fx-background-color: #F0F2F5;
+    -fx-background-radius: 18;
+    -fx-padding: 15 20;
+}
+
+.comment-author {
+    -fx-font-weight: bold;
+    -fx-text-fill: #050505;
     -fx-font-size: 14;
+}
+
+.comment-text {
+    -fx-text-fill: #050505;
+    -fx-font-size: 14;
+}
+
+.comment-date {
+    -fx-text-fill: #65676B;
+    -fx-font-size: 12;
+}
+
+/* Modern Table */
+.table-view {
+    -fx-background-color: transparent;
+    -fx-background-radius: 15;
+    -fx-border-color: transparent;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #F8F9FA;
+    -fx-background-radius: 15 15 0 0;
+}
+
+.table-view .column-header {
+    -fx-background-color: transparent;
+    -fx-padding: 15;
+}
+
+.table-view .column-header .label {
     -fx-text-fill: #636E72;
+    -fx-font-weight: bold;
+    -fx-font-size: 14;
+}
+
+.table-view .table-row-cell {
+    -fx-background-color: white;
+    -fx-border-color: #F1F2F6;
+    -fx-border-width: 0 0 1 0;
+    -fx-padding: 10;
+}
+
+.table-view .table-row-cell:hover {
+    -fx-background-color: #F8F9FA;
 }
 
 /* Add Event Card */
@@ -182,8 +330,4 @@
 
 .label-message {
     -fx-font-size: 16;
-}
-
-.login-card .label {
-    -fx-font-size: 20;
 }

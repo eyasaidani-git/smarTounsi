@@ -27,12 +27,12 @@ public class UserDAO {
         }
     }
 
-    public User login(String email, String password) {
-        String sql = "SELECT * FROM user WHERE email = ? AND password = ?";
+    public User login(String username, String password) {
+        String sql = "SELECT * FROM user WHERE prenom = ? AND password = ?";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ps.setString(1, email);
+            ps.setString(1, username);
             ps.setString(2, password);
 
             try (ResultSet rs = ps.executeQuery()) {
@@ -68,5 +68,29 @@ public class UserDAO {
             ex.printStackTrace();
         }
         return false;
+    }
+
+    public User getUserById(int id) {
+        String sql = "SELECT * FROM user WHERE id = ?";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return new User(
+                            rs.getInt("id"),
+                            rs.getString("nom"),
+                            rs.getString("prenom"),
+                            rs.getString("email"),
+                            rs.getString("password"),
+                            rs.getString("role")
+                    );
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return null;
     }
 }
