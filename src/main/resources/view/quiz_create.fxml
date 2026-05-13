@@ -1,14 +1,91 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="$CONTROLLER_NAME$"
-            prefHeight="400.0" prefWidth="600.0" >
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="Controllers.CreateQuizController"
+            stylesheets="@/style/quiz.css">
 
-</AnchorPane>
+    <!-- TOP -->
+
+    <top>
+
+        <HBox spacing="15"
+              alignment="CENTER_LEFT"
+              styleClass="topbar">
+
+            <Button text="⬅ Retour"
+                    styleClass="yellow-button"
+                    onAction="#retourQuiz"/>
+
+            <Label text="Créer un Quiz"
+                   styleClass="student-label"/>
+
+        </HBox>
+
+    </top>
+
+    <!-- CENTER -->
+
+    <center>
+
+        <ScrollPane fitToWidth="true">
+
+            <VBox spacing="25"
+                  styleClass="main-content">
+
+                <padding>
+                    <Insets top="25"
+                            left="30"
+                            right="30"
+                            bottom="30"/>
+                </padding>
+
+                <!-- INFOS QUIZ -->
+
+                <VBox spacing="15"
+                      styleClass="quiz-card">
+
+                    <Label text="Informations Quiz"
+                           styleClass="quiz-title"/>
+
+                    <TextField fx:id="titreQuiz"
+                               promptText="Titre du quiz"/>
+
+                    <TextArea fx:id="descriptionQuiz"
+                              promptText="Description du quiz"
+                              prefHeight="100"/>
+
+                    <ComboBox fx:id="matiereQuiz"
+                              promptText="Choisir matière"/>
+
+                </VBox>
+
+                <!-- QUESTIONS -->
+
+                <VBox fx:id="questionsContainer"
+                      spacing="20"/>
+
+                <!-- BUTTONS -->
+
+                <HBox spacing="15">
+
+                    <Button text="➕ Ajouter Question"
+                            styleClass="yellow-button"
+                            onAction="#ajouterQuestion"/>
+
+                    <Button text="💾 Enregistrer Quiz"
+                            styleClass="yellow-button"
+                            onAction="#enregistrerQuiz"/>
+
+                </HBox>
+
+            </VBox>
+
+        </ScrollPane>
+
+    </center>
+
+</BorderPane>

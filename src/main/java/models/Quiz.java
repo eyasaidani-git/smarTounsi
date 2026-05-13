@@ -1,42 +1,44 @@
 package models;
 
+import java.time.LocalDateTime;
+
 public class Quiz {
 
     private int id;
-    private int idModule;
-    private int idCreateur;
-
     private String titre;
     private String description;
-
-    /*
-     * Champs utilisés seulement pour l'affichage dans l'interface Quiz.
-     * Ils ne sont pas obligatoires dans la table quiz.
-     */
-    private String matiere;
-    private int nombreQuestions;
-    private String type;
-    private String icone;
+    private int idModule;
+    private int idCreateur;
+    private Integer tempsLimite;
+    private int scoreTotal;
+    private LocalDateTime dateCreation;
+    private boolean estActif;
 
     public Quiz() {
     }
 
-    public Quiz(String titre, String description, int idModule, int idCreateur) {
+    public Quiz(String titre, String description, int idModule, int idCreateur,
+                Integer tempsLimite, int scoreTotal) {
         this.titre = titre;
         this.description = description;
         this.idModule = idModule;
         this.idCreateur = idCreateur;
+        this.tempsLimite = tempsLimite;
+        this.scoreTotal = scoreTotal;
+        this.estActif = true;
     }
 
-    public Quiz(String titre, String matiere, int nombreQuestions, String type, String icone) {
+    public Quiz(int id, String titre, String description, int idModule, int idCreateur,
+                Integer tempsLimite, int scoreTotal, LocalDateTime dateCreation, boolean estActif) {
+        this.id = id;
         this.titre = titre;
-        this.matiere = matiere;
-        this.nombreQuestions = nombreQuestions;
-        this.type = type;
-        this.icone = icone;
-        this.description = matiere + " - " + type;
-        this.idModule = 0;
-        this.idCreateur = 1;
+        this.description = description;
+        this.idModule = idModule;
+        this.idCreateur = idCreateur;
+        this.tempsLimite = tempsLimite;
+        this.scoreTotal = scoreTotal;
+        this.dateCreation = dateCreation;
+        this.estActif = estActif;
     }
 
     public int getId() {
@@ -45,24 +47,6 @@ public class Quiz {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-
-    public int getIdModule() {
-        return idModule;
-    }
-
-    public void setIdModule(int idModule) {
-        this.idModule = idModule;
-    }
-
-
-    public int getIdCreateur() {
-        return idCreateur;
-    }
-
-    public void setIdCreateur(int idCreateur) {
-        this.idCreateur = idCreateur;
     }
 
 
@@ -84,62 +68,87 @@ public class Quiz {
     }
 
 
-    public String getMatiere() {
-        if (matiere == null || matiere.isEmpty()) {
-            return "Module " + idModule;
-        }
-        return matiere;
+    public int getIdModule() {
+        return idModule;
     }
 
-    public void setMatiere(String matiere) {
-        this.matiere = matiere;
+    public void setIdModule(int idModule) {
+        this.idModule = idModule;
     }
 
 
-    public int getNombreQuestions() {
-        return nombreQuestions;
+    public int getIdCreateur() {
+        return idCreateur;
     }
 
-    public void setNombreQuestions(int nombreQuestions) {
-        this.nombreQuestions = nombreQuestions;
-    }
-
-
-    public String getType() {
-        if (type == null || type.isEmpty()) {
-            return "QCM";
-        }
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
+    public void setIdCreateur(int idCreateur) {
+        this.idCreateur = idCreateur;
     }
 
 
-    public String getIcone() {
-        if (icone == null || icone.isEmpty()) {
-            return "📝";
-        }
-        return icone;
+    public Integer getTempsLimite() {
+        return tempsLimite;
     }
 
-    public void setIcone(String icone) {
-        this.icone = icone;
+    public void setTempsLimite(Integer tempsLimite) {
+        this.tempsLimite = tempsLimite;
+    }
+
+    public Integer getTempsMinutes() {
+        return tempsLimite;
+    }
+
+    public void setTempsMinutes(Integer tempsMinutes) {
+        this.tempsLimite = tempsMinutes;
+    }
+
+
+    public int getScoreTotal() {
+        return scoreTotal;
+    }
+
+    public void setScoreTotal(int scoreTotal) {
+        this.scoreTotal = scoreTotal;
+    }
+
+
+    public LocalDateTime getDateCreation() {
+        return dateCreation;
+    }
+
+    public void setDateCreation(LocalDateTime dateCreation) {
+        this.dateCreation = dateCreation;
+    }
+
+
+    public boolean isEstActif() {
+        return estActif;
+    }
+
+    public void setEstActif(boolean estActif) {
+        this.estActif = estActif;
+    }
+
+    public boolean isActif() {
+        return estActif;
+    }
+
+    public void setActif(boolean actif) {
+        this.estActif = actif;
     }
 
     @Override
     public String toString() {
         return "Quiz{" +
                 "id=" + id +
-                ", idModule=" + idModule +
-                ", idCreateur=" + idCreateur +
                 ", titre='" + titre + '\'' +
                 ", description='" + description + '\'' +
-                ", matiere='" + matiere + '\'' +
-                ", nombreQuestions=" + nombreQuestions +
-                ", type='" + type + '\'' +
-                ", icone='" + icone + '\'' +
+                ", idModule=" + idModule +
+                ", idCreateur=" + idCreateur +
+                ", tempsLimite=" + tempsLimite +
+                ", scoreTotal=" + scoreTotal +
+                ", dateCreation=" + dateCreation +
+                ", estActif=" + estActif +
                 '}';
     }
 }

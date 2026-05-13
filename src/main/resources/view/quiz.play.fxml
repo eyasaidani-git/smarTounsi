@@ -6,7 +6,9 @@
 
 <BorderPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="Controllers.PlayQuizController"
-            stylesheets="@../style/quiz.css">
+            stylesheets="@/style/quiz.css">
+
+    <!-- TOP -->
 
     <top>
 
@@ -20,33 +22,31 @@
             <Region HBox.hgrow="ALWAYS"/>
 
             <Label text="Temps restant :"
-                   style="-fx-text-fill:white;
-                          -fx-font-size:18px;
-                          -fx-font-weight:bold;"/>
+                   styleClass="student-label"/>
 
             <Label fx:id="timerLabel"
                    text="10:00"
-                   style="-fx-text-fill:#FEB707;
-                          -fx-font-size:22px;
-                          -fx-font-weight:bold;"/>
+                   styleClass="timer-label"/>
 
         </HBox>
 
     </top>
+
+    <!-- CENTER -->
 
     <center>
 
         <ScrollPane fitToWidth="true">
 
             <VBox fx:id="questionsBox"
-                  spacing="25"
+                  spacing="20"
                   styleClass="main-content">
 
                 <padding>
                     <Insets top="25"
-                            left="30"
-                            right="30"
-                            bottom="30"/>
+                            left="25"
+                            right="25"
+                            bottom="25"/>
                 </padding>
 
             </VBox>
@@ -55,11 +55,14 @@
 
     </center>
 
+    <!-- BOTTOM -->
+
     <bottom>
 
         <HBox alignment="CENTER_RIGHT"
-              spacing="20"
-              style="-fx-padding:20;">
+              spacing="15"
+              style="-fx-padding:20;
+                     -fx-background-color:#dfe5ea;">
 
             <Button text="✅ Terminer Quiz"
                     styleClass="yellow-button"
