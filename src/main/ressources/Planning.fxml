@@ -1,245 +1,218 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Region?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
 
-<BorderPane prefHeight="800.0"
-            prefWidth="1200.0"
-            styleClass="root-pane"
-            stylesheets="@styles.css"
-            xmlns="http://javafx.com/javafx/17"
+<BorderPane xmlns="http://javafx.com/javafx/17"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="controleurs.PlanningController">
+            fx:controller="controllers.PlanningController"
+            stylesheets="@planning.css"
+            prefWidth="1280" prefHeight="750">
 
-    <top>
-        <HBox alignment="CENTER_LEFT"
-              prefHeight="82.0"
-              spacing="16.0"
-              styleClass="top-bar">
+    <!-- ═══════════════════════════════════════════
+         SIDEBAR GAUCHE
+    ═══════════════════════════════════════════ -->
+    <left>
+        <VBox styleClass="sidebar" prefWidth="155" spacing="6">
+            <padding><Insets top="20" left="10" right="10" bottom="20"/></padding>
 
-            <padding>
-                <Insets top="16.0" right="28.0" bottom="16.0" left="28.0"/>
-            </padding>
+            <!-- Logo -->
+            <HBox alignment="CENTER_LEFT" spacing="8" styleClass="sidebar-logo">
+                <Label text="📚" style="-fx-font-size:20px;"/>
+                <Label text="smarTounsi" styleClass="logo-text"/>
+            </HBox>
 
-            <VBox spacing="3.0">
-                <Label text="Planning" styleClass="page-title"/>
-                <Label text="Organisez vos révisions, documents et tâches"
-                       styleClass="page-subtitle"/>
-            </VBox>
+            <Region prefHeight="16"/>
 
-            <Region HBox.hgrow="ALWAYS"/>
+            <!-- PRINCIPAL -->
+            <Label text="PRINCIPAL" styleClass="section-label"/>
+            <Button text="🏠  Dashboard"    styleClass="nav-btn" maxWidth="Infinity"/>
+            <Button text="📦  Modules"      styleClass="nav-btn" maxWidth="Infinity"/>
+            <Button text="📚  Bibliothèque" styleClass="nav-btn" maxWidth="Infinity"/>
 
-            <Label fx:id="selectedDateBadge"
-                   text="Aujourd'hui"
-                   styleClass="selected-date-badge"/>
-        </HBox>
-    </top>
+            <Region prefHeight="10"/>
 
+            <!-- OUTILS -->
+            <Label text="OUTILS" styleClass="section-label"/>
+            <Button text="⬆️  Upload"      styleClass="nav-btn"             maxWidth="Infinity"/>
+            <Button text="📅  Planning"  styleClass="nav-btn nav-active"  maxWidth="Infinity"/>
+            <Button text="⭐  Favoris"     styleClass="nav-btn"             maxWidth="Infinity"/>
+            <Button text="🧩  Quiz"        styleClass="nav-btn"             maxWidth="Infinity"/>
+            <Button text="📁  Projets"     styleClass="nav-btn"             maxWidth="Infinity"/>
+            <Button text="🎉  Événements"  styleClass="nav-btn"             maxWidth="Infinity"/>
+
+            <Region prefHeight="10"/>
+
+            <!-- AUTRE -->
+            <Label text="AUTRE" styleClass="section-label"/>
+            <Button text="👤  Profil"         styleClass="nav-btn"        maxWidth="Infinity"/>
+            <Button text="🔔  Notifications"  styleClass="nav-btn"        maxWidth="Infinity"/>
+            <Button text="🚪  Déconnexion"    styleClass="nav-btn nav-danger" maxWidth="Infinity"/>
+        </VBox>
+    </left>
+
+    <!-- ═══════════════════════════════════════════
+         CONTENU PRINCIPAL
+    ═══════════════════════════════════════════ -->
     <center>
-        <HBox spacing="24.0" styleClass="main-content">
+        <HBox spacing="16">
+            <padding><Insets top="24" left="24" right="24" bottom="24"/></padding>
 
-            <padding>
-                <Insets top="24.0" right="28.0" bottom="28.0" left="28.0"/>
-            </padding>
+            <!-- ════════════════════
+                 BLOC CALENDRIER
+            ════════════════════ -->
+            <VBox spacing="14" HBox.hgrow="ALWAYS">
 
-            <VBox spacing="18.0"
-                  prefWidth="760.0"
-                  HBox.hgrow="ALWAYS"
-                  styleClass="calendar-card">
+                <!-- Titre page -->
+                <Label text="Planning" styleClass="page-title"/>
 
-                <HBox alignment="CENTER_LEFT" spacing="12.0">
+                <!-- Card calendrier -->
+                <VBox styleClass="card" VBox.vgrow="ALWAYS">
+                    <padding><Insets top="20" left="20" right="20" bottom="20"/></padding>
 
-                    <VBox spacing="4.0">
-                        <Label text="Calendrier" styleClass="section-title"/>
-                        <Label text="Cliquez sur une journée pour voir ou ajouter des tâches"
-                               styleClass="section-subtitle"/>
-                    </VBox>
+                    <!-- Navigation mois -->
+                    <HBox alignment="CENTER" spacing="16" styleClass="month-nav">
+                        <Button fx:id="btnPrevMonth" text="‹" styleClass="nav-arrow"
+                                onAction="#prevMonth"/>
+                        <Label fx:id="lblMonthYear" text="Mai 2026" styleClass="month-label"/>
+                        <Button fx:id="btnNextMonth" text="›" styleClass="nav-arrow"
+                                onAction="#nextMonth"/>
+                    </HBox>
 
-                    <Region HBox.hgrow="ALWAYS"/>
+                    <Region prefHeight="12"/>
 
-                    <Button text="&lt;"
-                            onAction="#goPreviousMonth"
-                            styleClass="calendar-nav-button"/>
+                    <!-- Grille calendrier (remplie dynamiquement par le controller) -->
+                    <GridPane fx:id="calendarGrid" hgap="6" vgap="6"
+                              styleClass="calendar-grid" VBox.vgrow="ALWAYS">
+                        <columnConstraints>
+                            <ColumnConstraints hgrow="ALWAYS" percentWidth="14.28"/>
+                            <ColumnConstraints hgrow="ALWAYS" percentWidth="14.28"/>
+                            <ColumnConstraints hgrow="ALWAYS" percentWidth="14.28"/>
+                            <ColumnConstraints hgrow="ALWAYS" percentWidth="14.28"/>
+                            <ColumnConstraints hgrow="ALWAYS" percentWidth="14.28"/>
+                            <ColumnConstraints hgrow="ALWAYS" percentWidth="14.28"/>
+                            <ColumnConstraints hgrow="ALWAYS" percentWidth="14.28"/>
+                        </columnConstraints>
+                        <!-- Les en-têtes Lun/Mar/… et les boutons-jours
+                             sont injectés dynamiquement par buildCalendar() -->
+                    </GridPane>
 
-                    <Label fx:id="monthLabel"
-                           text="Mois Année"
-                           minWidth="190.0"
-                           alignment="CENTER"
-                           styleClass="month-label"/>
-
-                    <Button text="&gt;"
-                            onAction="#goNextMonth"
-                            styleClass="calendar-nav-button"/>
-                </HBox>
-
-                <Separator/>
-
-                <GridPane fx:id="calendarGrid"
-                          hgap="10.0"
-                          vgap="10.0"
-                          VBox.vgrow="ALWAYS"
-                          styleClass="calendar-grid">
-
-                    <columnConstraints>
-                        <ColumnConstraints percentWidth="14.285"/>
-                        <ColumnConstraints percentWidth="14.285"/>
-                        <ColumnConstraints percentWidth="14.285"/>
-                        <ColumnConstraints percentWidth="14.285"/>
-                        <ColumnConstraints percentWidth="14.285"/>
-                        <ColumnConstraints percentWidth="14.285"/>
-                        <ColumnConstraints percentWidth="14.285"/>
-                    </columnConstraints>
-
-                    <rowConstraints>
-                        <RowConstraints minHeight="38.0"/>
-                        <RowConstraints minHeight="90.0"/>
-                        <RowConstraints minHeight="90.0"/>
-                        <RowConstraints minHeight="90.0"/>
-                        <RowConstraints minHeight="90.0"/>
-                        <RowConstraints minHeight="90.0"/>
-                        <RowConstraints minHeight="90.0"/>
-                    </rowConstraints>
-
-                </GridPane>
+                </VBox>
             </VBox>
 
-            <VBox spacing="16.0"
-                  prefWidth="360.0"
-                  minWidth="340.0"
-                  maxWidth="390.0"
-                  styleClass="todo-panel">
+            <!-- ════════════════════
+                 PANEL TO DO
+            ════════════════════ -->
+            <VBox fx:id="todoPanel" styleClass="card todo-panel"
+                  prefWidth="315" minWidth="315" spacing="14">
+                <padding><Insets top="20" left="18" right="18" bottom="20"/></padding>
 
-                <HBox alignment="CENTER_LEFT" spacing="10.0">
-                    <VBox spacing="4.0">
-                        <Label text="To Do" styleClass="section-title"/>
-                        <Label text="Ajouter un document ou une tâche"
-                               styleClass="section-subtitle"/>
-                    </VBox>
-
+                <!-- ── Header ── -->
+                <HBox alignment="CENTER_LEFT" spacing="10">
+                    <Label text="📅" style="-fx-font-size:20px;"/>
+                    <Label text="To Do" styleClass="todo-title"/>
                     <Region HBox.hgrow="ALWAYS"/>
-
-                    <Label fx:id="todoCounterLabel"
-                           text="0 élément(s)"
-                           styleClass="counter-badge"/>
+                    <Label fx:id="lblSelectedDate" text="13 Mai 2026"
+                           styleClass="badge-date"/>
                 </HBox>
 
-                <Separator/>
+                <Separator styleClass="todo-sep"/>
 
-                <VBox spacing="12.0" styleClass="form-box">
+                <!-- ── Titre / Document ── -->
+                <VBox spacing="5">
+                    <Label text="Titre / Document" styleClass="field-label"/>
+                    <TextField fx:id="fieldTitre"
+                               promptText="ex: Révision Réseaux"
+                               styleClass="field-input"/>
+                </VBox>
 
-                    <VBox spacing="6.0">
-                        <Label text="Type" styleClass="input-label"/>
-                        <ComboBox fx:id="typeComboBox"
-                                  maxWidth="1.7976931348623157E308"
-                                  promptText="Choisir un type"
-                                  styleClass="input-field"/>
+                <!-- ── Type + Heure ── -->
+                <HBox spacing="10">
+                    <VBox spacing="5" HBox.hgrow="ALWAYS">
+                        <Label text="Type :" styleClass="field-label"/>
+                        <ComboBox fx:id="comboType" styleClass="field-combo"
+                                  maxWidth="Infinity"/>
                     </VBox>
-
-                    <VBox spacing="6.0">
-                        <Label text="Titre / Document" styleClass="input-label"/>
-                        <TextField fx:id="titleField"
-                                   promptText="Ex : Révision JavaFX, PDF cours..."
-                                   styleClass="input-field"/>
+                    <VBox spacing="5" HBox.hgrow="ALWAYS">
+                        <Label text="Heure :" styleClass="field-label"/>
+                        <TextField fx:id="fieldHeure"
+                                   promptText="09:00 AM"
+                                   styleClass="field-input"/>
                     </VBox>
+                </HBox>
 
-                    <HBox spacing="10.0">
-                        <VBox spacing="6.0" HBox.hgrow="ALWAYS">
-                            <Label text="Heure" styleClass="input-label"/>
-                            <TextField fx:id="timeField"
-                                       promptText="Ex : 10:30"
-                                       styleClass="input-field"/>
-                        </VBox>
+                <!-- ── Description ── -->
+                <VBox spacing="5">
+                    <Label text="Description" styleClass="field-label"/>
+                    <TextArea fx:id="fieldDescription"
+                              promptText="Ajouter une description..."
+                              styleClass="field-textarea"
+                              wrapText="true"
+                              prefHeight="75"/>
+                </VBox>
 
-                        <VBox spacing="6.0" HBox.hgrow="ALWAYS">
-                            <Label text="Module" styleClass="input-label"/>
-                            <TextField fx:id="moduleField"
-                                       promptText="Ex : Java"
-                                       styleClass="input-field"/>
-                        </VBox>
-                    </HBox>
+                <!-- ── Zone Drag & Drop ── -->
+                <VBox spacing="5">
+                    <Label text="Pièces jointes" styleClass="field-label"/>
 
                     <VBox fx:id="dropZone"
+                          styleClass="drop-zone"
                           alignment="CENTER"
-                          spacing="8.0"
-                          minHeight="118.0"
-                          styleClass="drop-zone">
-
-                        <Label text="Déposer un fichier ici"
-                               styleClass="drop-zone-title"/>
-
-                        <Label text="PDF, Word, PowerPoint, image, vidéo..."
-                               styleClass="drop-zone-subtitle"/>
-
-                        <Button text="+ Ajouter un fichier"
-                                onAction="#chooseFile"
-                                styleClass="secondary-button"/>
+                          spacing="5"
+                          prefHeight="95"
+                          onDragOver="#handleDragOver"
+                          onDragDropped="#handleDragDropped">
+                        <Label text="📎" style="-fx-font-size:22px;"/>
+                        <Label text="Glissez vos fichiers ici"
+                               styleClass="drop-hint"/>
+                        <Label text="PDF · DOCX · PPTX · MP4 · PNG · URL…"
+                               styleClass="drop-sub"/>
+                        <Button fx:id="btnParcourir"
+                                text="Parcourir…"
+                                styleClass="btn-parcourir"
+                                onAction="#parcourirFichier"/>
                     </VBox>
 
-                    <HBox alignment="CENTER_LEFT" spacing="8.0">
-                        <Label fx:id="fileNameLabel"
-                               text="Aucun fichier sélectionné"
-                               maxWidth="230.0"
-                               styleClass="file-name-label"/>
+                    <!-- Liste des fichiers attachés -->
+                    <ListView fx:id="listFichiers"
+                              styleClass="files-list"
+                              prefHeight="72"/>
+                </VBox>
 
-                        <Region HBox.hgrow="ALWAYS"/>
+                <!-- ── Bouton Ajouter ── -->
+                <Button fx:id="btnAjouter"
+                        text="+  Ajouter à ce jour"
+                        styleClass="btn-add"
+                        maxWidth="Infinity"
+                        onAction="#ajouterTodo"/>
 
-                        <Button text="Retirer"
-                                onAction="#clearFile"
-                                styleClass="clear-button"/>
+                <Separator styleClass="todo-sep"/>
+
+                <!-- ── Aperçu todos du jour ── -->
+                <VBox spacing="6" VBox.vgrow="ALWAYS">
+                    <HBox alignment="CENTER_LEFT" spacing="5">
+                        <Label text="Prévu ce jour —" styleClass="preview-label"/>
+                        <Label fx:id="lblCount" text="0 éléments"
+                               styleClass="preview-count"/>
                     </HBox>
 
-                    <Button text="+ Ajouter au Planning"
-                            maxWidth="1.7976931348623157E308"
-                            onAction="#addPlanning"
-                            styleClass="primary-button"/>
-                </VBox>
-
-                <Separator/>
-
-                <VBox fx:id="emptyBox"
-                      alignment="CENTER"
-                      spacing="8.0"
-                      minHeight="90.0"
-                      styleClass="empty-box">
-
-                    <Label text="Aucune tâche pour cette date"
-                           styleClass="empty-title"/>
-
-                    <Label text="Sélectionnez une journée puis ajoutez un élément."
-                           wrapText="true"
-                           styleClass="empty-subtitle"/>
-                </VBox>
-
-                <ScrollPane fitToWidth="true"
-                            hbarPolicy="NEVER"
-                            vbarPolicy="AS_NEEDED"
-                            VBox.vgrow="ALWAYS"
-                            styleClass="todo-scroll">
-
-                    <content>
-                        <VBox fx:id="todoListBox"
-                              spacing="10.0"
-                              styleClass="todo-list">
+                    <ScrollPane styleClass="scroll-todos"
+                                fitToWidth="true"
+                                prefHeight="130"
+                                VBox.vgrow="ALWAYS">
+                        <VBox fx:id="vboxTodos" spacing="6"
+                              styleClass="todos-container">
                             <padding>
-                                <Insets top="4.0" right="4.0" bottom="4.0" left="4.0"/>
+                                <Insets top="4" left="2" right="2" bottom="4"/>
                             </padding>
                         </VBox>
-                    </content>
-                </ScrollPane>
+                    </ScrollPane>
+                </VBox>
 
             </VBox>
+            <!-- fin todo-panel -->
 
         </HBox>
     </center>

@@ -1,40 +1,22 @@
 package models;
-
-import java.io.File;
-import java.time.LocalDate;
-
+import enums.PlanningType;
+import java.time.LocalDateTime;
 public class Planning {
-
     private int id;
     private int idUtilisateur;
-    private LocalDate dateRevision;
-
     private String titre;
-    private String type;
-    private String heure;
-    private String module;
-    private String nomFichier;
-    private String cheminFichier;
+    private LocalDateTime dateRevision;
+    private PlanningType typeActivite;
+    private LocalDateTime dateCreation;
 
-    public Planning(String titre, String type, String heure, String module, LocalDate selectedDate, File selectedFile) {
+    public Planning() {
     }
 
-    public Planning(int idUtilisateur, LocalDate dateRevision, String titre) {
+    public Planning(int idUtilisateur, String titre, String description, LocalDateTime dateRevision, PlanningType typeActivite) {
         this.idUtilisateur = idUtilisateur;
-        this.dateRevision = dateRevision;
         this.titre = titre;
-    }
-
-    public Planning(int idUtilisateur, LocalDate dateRevision, String titre, String type,
-                    String heure, String module, String nomFichier, String cheminFichier) {
-        this.idUtilisateur = idUtilisateur;
         this.dateRevision = dateRevision;
-        this.titre = titre;
-        this.type = type;
-        this.heure = heure;
-        this.module = module;
-        this.nomFichier = nomFichier;
-        this.cheminFichier = cheminFichier;
+        this.typeActivite = typeActivite;
     }
 
     public int getId() {
@@ -45,7 +27,6 @@ public class Planning {
         this.id = id;
     }
 
-
     public int getIdUtilisateur() {
         return idUtilisateur;
     }
@@ -53,16 +34,6 @@ public class Planning {
     public void setIdUtilisateur(int idUtilisateur) {
         this.idUtilisateur = idUtilisateur;
     }
-
-
-    public LocalDate getDateRevision() {
-        return dateRevision;
-    }
-
-    public void setDateRevision(LocalDate dateRevision) {
-        this.dateRevision = dateRevision;
-    }
-
 
     public String getTitre() {
         return titre;
@@ -72,48 +43,39 @@ public class Planning {
         this.titre = titre;
     }
 
-
-    public String getType() {
-        return type;
+    public LocalDateTime getDateRevision() {
+        return dateRevision;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setDateRevision(LocalDateTime dateRevision) {
+        this.dateRevision = dateRevision;
     }
 
-
-    public String getHeure() {
-        return heure;
+    public PlanningType getTypeActivite() {
+        return typeActivite;
     }
 
-    public void setHeure(String heure) {
-        this.heure = heure;
+    public void setTypeActivite(PlanningType typeActivite) {
+        this.typeActivite = typeActivite;
     }
 
-
-    public String getModule() {
-        return module;
+    public LocalDateTime getDateCreation() {
+        return dateCreation;
     }
 
-    public void setModule(String module) {
-        this.module = module;
+    public void setDateCreation(LocalDateTime dateCreation) {
+        this.dateCreation = dateCreation;
     }
 
-
-    public String getNomFichier() {
-        return nomFichier;
-    }
-
-    public void setNomFichier(String nomFichier) {
-        this.nomFichier = nomFichier;
-    }
-
-
-    public String getCheminFichier() {
-        return cheminFichier;
-    }
-
-    public void setCheminFichier(String cheminFichier) {
-        this.cheminFichier = cheminFichier;
+    @Override
+    public String toString() {
+        return "Planning{" +
+                "id=" + id +
+                ", idUtilisateur=" + idUtilisateur +
+                ", titre='" + titre + '\'' +
+                ", dateRevision=" + dateRevision +
+                ", typeActivite=" + typeActivite +
+                ", dateCreation=" + dateCreation +
+                '}';
     }
 }

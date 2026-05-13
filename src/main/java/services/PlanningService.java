@@ -1,5 +1,6 @@
 package services;
 
+import enums.PlanningType;
 import models.Planning;
 import util.DBConnection;
 
@@ -9,8 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlanningService implements IService<Planning> {
-
-    private Connection conn;
+    private final Connection conn;
 
     public PlanningService() {
         this.conn = DBConnection.getInstance().getConn();
@@ -18,23 +18,15 @@ public class PlanningService implements IService<Planning> {
 
     @Override
     public void add(Planning p) {
-        String req = "INSERT INTO planning " +
-                "(date_revision, titre, id_utilisateur, type, heure, module, nom_fichier, chemin_fichier) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO planning (id_utilisateur, titre, date_revision, type_activite) VALUES (?, ?, ?, ?)";
 
-        try (PreparedStatement ps = conn.prepareStatement(req)) {
-
-            ps.setDate(1, Date.valueOf(p.getDateRevision()));
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, p.getIdUtilisateur());
             ps.setString(2, p.getTitre());
-            ps.setInt(3, p.getIdUtilisateur());
-            ps.setString(4, p.getType());
-            ps.setString(5, p.getHeure());
-            ps.setString(6, p.getModule());
-            ps.setString(7, p.getNomFichier());
-            ps.setString(8, p.getCheminFichier());
-
+            ps.setTimestamp(3, Timestamp.valueOf(p.getDateRevision()));
+            ps.setString(4, p.getTypeActivite() == null ? PlanningType.REVISION.name() : p.getTypeActivite().name());
             ps.executeUpdate();
-
+            System.out.println("Planning ajoute avec succes.");
         } catch (SQLException e) {
             System.out.println("Erreur add planning : " + e.getMessage());
         }
@@ -42,24 +34,15 @@ public class PlanningService implements IService<Planning> {
 
     @Override
     public void update(Planning p) {
-        String req = "UPDATE planning SET " +
-                "date_revision=?, titre=?, id_utilisateur=?, type=?, heure=?, module=?, nom_fichier=?, chemin_fichier=? " +
-                "WHERE id=?";
+        String sql = "UPDATE planning SET titre=?, date_revision=?, type_activite=? WHERE id_planning=?";
 
-        try (PreparedStatement ps = conn.prepareStatement(req)) {
-
-            ps.setDate(1, Date.valueOf(p.getDateRevision()));
-            ps.setString(2, p.getTitre());
-            ps.setInt(3, p.getIdUtilisateur());
-            ps.setString(4, p.getType());
-            ps.setString(5, p.getHeure());
-            ps.setString(6, p.getModule());
-            ps.setString(7, p.getNomFichier());
-            ps.setString(8, p.getCheminFichier());
-            ps.setInt(9, p.getId());
-
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, p.getTitre());
+            ps.setTimestamp(2, Timestamp.valueOf(p.getDateRevision()));
+            ps.setString(3, p.getTypeActivite().name());
+            ps.setInt(4, p.getId());
             ps.executeUpdate();
-
+            System.out.println("Planning modifie avec succes.");
         } catch (SQLException e) {
             System.out.println("Erreur update planning : " + e.getMessage());
         }
@@ -67,13 +50,12 @@ public class PlanningService implements IService<Planning> {
 
     @Override
     public void delete(Planning p) {
-        String req = "DELETE FROM planning WHERE id=?";
+        String sql = "DELETE FROM planning WHERE id_planning=?";
 
-        try (PreparedStatement ps = conn.prepareStatement(req)) {
-
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, p.getId());
             ps.executeUpdate();
-
+            System.out.println("Planning supprime avec succes.");
         } catch (SQLException e) {
             System.out.println("Erreur delete planning : " + e.getMessage());
         }
@@ -82,17 +64,12 @@ public class PlanningService implements IService<Planning> {
     @Override
     public List<Planning> getAll() {
         List<Planning> list = new ArrayList<>();
+        String sql = "SELECT * FROM planning ORDER BY date_revision ASC";
 
-        String req = "SELECT * FROM planning";
-
-        try (Statement st = conn.createStatement();
-             ResultSet rs = st.executeQuery(req)) {
-
+        try (Statement st = conn.createStatement(); ResultSet rs = st.executeQuery(sql)) {
             while (rs.next()) {
-                Planning p = mapResultSetToPlanning(rs);
-                list.add(p);
+                list.add(mapRow(rs));
             }
-
         } catch (SQLException e) {
             System.out.println("Erreur getAll planning : " + e.getMessage());
         }
@@ -100,24 +77,34 @@ public class PlanningService implements IService<Planning> {
         return list;
     }
 
-    public List<Planning> getAllByUtilisateur(int idUtilisateur) {
-        List<Planning> list = new ArrayList<>();
+    public Planning getById(int idPlanning) {
+        String sql = "SELECT * FROM planning WHERE id_planning=?";
 
-        String req = "SELECT * FROM planning WHERE id_utilisateur=? ORDER BY date_revision ASC, heure ASC";
-
-        try (PreparedStatement ps = conn.prepareStatement(req)) {
-
-            ps.setInt(1, idUtilisateur);
-
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, idPlanning);
             ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                Planning p = mapResultSetToPlanning(rs);
-                list.add(p);
+            if (rs.next()) {
+                return mapRow(rs);
             }
-
         } catch (SQLException e) {
-            System.out.println("Erreur getAllByUtilisateur planning : " + e.getMessage());
+            System.out.println("Erreur getById planning : " + e.getMessage());
+        }
+
+        return null;
+    }
+
+    public List<Planning> getByUtilisateur(int idUtilisateur) {
+        List<Planning> list = new ArrayList<>();
+        String sql = "SELECT * FROM planning WHERE id_utilisateur=? ORDER BY date_revision ASC";
+
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, idUtilisateur);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(mapRow(rs));
+            }
+        } catch (SQLException e) {
+            System.out.println("Erreur getByUtilisateur planning : " + e.getMessage());
         }
 
         return list;
@@ -125,21 +112,15 @@ public class PlanningService implements IService<Planning> {
 
     public List<Planning> getByDate(int idUtilisateur, LocalDate date) {
         List<Planning> list = new ArrayList<>();
+        String sql = "SELECT * FROM planning WHERE id_utilisateur=? AND DATE(date_revision)=? ORDER BY date_revision ASC";
 
-        String req = "SELECT * FROM planning WHERE id_utilisateur=? AND date_revision=? ORDER BY heure ASC";
-
-        try (PreparedStatement ps = conn.prepareStatement(req)) {
-
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, idUtilisateur);
             ps.setDate(2, Date.valueOf(date));
-
             ResultSet rs = ps.executeQuery();
-
             while (rs.next()) {
-                Planning p = mapResultSetToPlanning(rs);
-                list.add(p);
+                list.add(mapRow(rs));
             }
-
         } catch (SQLException e) {
             System.out.println("Erreur getByDate planning : " + e.getMessage());
         }
@@ -147,19 +128,16 @@ public class PlanningService implements IService<Planning> {
         return list;
     }
 
-    private Planning mapResultSetToPlanning(ResultSet rs) throws SQLException {
-        Planning p = new Planning(titre, type, heure, module, selectedDate, selectedFile);
-
-        p.setId(rs.getInt("id"));
+    private Planning mapRow(ResultSet rs) throws SQLException {
+        Planning p = new Planning();
+        p.setId(rs.getInt("id_planning"));
         p.setIdUtilisateur(rs.getInt("id_utilisateur"));
-        p.setDateRevision(rs.getDate("date_revision").toLocalDate());
         p.setTitre(rs.getString("titre"));
-        p.setType(rs.getString("type"));
-        p.setHeure(rs.getString("heure"));
-        p.setModule(rs.getString("module"));
-        p.setNomFichier(rs.getString("nom_fichier"));
-        p.setCheminFichier(rs.getString("chemin_fichier"));
-
+        Timestamp dateRevision = rs.getTimestamp("date_revision");
+        p.setDateRevision(dateRevision == null ? null : dateRevision.toLocalDateTime());
+        p.setTypeActivite(PlanningType.valueOf(rs.getString("type_activite")));
+        Timestamp dateCreation = rs.getTimestamp("date_creation");
+        p.setDateCreation(dateCreation == null ? null : dateCreation.toLocalDateTime());
         return p;
     }
 }

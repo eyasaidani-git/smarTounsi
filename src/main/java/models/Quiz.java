@@ -1,15 +1,44 @@
 package models;
 
-public class Quiz {
-    private int id, idModule, idCreateur;
-    private String titre, description;
+import java.time.LocalDateTime;
 
-    public Quiz() {}
-    public Quiz(String titre, String description, int idModule, int idCreateur) {
+public class Quiz {
+
+    private int id;
+    private String titre;
+    private String description;
+    private int idModule;
+    private int idCreateur;
+    private Integer tempsLimite;
+    private int scoreTotal;
+    private LocalDateTime dateCreation;
+    private boolean estActif;
+
+    public Quiz() {
+    }
+
+    public Quiz(String titre, String description, int idModule, int idCreateur,
+                Integer tempsLimite, int scoreTotal) {
         this.titre = titre;
         this.description = description;
         this.idModule = idModule;
         this.idCreateur = idCreateur;
+        this.tempsLimite = tempsLimite;
+        this.scoreTotal = scoreTotal;
+        this.estActif = true;
+    }
+
+    public Quiz(int id, String titre, String description, int idModule, int idCreateur,
+                Integer tempsLimite, int scoreTotal, LocalDateTime dateCreation, boolean estActif) {
+        this.id = id;
+        this.titre = titre;
+        this.description = description;
+        this.idModule = idModule;
+        this.idCreateur = idCreateur;
+        this.tempsLimite = tempsLimite;
+        this.scoreTotal = scoreTotal;
+        this.dateCreation = dateCreation;
+        this.estActif = estActif;
     }
 
     public int getId() {
@@ -20,21 +49,6 @@ public class Quiz {
         this.id = id;
     }
 
-    public int getIdModule() {
-        return idModule;
-    }
-
-    public void setIdModule(int idModule) {
-        this.idModule = idModule;
-    }
-
-    public int getIdCreateur() {
-        return idCreateur;
-    }
-
-    public void setIdCreateur(int idCreateur) {
-        this.idCreateur = idCreateur;
-    }
 
     public String getTitre() {
         return titre;
@@ -44,6 +58,7 @@ public class Quiz {
         this.titre = titre;
     }
 
+
     public String getDescription() {
         return description;
     }
@@ -52,14 +67,88 @@ public class Quiz {
         this.description = description;
     }
 
+
+    public int getIdModule() {
+        return idModule;
+    }
+
+    public void setIdModule(int idModule) {
+        this.idModule = idModule;
+    }
+
+
+    public int getIdCreateur() {
+        return idCreateur;
+    }
+
+    public void setIdCreateur(int idCreateur) {
+        this.idCreateur = idCreateur;
+    }
+
+
+    public Integer getTempsLimite() {
+        return tempsLimite;
+    }
+
+    public void setTempsLimite(Integer tempsLimite) {
+        this.tempsLimite = tempsLimite;
+    }
+
+    public Integer getTempsMinutes() {
+        return tempsLimite;
+    }
+
+    public void setTempsMinutes(Integer tempsMinutes) {
+        this.tempsLimite = tempsMinutes;
+    }
+
+
+    public int getScoreTotal() {
+        return scoreTotal;
+    }
+
+    public void setScoreTotal(int scoreTotal) {
+        this.scoreTotal = scoreTotal;
+    }
+
+
+    public LocalDateTime getDateCreation() {
+        return dateCreation;
+    }
+
+    public void setDateCreation(LocalDateTime dateCreation) {
+        this.dateCreation = dateCreation;
+    }
+
+
+    public boolean isEstActif() {
+        return estActif;
+    }
+
+    public void setEstActif(boolean estActif) {
+        this.estActif = estActif;
+    }
+
+    public boolean isActif() {
+        return estActif;
+    }
+
+    public void setActif(boolean actif) {
+        this.estActif = actif;
+    }
+
     @Override
     public String toString() {
         return "Quiz{" +
                 "id=" + id +
-                ", idModule=" + idModule +
-                ", idCreateur=" + idCreateur +
                 ", titre='" + titre + '\'' +
                 ", description='" + description + '\'' +
+                ", idModule=" + idModule +
+                ", idCreateur=" + idCreateur +
+                ", tempsLimite=" + tempsLimite +
+                ", scoreTotal=" + scoreTotal +
+                ", dateCreation=" + dateCreation +
+                ", estActif=" + estActif +
                 '}';
     }
 }
