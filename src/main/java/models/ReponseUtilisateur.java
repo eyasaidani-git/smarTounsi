@@ -84,7 +84,6 @@ public class ReponseUtilisateur {
         this.estCorrecte = estCorrecte;
     }
 
-    // Compatibilité si ton service utilise isCorrecte()
     public Boolean isCorrecte() {
         return estCorrecte;
     }

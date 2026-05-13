@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<ScrollPane fx:id="mainScroll"
+            fitToWidth="true"
+            hbarPolicy="NEVER"
+            vbarPolicy="AS_NEEDED"
+            xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.AccueilController"
+            stylesheets="@styles/acceuil.css">
+
+    <content>
+        <VBox styleClass="page-root">
+
+            <!-- ================= HEADER ================= -->
+            <AnchorPane styleClass="header" prefHeight="85.0">
+                <children>
+                    <Label text="SmarTounsi.com"
+                           styleClass="logo-text"
+                           AnchorPane.leftAnchor="45.0"
+                           AnchorPane.topAnchor="25.0"/>
+
+                    <HBox spacing="45.0"
+                          AnchorPane.topAnchor="28.0"
+                          AnchorPane.leftAnchor="690.0">
+                        <children>
+                            <Button text="A propos" onAction="#goToApropos" styleClass="nav-button"/>
+                            <Button text="Fonctionnalités" onAction="#goToFonctionnalites" styleClass="nav-button"/>
+                            <Button text="Contact" onAction="#goToContact" styleClass="nav-button"/>
+                        </children>
+                    </HBox>
+
+                    <HBox spacing="15.0"
+                          AnchorPane.topAnchor="15.0"
+                          AnchorPane.rightAnchor="50.0">
+                        <children>
+                            <Button text="Connexion" onAction="#ouvrirConnexion" styleClass="btn-outline"/>
+                            <Button text="S'inscrire" onAction="#ouvrirInscription" styleClass="btn-primary-small"/>
+                        </children>
+                    </HBox>
+                </children>
+            </AnchorPane>
+
+            <!-- ================= HERO ================= -->
+            <AnchorPane styleClass="hero-section" prefHeight="500.0">
+                <children>
+                    <AnchorPane styleClass="brain-circle"
+                                prefWidth="250.0"
+                                prefHeight="250.0"
+                                AnchorPane.leftAnchor="95.0"
+                                AnchorPane.topAnchor="115.0">
+                        <children>
+                            <Label text="🧠"
+                                   styleClass="brain-icon"
+                                   AnchorPane.leftAnchor="65.0"
+                                   AnchorPane.topAnchor="65.0"/>
+                        </children>
+                    </AnchorPane>
+
+                    <VBox spacing="24.0"
+                          AnchorPane.leftAnchor="420.0"
+                          AnchorPane.topAnchor="105.0">
+                        <children>
+                            <Label text="SmarTounsi" styleClass="hero-title"/>
+
+                            <Label text="Votre espace de révision complet sur une seule plateforme&#10;collaborative, pensé pour les étudiants et les professeurs."
+                                   styleClass="hero-subtitle"/>
+
+                            <HBox spacing="20.0">
+                                <children>
+                                    <Button text="Commencer gratuitement"
+                                            onAction="#ouvrirInscription"
+                                            styleClass="btn-primary-large"/>
+
+                                    <Button text="Connexion"
+                                            onAction="#ouvrirConnexion"
+                                            styleClass="btn-outline-large"/>
+                                </children>
+                            </HBox>
+                        </children>
+                    </VBox>
+                </children>
+            </AnchorPane>
+
+            <!-- ================= A PROPOS ================= -->
+            <VBox fx:id="aproposSection"
+                  alignment="CENTER"
+                  spacing="35.0"
+                  styleClass="apropos-section"
+                  prefHeight="470.0">
+                <children>
+                    <Label text="A propos" styleClass="section-title-yellow"/>
+
+                    <Label text="SmarTounsi est née d'un constat simple : les étudiants ont du mal à accéder aux&#10;ressources pédagogiques dont ils ont besoin. Notre mission est de créer un espace&#10;collaboratif où chacun peut partager et bénéficier de ressources de qualité. Qu'il s'agisse&#10;de cours, d'anciens examens, de TD ou de vidéos explicatives, SmarTounsi centralise tout&#10;ce dont un étudiant a besoin pour réussir."
+                           textAlignment="CENTER"
+                           alignment="CENTER"
+                           styleClass="apropos-text"/>
+
+                    <HBox spacing="18.0" alignment="CENTER">
+                        <children>
+                            <Button text="👥   Communauté active" styleClass="badge-button"/>
+                            <Button text="📚   Ressources variées" styleClass="badge-button"/>
+                            <Button text="⬆️   Partage facile" styleClass="badge-button"/>
+                            <Button text="⭐   Contenu de qualité" styleClass="badge-button"/>
+                        </children>
+                    </HBox>
+                </children>
+            </VBox>
+
+            <!-- ================= FONCTIONNALITES ================= -->
+            <VBox fx:id="fonctionnalitesSection"
+                  alignment="CENTER"
+                  spacing="35.0"
+                  styleClass="features-section"
+                  prefHeight="720.0">
+                <children>
+                    <Label text="Fonctionnalités" styleClass="section-title-dark"/>
+
+                    <HBox spacing="26.0" alignment="CENTER">
+                        <children>
+                            <VBox styleClass="feature-card" alignment="CENTER" spacing="18.0">
+                                <children>
+                                    <Label text="📚" styleClass="feature-icon"/>
+                                    <Label text="Bibliothèque complète" styleClass="feature-title"/>
+                                    <Label text="Cours, TD, DS, examens, vidéos,&#10;images et liens organisés par module"
+                                           styleClass="feature-description"
+                                           textAlignment="CENTER"/>
+                                </children>
+                            </VBox>
+
+                            <VBox styleClass="feature-card" alignment="CENTER" spacing="18.0">
+                                <children>
+                                    <Label text="⬆️" styleClass="feature-icon"/>
+                                    <Label text="Upload facile" styleClass="feature-title"/>
+                                    <Label text="Déposez vos fichiers en quelques clics&#10;et aidez toute la promotion"
+                                           styleClass="feature-description"
+                                           textAlignment="CENTER"/>
+                                </children>
+                            </VBox>
+
+                            <VBox styleClass="feature-card" alignment="CENTER" spacing="18.0">
+                                <children>
+                                    <Label text="🔍" styleClass="feature-icon"/>
+                                    <Label text="Recherche rapide" styleClass="feature-title"/>
+                                    <Label text="Trouvez n'importe quel document&#10;instantanément avec la barre de&#10;recherche"
+                                           styleClass="feature-description"
+                                           textAlignment="CENTER"/>
+                                </children>
+                            </VBox>
+                        </children>
+                    </HBox>
+
+                    <HBox spacing="26.0" alignment="CENTER">
+                        <children>
+                            <VBox styleClass="feature-card" alignment="CENTER" spacing="18.0">
+                                <children>
+                                    <Label text="🗓️" styleClass="feature-icon"/>
+                                    <Label text="Calendrier de révision" styleClass="feature-title"/>
+                                    <Label text="Planifiez vos révisions en attachant&#10;des fichiers à chaque date"
+                                           styleClass="feature-description"
+                                           textAlignment="CENTER"/>
+                                </children>
+                            </VBox>
+
+                            <VBox styleClass="feature-card" alignment="CENTER" spacing="18.0">
+                                <children>
+                                    <Label text="⭐" styleClass="feature-icon"/>
+                                    <Label text="Favoris" styleClass="feature-title"/>
+                                    <Label text="Sauvegardez vos documents préférés&#10;pour y accéder rapidement"
+                                           styleClass="feature-description"
+                                           textAlignment="CENTER"/>
+                                </children>
+                            </VBox>
+
+                            <VBox styleClass="feature-card" alignment="CENTER" spacing="18.0">
+                                <children>
+                                    <Label text="🔔" styleClass="feature-icon"/>
+                                    <Label text="Notifications" styleClass="feature-title"/>
+                                    <Label text="Restez informé des nouveaux dépôts&#10;dans vos modules"
+                                           styleClass="feature-description"
+                                           textAlignment="CENTER"/>
+                                </children>
+                            </VBox>
+                        </children>
+                    </HBox>
+
+                    <HBox spacing="26.0" alignment="CENTER">
+                        <children>
+                            <VBox styleClass="feature-card" alignment="CENTER" spacing="18.0">
+                                <children>
+                                    <Label text="🧩" styleClass="feature-icon"/>
+                                    <Label text="Quiz interactifs" styleClass="feature-title"/>
+                                    <Label text="Testez vos connaissances avec des&#10;quiz créés par les professeurs"
+                                           styleClass="feature-description"
+                                           textAlignment="CENTER"/>
+                                </children>
+                            </VBox>
+
+                            <VBox styleClass="feature-card" alignment="CENTER" spacing="18.0">
+                                <children>
+                                    <Label text="💼" styleClass="feature-icon"/>
+                                    <Label text="Gestion de projets" styleClass="feature-title"/>
+                                    <Label text="Créez et collaborez sur des projets&#10;académiques avec code, rapport et&#10;présentation"
+                                           styleClass="feature-description"
+                                           textAlignment="CENTER"/>
+                                </children>
+                            </VBox>
+
+                            <VBox styleClass="feature-card" alignment="CENTER" spacing="18.0">
+                                <children>
+                                    <Label text="🎉" styleClass="feature-icon"/>
+                                    <Label text="Événements Tunisie" styleClass="feature-title"/>
+                                    <Label text="Découvrez forums de stage,&#10;hackathons et fêtes académiques en&#10;Tunisie"
+                                           styleClass="feature-description"
+                                           textAlignment="CENTER"/>
+                                </children>
+                            </VBox>
+                        </children>
+                    </HBox>
+                </children>
+            </VBox>
+
+            <!-- ================= CONTACT FORM ================= -->
+            <VBox fx:id="contactSection"
+                  alignment="CENTER"
+                  spacing="18.0"
+                  styleClass="contact-section"
+                  prefHeight="560.0">
+                <children>
+                    <Label text="Contact" styleClass="section-title-dark"/>
+
+                    <TextField fx:id="nomField"
+                               promptText="Votre nom"
+                               styleClass="contact-field"/>
+
+                    <TextField fx:id="emailField"
+                               promptText="Votre email"
+                               styleClass="contact-field"/>
+
+                    <TextField fx:id="sujetField"
+                               promptText="Sujet"
+                               styleClass="contact-field"/>
+
+                    <TextArea fx:id="messageArea"
+                              promptText="Votre message..."
+                              styleClass="contact-area"
+                              wrapText="true"/>
+
+                    <HBox alignment="CENTER_RIGHT" prefWidth="650.0">
+                        <children>
+                            <Button text="Envoyer"
+                                    onAction="#envoyerMessage"
+                                    styleClass="send-button"/>
+                        </children>
+                    </HBox>
+                </children>
+            </VBox>
+
+            <!-- ================= SOCIAL CONTACT ================= -->
+            <VBox alignment="CENTER"
+                  spacing="45.0"
+                  styleClass="social-section"
+                  prefHeight="620.0">
+                <children>
+                    <Label text="Contactez-nous et rejoignez-nous via"
+                           styleClass="social-title"/>
+
+                    <VBox spacing="0.0" maxWidth="630.0">
+                        <children>
+                            <HBox alignment="CENTER_LEFT" spacing="25.0" styleClass="social-row">
+                                <children>
+                                    <Label text="📘" styleClass="social-icon"/>
+                                    <Label text="Facebook :" styleClass="social-label"/>
+                                    <Label text="SmarTounsi" styleClass="social-value"/>
+                                </children>
+                            </HBox>
+
+                            <Region prefHeight="1.0" styleClass="social-line"/>
+
+                            <HBox alignment="CENTER_LEFT" spacing="25.0" styleClass="social-row">
+                                <children>
+                                    <Label text="📸" styleClass="social-icon"/>
+                                    <Label text="Instagram :" styleClass="social-label"/>
+                                    <Label text="SmarTounsi" styleClass="social-value"/>
+                                </children>
+                            </HBox>
+
+                            <Region prefHeight="1.0" styleClass="social-line"/>
+
+                            <HBox alignment="CENTER_LEFT" spacing="25.0" styleClass="social-row">
+                                <children>
+                                    <Label text="💼" styleClass="social-icon"/>
+                                    <Label text="Linkedin :" styleClass="social-label"/>
+                                    <Label text="SmarTounsi" styleClass="social-value"/>
+                                </children>
+                            </HBox>
+
+                            <Region prefHeight="1.0" styleClass="social-line"/>
+
+                            <HBox alignment="CENTER_LEFT" spacing="25.0" styleClass="social-row">
+                                <children>
+                                    <Label text="💬" styleClass="social-icon"/>
+                                    <Label text="Whatsapp :" styleClass="social-label"/>
+                                    <Label text="+216 12 345 678" styleClass="social-value"/>
+                                </children>
+                            </HBox>
+                        </children>
+                    </VBox>
+                </children>
+            </VBox>
+
+        </VBox>
+    </content>
+</ScrollPane>

@@ -9,7 +9,6 @@ import java.util.List;
 
 public class ResultatQuizService implements IService<ResultatQuiz> {
     private final Connection conn;
-
     public ResultatQuizService() {
         this.conn = DBConnection.getInstance().getConn();
     }

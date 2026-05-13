@@ -16,7 +16,7 @@ public class Evenement {
     private int idCreateur;
     private String imageEvenement;
     private LocalDateTime dateCreation;
-
+    private boolean organiseParSite;
     public Evenement() {
     }
 
@@ -123,7 +123,6 @@ public class Evenement {
         this.imageEvenement = imageEvenement;
     }
 
-
     public LocalDateTime getDateCreation() {
         return dateCreation;
     }
@@ -131,6 +130,15 @@ public class Evenement {
     public void setDateCreation(LocalDateTime dateCreation) {
         this.dateCreation = dateCreation;
     }
+
+    public boolean isOrganiseParSite() {
+        return organiseParSite;
+    }
+
+    public void setOrganiseParSite(boolean organiseParSite) {
+        this.organiseParSite = organiseParSite;
+    }
+
 
     @Override
     public String toString() {

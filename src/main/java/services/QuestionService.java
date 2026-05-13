@@ -1,5 +1,4 @@
 package services;
-
 import enums.QuestionType;
 import models.Question;
 import util.DBConnection;
@@ -22,7 +21,7 @@ public class QuestionService implements IService<Question> {
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, q.getIdQuiz());
             ps.setString(2, q.getEnonce());
-            ps.setString(3, q.getTypeQuestion().name());
+            ps.setString(3, q.getTypeQuestion().name().toLowerCase());
             ps.setInt(4, q.getPoints());
             ps.setInt(5, q.getOrdre());
             ps.executeUpdate();
@@ -38,7 +37,7 @@ public class QuestionService implements IService<Question> {
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, q.getEnonce());
-            ps.setString(2, q.getTypeQuestion().name());
+            ps.setString(2, q.getTypeQuestion().name().toLowerCase());
             ps.setInt(3, q.getPoints());
             ps.setInt(4, q.getOrdre());
             ps.setInt(5, q.getId());
@@ -100,7 +99,7 @@ public class QuestionService implements IService<Question> {
         q.setId(rs.getInt("id_question"));
         q.setIdQuiz(rs.getInt("id_quiz"));
         q.setEnonce(rs.getString("enonce"));
-        q.setTypeQuestion(QuestionType.valueOf(rs.getString("type_question")));
+        q.setTypeQuestion(QuestionType.valueOf(rs.getString("type_question").toUpperCase()));
         q.setPoints(rs.getInt("points"));
         q.setOrdre(rs.getInt("ordre"));
         return q;
