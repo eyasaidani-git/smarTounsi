@@ -1,16 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
 
-<BorderPane xmlns:fx="http://javafx.com/fxml"
+<BorderPane xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="controllers.ProjetController"
             stylesheets="@stylesprojet.css"
             prefWidth="1200"
             prefHeight="750"
             styleClass="root-pane">
 
+    <!-- HEADER -->
     <top>
         <HBox styleClass="top-bar" alignment="CENTER_LEFT">
             <Label text="🌺  SmarTounsi.com" styleClass="logo-text"/>
@@ -19,6 +29,7 @@
         </HBox>
     </top>
 
+    <!-- SIDEBAR -->
     <left>
         <VBox styleClass="side-bar" spacing="18">
             <Label text="PRINCIPAL" styleClass="menu-title"/>
@@ -41,28 +52,103 @@
         </VBox>
     </left>
 
+    <!-- CONTENT -->
     <center>
         <VBox styleClass="content" spacing="20">
+
+            <!-- TITRE + BOUTON -->
             <HBox alignment="CENTER_LEFT">
                 <Label text="Projets" styleClass="page-title"/>
                 <Pane HBox.hgrow="ALWAYS"/>
-                <Button text="+ Nouveau projet" onAction="#ajouterProjet" styleClass="new-button"/>
+                <Button text="+ Nouveau projet"
+                        onAction="#showAddForm"
+                        styleClass="new-button"/>
             </HBox>
 
-            <HBox spacing="10">
-                <TextField fx:id="searchField"
-                           promptText="Rechercher un projet..."
-                           styleClass="search-field"
-                           HBox.hgrow="ALWAYS"/>
-                <Button text="🔍" styleClass="search-button"/>
-            </HBox>
+            <!-- LISTE DES PROJETS -->
+            <VBox fx:id="listPane" spacing="20">
 
-            <ScrollPane fitToWidth="true" styleClass="scroll-pane">
-                <FlowPane fx:id="cardsContainer"
-                          hgap="18"
-                          vgap="18"
-                          prefWrapLength="900"/>
-            </ScrollPane>
+                <HBox spacing="10">
+                    <TextField fx:id="searchField"
+                               promptText="Rechercher un projet..."
+                               styleClass="search-field"
+                               HBox.hgrow="ALWAYS"/>
+
+                    <Button text="🔍"
+                            styleClass="search-button"/>
+                </HBox>
+
+                <ScrollPane fitToWidth="true" styleClass="scroll-pane">
+                    <FlowPane fx:id="cardsContainer"
+                              hgap="18"
+                              vgap="18"
+                              prefWrapLength="950"/>
+                </ScrollPane>
+
+            </VBox>
+
+            <!-- FORMULAIRE AJOUT PROJET -->
+            <VBox fx:id="addFormPane"
+                  spacing="16"
+                  visible="false"
+                  managed="false"
+                  styleClass="form-card">
+
+                <Label text="Ajouter un projet" styleClass="form-title"/>
+
+                <VBox spacing="7">
+                    <Label text="Nom du projet" styleClass="form-label"/>
+                    <TextField fx:id="nomField"
+                               promptText="ex : Application de gestion"
+                               styleClass="form-field"/>
+                </VBox>
+
+                <VBox spacing="7">
+                    <Label text="Description" styleClass="form-label"/>
+                    <TextArea fx:id="descriptionArea"
+                              promptText="Décrire brièvement le projet..."
+                              prefRowCount="4"
+                              wrapText="true"
+                              styleClass="form-area"/>
+                </VBox>
+
+                <VBox spacing="7">
+                    <Label text="Collaborateurs séparés par virgule" styleClass="form-label"/>
+                    <TextField fx:id="collaborateursField"
+                               promptText="ex : Ahmed, Sara, Karim"
+                               styleClass="form-field"/>
+                </VBox>
+
+                <VBox spacing="8">
+                    <Label text="Le projet contient :" styleClass="form-label"/>
+
+                    <HBox spacing="18">
+                        <CheckBox fx:id="codeCheckBox"
+                                  text="💻 Code"
+                                  selected="true"/>
+
+                        <CheckBox fx:id="presentationCheckBox"
+                                  text="📊 Présentation"
+                                  selected="true"/>
+
+                        <CheckBox fx:id="rapportCheckBox"
+                                  text="📄 Rapport"
+                                  selected="true"/>
+                    </HBox>
+                </VBox>
+
+                <HBox spacing="12">
+                    <Button text="Ajouter le projet"
+                            onAction="#createProject"
+                            styleClass="submit-button"/>
+
+                    <Button text="Annuler"
+                            onAction="#hideAddForm"
+                            styleClass="cancel-button"/>
+                </HBox>
+
+            </VBox>
+
         </VBox>
     </center>
 
