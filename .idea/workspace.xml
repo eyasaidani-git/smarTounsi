@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="54dbdfd1-9d4c-4fc1-b340-9f85f3e08b28" name="Changes" comment="">
       <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea/.gitignore" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea/misc.xml" beforeDir="false" />
@@ -15,9 +16,35 @@
       <change beforePath="$PROJECT_DIR$/.idea/kotlinc.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/controllers/ConnexionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controllers/ConnexionController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/enums/QuestionType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/enums/QuestionType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/Document.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/Document.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/Evenement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/Evenement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/MessagePrive.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/MessagePrive.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/Module.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/Module.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/Notification.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/Notification.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/Planning.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/Planning.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/Projet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/Projet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/Question.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/Question.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/Quiz.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/Quiz.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/Reponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/Reponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/ResultatQuiz.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/ResultatQuiz.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/ToDoItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/ToDoItem.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/models/Utilisateur.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/Utilisateur.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/services/DocumentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/services/DocumentService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/services/EvenementService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/services/EvenementService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/services/IService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/services/IService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/services/MessagePriveService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/services/MessagePriveService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/services/ModuleService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/services/ModuleService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/services/NotificationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/services/NotificationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/services/PlanningService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/services/PlanningService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/services/ProjetService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/services/ProjetService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/services/QuestionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/services/QuestionService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/services/QuizService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/services/QuizService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/services/ReponseService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/services/ReponseService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/services/ResultatQuizService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/services/ResultatQuizService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/services/ToDoItemService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/services/ToDoItemService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/services/UtilisateurService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/services/UtilisateurService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/tn/esprit/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/tn/esprit/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -75,7 +102,7 @@
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.0",
+    "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.0",
     "to.speed.mode.migration.done": "true",
     "vue.rearranger.settings.migration": "true"
@@ -96,7 +123,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1778791697629</updated>
-      <workItem from="1778791700887" duration="1553000" />
+      <workItem from="1778791700887" duration="2029000" />
     </task>
     <servers />
   </component>
