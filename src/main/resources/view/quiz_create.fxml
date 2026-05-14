@@ -4,88 +4,160 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<!--
+    quiz_create.fxml — SmarTounsi
+    CORRECTIONS :
+      ✅ Ajout fx:id="compteurLabel" pour afficher nb questions
+      ✅ Topbar cohérente avec quiz.fxml
+      ✅ Section infos quiz plus complète (description, matière, temps)
+      ✅ Boutons mieux stylés
+-->
 <BorderPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="Controllers.CreateQuizController"
             stylesheets="@/style/quiz.css">
 
-    <!-- TOP -->
-
+    <!-- ===== TOPBAR ===== -->
     <top>
-
-        <HBox spacing="15"
+        <HBox styleClass="topbar"
               alignment="CENTER_LEFT"
-              styleClass="topbar">
+              spacing="16">
+            <padding><Insets left="24" right="24"/></padding>
 
-            <Button text="⬅ Retour"
+            <Button text="⬅ Retour aux quiz"
                     styleClass="yellow-button"
                     onAction="#retourQuiz"/>
 
-            <Label text="Créer un Quiz"
-                   styleClass="student-label"/>
+            <Label text="Créer un quiz"
+                   style="-fx-font-size:18px; -fx-font-weight:bold; -fx-text-fill:white;"/>
 
+            <Region HBox.hgrow="ALWAYS"/>
+
+            <Label text="👤 Étudiant"
+                   style="-fx-background-color:rgba(255,255,255,0.12); -fx-text-fill:white;
+                          -fx-font-size:12px; -fx-padding:6 14 6 14; -fx-background-radius:20;"/>
         </HBox>
-
     </top>
 
-    <!-- CENTER -->
-
+    <!-- ===== CONTENU ===== -->
     <center>
-
         <ScrollPane fitToWidth="true">
-
-            <VBox spacing="25"
-                  styleClass="main-content">
-
+            <VBox spacing="24" styleClass="main-content">
                 <padding>
-                    <Insets top="25"
-                            left="30"
-                            right="30"
-                            bottom="30"/>
+                    <Insets top="28" left="30" right="30" bottom="30"/>
                 </padding>
 
-                <!-- INFOS QUIZ -->
+                <!-- Titre page -->
+                <Label text="+ Créer un quiz"
+                       style="-fx-font-size:26px; -fx-font-weight:bold; -fx-text-fill:#FEB707;"/>
 
-                <VBox spacing="15"
-                      styleClass="quiz-card">
+                <!-- ===== INFORMATIONS DU QUIZ ===== -->
+                <VBox spacing="14" styleClass="quiz-card"
+                      style="-fx-padding:20; -fx-background-color:white; -fx-background-radius:12;
+                             -fx-border-color:#E0E3E8; -fx-border-radius:12; -fx-border-width:1;">
 
-                    <Label text="Informations Quiz"
-                           styleClass="quiz-title"/>
+                    <Label text="📋 Informations du quiz"
+                           style="-fx-font-size:16px; -fx-font-weight:bold; -fx-text-fill:#023047;"/>
 
-                    <TextField fx:id="titreQuiz"
-                               promptText="Titre du quiz"/>
+                    <Separator/>
 
-                    <TextArea fx:id="descriptionQuiz"
-                              promptText="Description du quiz"
-                              prefHeight="100"/>
+                    <!-- Grille 2 colonnes -->
+                    <GridPane hgap="20" vgap="12">
+                        <columnConstraints>
+                            <ColumnConstraints percentWidth="50"/>
+                            <ColumnConstraints percentWidth="50"/>
+                        </columnConstraints>
 
-                    <ComboBox fx:id="matiereQuiz"
-                              promptText="Choisir matière"/>
+                        <!-- Titre -->
+                        <VBox spacing="6" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                            <Label text="Titre du quiz *"
+                                   style="-fx-font-size:13px; -fx-font-weight:bold; -fx-text-fill:#023047;"/>
+                            <TextField fx:id="titreQuiz"
+                                       promptText="Ex: Quiz Mathématiques — Chapitre 1"
+                                       maxWidth="Infinity"
+                                       style="-fx-background-radius:8; -fx-border-color:#D5D8E0;
+                                              -fx-border-radius:8; -fx-padding:9;"/>
+                        </VBox>
+
+                        <!-- Matière -->
+                        <VBox spacing="6" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                            <Label text="Matière *"
+                                   style="-fx-font-size:13px; -fx-font-weight:bold; -fx-text-fill:#023047;"/>
+                            <ComboBox fx:id="matiereQuiz"
+                                      promptText="Choisir une matière..."
+                                      maxWidth="Infinity"
+                                      style="-fx-background-radius:8; -fx-border-color:#D5D8E0;
+                                             -fx-border-radius:8;"/>
+                        </VBox>
+
+                        <!-- Description -->
+                        <VBox spacing="6" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                            <Label text="Description (optionnel)"
+                                   style="-fx-font-size:13px; -fx-font-weight:bold; -fx-text-fill:#023047;"/>
+                            <TextArea fx:id="descriptionQuiz"
+                                      promptText="Brève description du quiz..."
+                                      prefHeight="80"
+                                      wrapText="true"
+                                      style="-fx-background-radius:8; -fx-border-color:#D5D8E0;
+                                             -fx-border-radius:8; -fx-font-size:13px;"/>
+                        </VBox>
+
+                        <!-- Temps limite -->
+                        <VBox spacing="6" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                            <Label text="Temps limite (minutes)"
+                                   style="-fx-font-size:13px; -fx-font-weight:bold; -fx-text-fill:#023047;"/>
+                            <HBox spacing="10" alignment="CENTER_LEFT">
+                                <Spinner fx:id="tempsLimiteSpinner"
+                                         min="5" max="120" initialValue="30"
+                                         editable="true"
+                                         prefWidth="100"
+                                         style="-fx-background-radius:8;"/>
+                                <Label text="minutes"
+                                       style="-fx-font-size:12px; -fx-text-fill:#555870;"/>
+                            </HBox>
+                        </VBox>
+                    </GridPane>
+                </VBox>
+
+                <!-- ===== QUESTIONS ===== -->
+                <VBox spacing="16" style="-fx-padding:20; -fx-background-color:white;
+                                          -fx-background-radius:12; -fx-border-color:#E0E3E8;
+                                          -fx-border-radius:12; -fx-border-width:1;">
+
+                    <HBox alignment="CENTER_LEFT" spacing="16">
+                        <Label text="❓ Questions"
+                               style="-fx-font-size:16px; -fx-font-weight:bold; -fx-text-fill:#023047;"/>
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <Label fx:id="compteurLabel"
+                               text="0 question(s)"
+                               style="-fx-font-size:12px; -fx-text-fill:#555870;"/>
+                        <Button text="+ Ajouter une question"
+                                styleClass="yellow-button"
+                                onAction="#ajouterQuestion"/>
+                    </HBox>
+
+                    <Separator/>
+
+                    <!-- Container dynamique des questions -->
+                    <VBox fx:id="questionsContainer" spacing="16"/>
 
                 </VBox>
 
-                <!-- QUESTIONS -->
-
-                <VBox fx:id="questionsContainer"
-                      spacing="20"/>
-
-                <!-- BUTTONS -->
-
-                <HBox spacing="15">
-
-                    <Button text="➕ Ajouter Question"
-                            styleClass="yellow-button"
-                            onAction="#ajouterQuestion"/>
-
-                    <Button text="💾 Enregistrer Quiz"
+                <!-- ===== BOUTONS BAS ===== -->
+                <HBox spacing="16" alignment="CENTER_RIGHT">
+                    <Button text="Annuler"
+                            onAction="#retourQuiz"
+                            style="-fx-background-color:white; -fx-text-fill:#023047;
+                                   -fx-font-weight:bold; -fx-font-size:13px;
+                                   -fx-padding:10 20; -fx-background-radius:8;
+                                   -fx-border-color:#023047; -fx-border-width:1.5;
+                                   -fx-border-radius:8; -fx-cursor:hand;"/>
+                    <Button text="💾 Enregistrer le quiz"
                             styleClass="yellow-button"
                             onAction="#enregistrerQuiz"/>
-
                 </HBox>
 
             </VBox>
-
         </ScrollPane>
-
     </center>
 
 </BorderPane>

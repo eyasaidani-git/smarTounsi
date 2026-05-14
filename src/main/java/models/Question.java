@@ -14,13 +14,7 @@ public class Question {
     public Question() {
     }
 
-    public Question(int idQuiz, String enonce, QuestionType typeQuestion, int points, int ordre) {
-        this.idQuiz = idQuiz;
-        this.enonce = enonce;
-        this.typeQuestion = typeQuestion;
-        this.points = points;
-        this.ordre = ordre;
-    }
+
 
     public Question(int id, int idQuiz, String enonce, QuestionType typeQuestion, int points, int ordre) {
         this.id = id;

@@ -4,178 +4,135 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 
+<!--
+    quiz.fxml — SmarTounsi
+    CORRECTIONS :
+      ✅ GridPane avec fx:id="quizGrid" (rempli dynamiquement depuis BDD)
+      ✅ Label emptyLabel pour état vide
+      ✅ Barre de recherche fonctionnelle reliée à rechercherQuiz()
+      ✅ ComboBox matière pour filtrer
+      ✅ Bouton + Créer un quiz → creerQuiz()
+-->
 <BorderPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="Controllers.QuizController"
             stylesheets="@/style/quiz.css">
 
-    <!-- MENU GAUCHE -->
-
+    <!-- ===== SIDEBAR ===== -->
     <left>
-
-        <VBox spacing="15"
+        <VBox spacing="10"
               prefWidth="220"
               styleClass="sidebar">
-
             <padding>
-                <Insets top="20" left="20"/>
+                <Insets top="20" left="10" right="10" bottom="20"/>
             </padding>
 
-            <Label text="🧠 SmarTounsi.com"
-                   styleClass="logo"/>
+            <Label text="🧠 SmarTounsi.com" styleClass="logo"/>
 
-            <Button text="🏠 Dashboard"
-                    styleClass="menu-button"/>
+            <Separator/>
 
-            <Button text="📁 Modules"
-                    styleClass="menu-button"/>
+            <Label text="PRINCIPAL" styleClass="sidebar-section"/>
+            <Button text="🏠  Dashboard"    styleClass="menu-button" maxWidth="Infinity"/>
+            <Button text="📁  Modules"      styleClass="menu-button" maxWidth="Infinity"/>
+            <Button text="📚  Bibliothèque" styleClass="menu-button" maxWidth="Infinity"/>
 
-            <Button text="📚 Bibliothèque"
-                    styleClass="menu-button"/>
+            <Label text="OUTILS" styleClass="sidebar-section"/>
+            <Button text="⬆  Upload"        styleClass="menu-button" maxWidth="Infinity"/>
+            <Button text="🗓  Calendrier"    styleClass="menu-button" maxWidth="Infinity"/>
+            <Button text="⭐  Favoris"      styleClass="menu-button" maxWidth="Infinity"/>
+            <Button text="🧩  Quiz"         styleClass="menu-selected" maxWidth="Infinity"/>
+            <Button text="📋  Projets"      styleClass="menu-button" maxWidth="Infinity"/>
+            <Button text="🎉  Événements"   styleClass="menu-button" maxWidth="Infinity"/>
 
-            <Button text="⬆ Upload"
-                    styleClass="menu-button"/>
+            <Region VBox.vgrow="ALWAYS"/>
 
-            <Button text="🗓 Calendrier"
-                    styleClass="menu-button"/>
-
-            <Button text="⭐ Favoris"
-                    styleClass="menu-button"/>
-
-            <Button text="🧩 Quiz"
-                    styleClass="menu-selected"/>
-
-            <Button text="👤 Profil"
-                    styleClass="menu-button"/>
-
-            <Button text="🔔 Notifications"
-                    styleClass="menu-button"/>
-
-            <Button text="🚪 Déconnexion"
-                    styleClass="menu-button"/>
-
+            <Label text="AUTRE" styleClass="sidebar-section"/>
+            <Button text="👤  Profil"        styleClass="menu-button" maxWidth="Infinity"/>
+            <Button text="🔔  Notifications" styleClass="menu-button" maxWidth="Infinity"/>
+            <Button text="🚪  Déconnexion"   styleClass="menu-button" maxWidth="Infinity"/>
         </VBox>
-
     </left>
 
-    <!-- CONTENU -->
-
+    <!-- ===== CONTENU PRINCIPAL ===== -->
     <center>
+        <VBox spacing="0">
 
-        <VBox spacing="20"
-              styleClass="main-content">
-
-            <padding>
-                <Insets top="25"
-                        left="25"
-                        right="25"/>
-            </padding>
-
-            <!-- HEADER -->
-
-            <HBox spacing="15"
-                  alignment="CENTER_LEFT">
-
+            <!-- Topbar -->
+            <HBox styleClass="topbar"
+                  alignment="CENTER_LEFT"
+                  spacing="0">
+                <padding><Insets left="24" right="24"/></padding>
                 <Label text="Quiz"
-                       styleClass="title"/>
-
+                       style="-fx-font-size:18px; -fx-font-weight:bold; -fx-text-fill:white;"/>
                 <Region HBox.hgrow="ALWAYS"/>
-
-                <TextField fx:id="searchField"
-                           promptText="Rechercher un quiz..."
-                           prefWidth="250"/>
-
-                <ComboBox fx:id="comboMatiere"
-                          promptText="Matière"
-                          prefWidth="180"/>
-
-                <Button text="Rechercher"
-                        styleClass="search-button"
-                        onAction="#rechercherQuiz"/>
-
-                <Button text="+ Créer un quiz"
-                        styleClass="yellow-button"
-                        onAction="#creerQuiz"/>
-
+                <Label text="👤 Étudiant"
+                       style="-fx-background-color:rgba(255,255,255,0.12); -fx-text-fill:white;
+                              -fx-font-size:12px; -fx-padding:6 14 6 14; -fx-background-radius:20;"/>
             </HBox>
 
-            <!-- GRID QUIZ -->
-
-            <GridPane hgap="20"
-                      vgap="20">
-
-                <!-- CARD 1 -->
-
-                <VBox GridPane.rowIndex="0"
-                      GridPane.columnIndex="0"
-                      spacing="10"
-                      styleClass="quiz-card">
-
+            <!-- Contenu scrollable -->
+            <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS">
+                <VBox spacing="24" styleClass="main-content">
                     <padding>
-                        <Insets top="20"
-                                left="20"/>
+                        <Insets top="28" left="28" right="28" bottom="28"/>
                     </padding>
 
-                    <Label text="Quiz Mathématiques — Chapitre 1"
-                           styleClass="quiz-title"/>
+                    <!-- En-tête : titre + barre recherche + bouton créer -->
+                    <HBox spacing="12" alignment="CENTER_LEFT">
+                        <Label text="Quiz"
+                               style="-fx-font-size:26px; -fx-font-weight:bold; -fx-text-fill:#FEB707;"/>
+                        <Region HBox.hgrow="ALWAYS"/>
 
-                    <Label text="📘 Mathématiques | 10 questions | QCM"/>
+                        <!-- Barre de recherche -->
+                        <TextField fx:id="searchField"
+                                   promptText="🔍 Rechercher un quiz..."
+                                   prefWidth="240"
+                                   style="-fx-background-radius:8; -fx-border-color:#D5D8E0;
+                                          -fx-border-radius:8; -fx-padding:8 12 8 12;"/>
 
-                    <Button text="▶ Commencer"
-                            styleClass="yellow-button"
-                            onAction="#commencerQuiz"/>
+                        <!-- Filtre matière -->
+                        <ComboBox fx:id="comboMatiere"
+                                  prefWidth="180"
+                                  style="-fx-background-radius:8; -fx-border-color:#D5D8E0;
+                                         -fx-border-radius:8;"/>
+
+                        <!-- Bouton rechercher -->
+                        <Button text="Rechercher"
+                                styleClass="search-button"
+                                onAction="#rechercherQuiz"/>
+
+                        <!-- Bouton créer -->
+                        <Button text="+ Créer un quiz"
+                                styleClass="yellow-button"
+                                onAction="#creerQuiz"/>
+                    </HBox>
+
+                    <!-- Grille des quiz (remplie dynamiquement par le controller) -->
+                    <GridPane fx:id="quizGrid"
+                              hgap="20"
+                              vgap="20">
+                        <columnConstraints>
+                            <ColumnConstraints percentWidth="50"/>
+                            <ColumnConstraints percentWidth="50"/>
+                        </columnConstraints>
+                    </GridPane>
+
+                    <!-- Message état vide -->
+                    <VBox fx:id="emptyLabel"
+                          alignment="CENTER"
+                          spacing="12"
+                          visible="false"
+                          managed="false"
+                          style="-fx-padding:60 0 60 0;">
+                        <Label text="📝"
+                               style="-fx-font-size:48px;"/>
+                        <Label text="Aucun quiz disponible"
+                               style="-fx-font-size:18px; -fx-font-weight:bold; -fx-text-fill:#555870;"/>
+                        <Label text="Cliquez sur '+ Créer un quiz' pour en ajouter un."
+                               style="-fx-font-size:13px; -fx-text-fill:#888;"/>
+                    </VBox>
 
                 </VBox>
-
-                <!-- CARD 2 -->
-
-                <VBox GridPane.rowIndex="0"
-                      GridPane.columnIndex="1"
-                      spacing="10"
-                      styleClass="quiz-card">
-
-                    <padding>
-                        <Insets top="20"
-                                left="20"/>
-                    </padding>
-
-                    <Label text="Quiz Réseaux — Routage IP"
-                           styleClass="quiz-title"/>
-
-                    <Label text="🌐 Réseaux | 8 questions | QCM + Texte"/>
-
-                    <Button text="▶ Commencer"
-                            styleClass="yellow-button"
-                            onAction="#commencerQuiz"/>
-
-                </VBox>
-
-                <!-- CARD 3 -->
-
-                <VBox GridPane.rowIndex="1"
-                      GridPane.columnIndex="0"
-                      spacing="10"
-                      styleClass="quiz-card">
-
-                    <padding>
-                        <Insets top="20"
-                                left="20"/>
-                    </padding>
-
-                    <Label text="Quiz Java — POO Fondamentaux"
-                           styleClass="quiz-title"/>
-
-                    <Label text="☕ Java | 12 questions | Mixte"/>
-
-                    <Button text="▶ Commencer"
-                            styleClass="yellow-button"
-                            onAction="#commencerQuiz"/>
-
-                </VBox>
-
-            </GridPane>
-
+            </ScrollPane>
         </VBox>
-
     </center>
-
 </BorderPane>

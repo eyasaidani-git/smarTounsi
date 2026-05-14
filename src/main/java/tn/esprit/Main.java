@@ -11,16 +11,24 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-        Parent root = FXMLLoader.load(getClass().getResource("/view/quiz.fxml"));
+        Parent root = FXMLLoader.load(
+                getClass().getResource("/view/quiz.fxml")
+        );
 
         Scene scene = new Scene(root);
 
-        scene.getStylesheets().add(getClass().getResource("/style/quiz.css").toExternalForm());
+        scene.getStylesheets().add(
+                getClass()
+                        .getResource("/style/quiz.css")
+                        .toExternalForm()
+        );
 
-        stage.setTitle("Quiz Education App");
+        stage.setTitle("SmarTounsi - Quiz");
+
         stage.setScene(scene);
-        stage.setWidth(1200);
-        stage.setHeight(700);
+
+        stage.setMaximized(true);
+
         stage.show();
     }
 
