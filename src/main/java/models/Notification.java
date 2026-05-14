@@ -76,6 +76,10 @@ public class Notification {
     public void setIdUtilisateur(int idUtilisateur) {
         this.idUtilisateur = idUtilisateur;
     }
+<<<<<<< HEAD
 
 }
 
+=======
+}
+>>>>>>> origin/gestionmohamed

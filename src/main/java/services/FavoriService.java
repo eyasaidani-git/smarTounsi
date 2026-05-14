@@ -116,5 +116,9 @@ public class FavoriService implements IService<Favori> {
         f.setDateAjout(dateAjout == null ? null : dateAjout.toLocalDateTime());
         return f;
     }
+<<<<<<< HEAD
 }
 
+=======
+}
+>>>>>>> origin/gestionmohamed

@@ -178,4 +178,8 @@ public class ParticipationEvenement {
                 ", titreEvenement='" + titreEvenement + '\'' +
                 '}';
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> origin/gestionmohamed

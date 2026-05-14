@@ -72,6 +72,19 @@ public class Reponse {
 
     public void setCorrecte(boolean correcte) {
         this.estCorrecte = correcte;
+<<<<<<< HEAD
+    }
+
+    @Override
+    public String toString() {
+        return "Reponse{" +
+                "id=" + id +
+                ", idQuestion=" + idQuestion +
+                ", texteReponse='" + texteReponse + '\'' +
+                ", estCorrecte=" + estCorrecte +
+                '}';
+=======
+>>>>>>> origin/gestionmohamed
     }
 
     @Override
