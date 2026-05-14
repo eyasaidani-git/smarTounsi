@@ -66,6 +66,11 @@ public class AccueilController {
     }
 
     @FXML
+    private void ouvrirModules() {
+        ouvrirPage("/Modules.fxml", "Modules - SmarTounsi");
+    }
+
+    @FXML
     private void envoyerMessage() {
         String nom = nomField.getText();
         String email = emailField.getText();

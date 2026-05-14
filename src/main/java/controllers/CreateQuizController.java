@@ -1,4 +1,4 @@
-package Controllers;
+package controllers;
 
 import enums.QuestionType;
 import javafx.event.ActionEvent;

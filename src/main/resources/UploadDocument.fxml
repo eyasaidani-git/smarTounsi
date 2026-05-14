@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.UploadDocumentController"
+            style="-fx-background-color:#f4f8fb;">
+
+    <left>
+        <VBox prefWidth="230" spacing="10" style="-fx-background-color:#023047;">
+            <padding>
+                <Insets top="24" right="16" bottom="24" left="16"/>
+            </padding>
+            <children>
+                <Label text="SmarTounsi" style="-fx-text-fill:white;-fx-font-size:22px;-fx-font-weight:bold;"/>
+                <Button text="Dashboard" maxWidth="Infinity" onAction="#handleDashboard"/>
+                <Button text="Modules" maxWidth="Infinity" onAction="#handleModules"/>
+                <Button text="Documents" maxWidth="Infinity" onAction="#handleDocuments"/>
+                <Button text="Upload" maxWidth="Infinity" onAction="#handleUpload"/>
+                <Button text="Quiz" maxWidth="Infinity" onAction="#handleQuiz"/>
+                <Button text="Favoris" maxWidth="Infinity" onAction="#handleFavoris"/>
+                <Button text="Deconnexion" maxWidth="Infinity" onAction="#handleDeconnexion"/>
+            </children>
+        </VBox>
+    </left>
+
+    <center>
+        <VBox spacing="18" maxWidth="760" style="-fx-background-color:white;-fx-background-radius:10;">
+            <padding>
+                <Insets top="28" right="34" bottom="28" left="34"/>
+            </padding>
+            <children>
+                <Label text="Publier un document"
+                       style="-fx-font-size:26px;-fx-font-weight:bold;-fx-text-fill:#023047;"/>
+
+                <Label text="Module"/>
+                <ComboBox fx:id="cbModule" maxWidth="Infinity"/>
+
+                <Label text="Chapitre"/>
+                <TextField fx:id="tfChapitre" promptText="Exemple: Chapitre 1"/>
+
+                <Label text="Titre"/>
+                <TextField fx:id="tfTitre" promptText="Titre du document"/>
+
+                <Label text="Description"/>
+                <TextArea fx:id="tfDescription" prefRowCount="4" wrapText="true"
+                          promptText="Description courte"/>
+
+                <Label text="Type"/>
+                <HBox spacing="10">
+                    <children>
+                        <ToggleButton fx:id="tbCours" text="Cours" onAction="#selectType"/>
+                        <ToggleButton fx:id="tbTD" text="TD" onAction="#selectType"/>
+                        <ToggleButton fx:id="tbExamenDS" text="Examen / DS" onAction="#selectType"/>
+                        <ToggleButton fx:id="tbLien" text="Lien utile" onAction="#selectType"/>
+                        <ToggleButton fx:id="tbImage" text="Image" onAction="#selectType"/>
+                    </children>
+                </HBox>
+
+                <HBox spacing="12">
+                    <children>
+                        <Button text="Choisir fichier" onAction="#choisirFichier"/>
+                        <VBox spacing="2">
+                            <children>
+                                <Label fx:id="lblFichier" text="Aucun fichier choisi"/>
+                                <Label fx:id="lblTailleFichier" text=""/>
+                            </children>
+                        </VBox>
+                    </children>
+                </HBox>
+
+                <HBox spacing="12">
+                    <children>
+                        <Button text="Publier" onAction="#ajouterDocument"
+                                style="-fx-background-color:#229DBC;-fx-text-fill:white;-fx-font-weight:bold;"/>
+                        <Button text="Annuler" onAction="#annuler"/>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </center>
+</BorderPane>

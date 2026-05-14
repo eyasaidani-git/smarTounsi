@@ -53,6 +53,10 @@
                             <Button text="Contact"
                                     onAction="#goToContact"
                                     styleClass="nav-button"/>
+
+                            <Button text="Modules"
+                                    onAction="#ouvrirModules"
+                                    styleClass="nav-button"/>
                         </children>
                     </HBox>
                 </center>

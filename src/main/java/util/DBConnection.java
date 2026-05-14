@@ -22,6 +22,10 @@ public class DBConnection {
         return conn;
     }
 
+    public Connection getConnection() {
+        return conn;
+    }
+
     private DBConnection() {
         try {
             this.conn = DriverManager.getConnection(url, user, password);

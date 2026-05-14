@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane style="-fx-background-color: #F0F8FC;"
+            xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.ModulesController">
+
+    <!-- ═══════════════════════ SIDEBAR GAUCHE ═══════════════════════ -->
+    <left>
+        <VBox prefWidth="210"
+              style="-fx-background-color: #023047;
+                     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.35), 12, 0, 3, 0);">
+
+            <VBox alignment="CENTER"
+                  style="-fx-background-color: #FEB707; -fx-padding: 18 12 18 12;">
+                <Label style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #023047;"
+                       text="📚 smarTounsi" />
+            </VBox>
+
+            <VBox spacing="4" style="-fx-padding: 20 10 10 10;" VBox.vgrow="ALWAYS">
+
+                <Label style="-fx-text-fill: #8ECBE6; -fx-font-size: 10px;
+                              -fx-font-weight: bold; -fx-padding: 8 6 4 6;"
+                       text="PRINCIPALE" />
+
+                <Button maxWidth="Infinity" onMouseClicked="#handleDashboard"
+                        style="-fx-background-color: transparent; -fx-text-fill: white;
+                               -fx-font-size: 13px; -fx-alignment: CENTER-LEFT;
+                               -fx-padding: 8 12 8 12; -fx-cursor: hand;
+                               -fx-background-radius: 6;"
+                        text="🏠  Dashboard" />
+
+                <Button maxWidth="Infinity" onMouseClicked="#handleModules"
+                        style="-fx-background-color: #229DBC; -fx-text-fill: white;
+                               -fx-font-size: 13px; -fx-font-weight: bold;
+                               -fx-alignment: CENTER-LEFT; -fx-padding: 8 12 8 12;
+                               -fx-cursor: hand; -fx-background-radius: 6;"
+                        text="📦  Modules" />
+
+                <Button maxWidth="Infinity" onMouseClicked="#handleDocuments"
+                        style="-fx-background-color: transparent; -fx-text-fill: white;
+                               -fx-font-size: 13px; -fx-alignment: CENTER-LEFT;
+                               -fx-padding: 8 12 8 12; -fx-cursor: hand;
+                               -fx-background-radius: 6;"
+                        text="📄  Documents" />
+
+                <Label style="-fx-text-fill: #8ECBE6; -fx-font-size: 10px;
+                              -fx-font-weight: bold; -fx-padding: 14 6 4 6;"
+                       text="OUTILS" />
+
+                <Button maxWidth="Infinity" onMouseClicked="#handleQuiz"
+                        style="-fx-background-color: transparent; -fx-text-fill: white;
+                               -fx-font-size: 13px; -fx-alignment: CENTER-LEFT;
+                               -fx-padding: 8 12 8 12; -fx-cursor: hand;
+                               -fx-background-radius: 6;"
+                        text="🧩  Quiz" />
+
+                <Button maxWidth="Infinity" onMouseClicked="#handlePlanning"
+                        style="-fx-background-color: transparent; -fx-text-fill: white;
+                               -fx-font-size: 13px; -fx-alignment: CENTER-LEFT;
+                               -fx-padding: 8 12 8 12; -fx-cursor: hand;
+                               -fx-background-radius: 6;"
+                        text="📅  Planning" />
+
+                <Button maxWidth="Infinity" onMouseClicked="#handleJira"
+                        style="-fx-background-color: transparent; -fx-text-fill: white;
+                               -fx-font-size: 13px; -fx-alignment: CENTER-LEFT;
+                               -fx-padding: 8 12 8 12; -fx-cursor: hand;
+                               -fx-background-radius: 6;"
+                        text="🔧  Jira" />
+
+                <Button maxWidth="Infinity" onMouseClicked="#handleUpload"
+                        style="-fx-background-color: transparent; -fx-text-fill: white;
+                               -fx-font-size: 13px; -fx-alignment: CENTER-LEFT;
+                               -fx-padding: 8 12 8 12; -fx-cursor: hand;
+                               -fx-background-radius: 6;"
+                        text="⬆  Upload" />
+
+                <Button maxWidth="Infinity" onMouseClicked="#handleFavoris"
+                        style="-fx-background-color: transparent; -fx-text-fill: white;
+                               -fx-font-size: 13px; -fx-alignment: CENTER-LEFT;
+                               -fx-padding: 8 12 8 12; -fx-cursor: hand;
+                               -fx-background-radius: 6;"
+                        text="⭐  Favoris" />
+
+                <Label style="-fx-text-fill: #8ECBE6; -fx-font-size: 10px;
+                              -fx-font-weight: bold; -fx-padding: 14 6 4 6;"
+                       text="AUTRE" />
+
+                <Button maxWidth="Infinity" onMouseClicked="#handleProfil"
+                        style="-fx-background-color: transparent; -fx-text-fill: white;
+                               -fx-font-size: 13px; -fx-alignment: CENTER-LEFT;
+                               -fx-padding: 8 12 8 12; -fx-cursor: hand;
+                               -fx-background-radius: 6;"
+                        text="👤  Profil" />
+
+                <Button maxWidth="Infinity" onMouseClicked="#handleNotification"
+                        style="-fx-background-color: transparent; -fx-text-fill: white;
+                               -fx-font-size: 13px; -fx-alignment: CENTER-LEFT;
+                               -fx-padding: 8 12 8 12; -fx-cursor: hand;
+                               -fx-background-radius: 6;"
+                        text="🔔  Notification" />
+
+            </VBox>
+
+            <VBox style="-fx-padding: 10 10 16 10;">
+                <Button maxWidth="Infinity" onMouseClicked="#handleDeconnexion"
+                        style="-fx-background-color: #FB8402; -fx-text-fill: white;
+                               -fx-font-size: 13px; -fx-font-weight: bold;
+                               -fx-alignment: CENTER-LEFT; -fx-padding: 9 12 9 12;
+                               -fx-cursor: hand; -fx-background-radius: 6;"
+                        text="🚪  Déconnexion" />
+            </VBox>
+
+        </VBox>
+    </left>
+
+    <!-- ═══════════════════════ CONTENU PRINCIPAL ═══════════════════════ -->
+    <center>
+        <VBox spacing="0" style="-fx-background-color: #F0F8FC;">
+
+            <!-- En-tête -->
+            <VBox style="-fx-background-color: white; -fx-padding: 28 32 22 32;
+                         -fx-effect: dropshadow(gaussian, rgba(2,48,71,0.10), 8, 0, 0, 3);">
+
+                <Label style="-fx-font-size: 30px; -fx-font-weight: bold;
+                              -fx-text-fill: #FEB707;"
+                       text="Modules" />
+
+                <Label style="-fx-font-size: 13px; -fx-text-fill: #229DBC;
+                              -fx-padding: 4 0 16 0;"
+                       text="Choisissez un module pour consulter ses documents pédagogiques." />
+
+                <HBox alignment="CENTER_LEFT" spacing="10">
+                    <!-- FIX : fx:id aligné avec le champ tfRecherche du controller -->
+                    <TextField fx:id="tfRecherche"
+                               prefWidth="480"
+                               promptText="Rechercher un module..."
+                               style="-fx-background-color: #F0F8FC;
+                                      -fx-border-color: #8ECBE6; -fx-border-width: 1.5;
+                                      -fx-border-radius: 8; -fx-background-radius: 8;
+                                      -fx-padding: 9 14; -fx-font-size: 13px;
+                                      -fx-text-fill: #023047;" />
+                    <Button onAction="#handleRechercher"
+                            style="-fx-background-color: #229DBC; -fx-text-fill: white;
+                                   -fx-font-size: 13px; -fx-font-weight: bold;
+                                   -fx-padding: 9 20; -fx-background-radius: 8;
+                                   -fx-cursor: hand;"
+                            text="🔍  Rechercher" />
+                </HBox>
+            </VBox>
+
+            <!-- Grille des modules -->
+            <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS"
+                        style="-fx-background-color: transparent;
+                               -fx-background: transparent;
+                               -fx-border-color: transparent;">
+                <VBox style="-fx-background-color: transparent;">
+                    <padding>
+                        <Insets bottom="28" left="32" right="32" top="28" />
+                    </padding>
+
+                    <GridPane hgap="20" vgap="20">
+                        <columnConstraints>
+                            <ColumnConstraints percentWidth="33.33" />
+                            <ColumnConstraints percentWidth="33.33" />
+                            <ColumnConstraints percentWidth="33.33" />
+                        </columnConstraints>
+                        <rowConstraints>
+                            <RowConstraints minHeight="150" />
+                            <RowConstraints minHeight="150" />
+                        </rowConstraints>
+                        <!-- ── Mathématiques (col 0, row 0) ── -->
+                        <VBox alignment="CENTER"
+                              spacing="10"
+                              GridPane.columnIndex="0"
+                              GridPane.rowIndex="0"
+                              onMouseClicked="#handleMathematiques"
+                              style="-fx-background-color: white;
+             -fx-border-color: #229DBC;
+             -fx-border-width: 2;
+             -fx-border-radius: 12;
+             -fx-background-radius: 12;
+             -fx-padding: 24 16 20 16;
+             -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);
+             -fx-cursor: hand;">
+
+                            <Label text="Mathématiques"
+                                   style="-fx-font-size: 16px;
+                  -fx-font-weight: bold;
+                  -fx-text-fill: #023047;" />
+
+                            <Label text="Algèbre, analyse, statistiques"
+                                   style="-fx-font-size: 12px;
+                  -fx-text-fill: #229DBC;" />
+
+                            <Button text="3 Documents"
+                                    mouseTransparent="true"
+                                    style="-fx-background-color: #229DBC;
+                   -fx-text-fill: white;
+                   -fx-font-size: 12px;
+                   -fx-font-weight: bold;
+                   -fx-background-radius: 20;
+                   -fx-padding: 5 16;" />
+                        </VBox>
+
+                        <!-- ── Physique (col 1, row 0) ── -->
+                        <VBox alignment="CENTER"
+                              spacing="10"
+                              GridPane.columnIndex="1"
+                              GridPane.rowIndex="0"
+                              onMouseClicked="#handlePhysique"
+                              style="-fx-background-color: white;
+             -fx-border-color: #229DBC;
+             -fx-border-width: 2;
+             -fx-border-radius: 12;
+             -fx-background-radius: 12;
+             -fx-padding: 24 16 20 16;
+             -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);
+             -fx-cursor: hand;">
+
+                            <Label text="Physique"
+                                   style="-fx-font-size: 16px;
+                  -fx-font-weight: bold;
+                  -fx-text-fill: #023047;" />
+
+                            <Label text="Mécanique, électricité, optique"
+                                   style="-fx-font-size: 12px;
+                  -fx-text-fill: #229DBC;" />
+
+                            <Button text="2 Documents"
+                                    mouseTransparent="true"
+                                    style="-fx-background-color: #229DBC;
+                   -fx-text-fill: white;
+                   -fx-font-size: 12px;
+                   -fx-font-weight: bold;
+                   -fx-background-radius: 20;
+                   -fx-padding: 5 16;" />
+                        </VBox>
+
+                        <!-- ── Réseaux (col 2, row 0) ── -->
+                        <VBox alignment="CENTER"
+                              spacing="10"
+                              GridPane.columnIndex="2"
+                              GridPane.rowIndex="0"
+                              onMouseClicked="#handleReseaux"
+                              style="-fx-background-color: white;
+             -fx-border-color: #FEB707;
+             -fx-border-width: 2;
+             -fx-border-radius: 12;
+             -fx-background-radius: 12;
+             -fx-padding: 24 16 20 16;
+             -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);
+             -fx-cursor: hand;">
+
+                            <Label text="Réseaux"
+                                   style="-fx-font-size: 16px;
+                  -fx-font-weight: bold;
+                  -fx-text-fill: #023047;" />
+
+                            <Label text="TCP/IP, routage, protocoles"
+                                   style="-fx-font-size: 12px;
+                  -fx-text-fill: #229DBC;" />
+
+                            <Button text="3 Documents"
+                                    mouseTransparent="true"
+                                    style="-fx-background-color: #FEB707;
+                   -fx-text-fill: white;
+                   -fx-font-size: 12px;
+                   -fx-font-weight: bold;
+                   -fx-background-radius: 20;
+                   -fx-padding: 5 16;" />
+                        </VBox>
+
+                        <!-- ── UNIX (col 0, row 1) ── -->
+                        <VBox alignment="CENTER"
+                              spacing="10"
+                              GridPane.columnIndex="0"
+                              GridPane.rowIndex="1"
+                              onMouseClicked="#handleUnix"
+                              style="-fx-background-color: white;
+             -fx-border-color: #FB8402;
+             -fx-border-width: 2;
+             -fx-border-radius: 12;
+             -fx-background-radius: 12;
+             -fx-padding: 24 16 20 16;
+             -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);
+             -fx-cursor: hand;">
+
+                            <Label text="UNIX"
+                                   style="-fx-font-size: 16px;
+                  -fx-font-weight: bold;
+                  -fx-text-fill: #023047;" />
+
+                            <Label text="Shell, Linux, administration"
+                                   style="-fx-font-size: 12px;
+                  -fx-text-fill: #229DBC;" />
+
+                            <Button text="3 Documents"
+                                    mouseTransparent="true"
+                                    style="-fx-background-color: #FB8402;
+                   -fx-text-fill: white;
+                   -fx-font-size: 12px;
+                   -fx-font-weight: bold;
+                   -fx-background-radius: 20;
+                   -fx-padding: 5 16;" />
+                        </VBox>
+
+                        <!-- ── JAVA (col 1, row 1) ── -->
+                        <VBox alignment="CENTER"
+                              spacing="10"
+                              GridPane.columnIndex="1"
+                              GridPane.rowIndex="1"
+                              onMouseClicked="#handleJava"
+                              style="-fx-background-color: white;
+             -fx-border-color: #023047;
+             -fx-border-width: 2;
+             -fx-border-radius: 12;
+             -fx-background-radius: 12;
+             -fx-padding: 24 16 20 16;
+             -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);
+             -fx-cursor: hand;">
+
+                            <Label text="JAVA"
+                                   style="-fx-font-size: 16px;
+                  -fx-font-weight: bold;
+                  -fx-text-fill: #023047;" />
+
+                            <Label text="POO, collections, Spring Boot"
+                                   style="-fx-font-size: 12px;
+                  -fx-text-fill: #229DBC;" />
+
+                            <Button text="3 Documents"
+                                    mouseTransparent="true"
+                                    style="-fx-background-color: #023047;
+                   -fx-text-fill: white;
+                   -fx-font-size: 12px;
+                   -fx-font-weight: bold;
+                   -fx-background-radius: 20;
+                   -fx-padding: 5 16;" />
+                        </VBox>
+
+                        <!-- ── Machine Learning (col 2, row 1) ── -->
+                        <VBox alignment="CENTER"
+                              spacing="10"
+                              GridPane.columnIndex="2"
+                              GridPane.rowIndex="1"
+                              onMouseClicked="#handleMachineLearning"
+                              style="-fx-background-color: #023047;
+             -fx-border-color: #023047;
+             -fx-border-width: 2;
+             -fx-border-radius: 12;
+             -fx-background-radius: 12;
+             -fx-padding: 24 16 20 16;
+             -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 8, 0, 0, 2);
+             -fx-cursor: hand;">
+
+                            <Label text="🤖"
+                                   style="-fx-font-size: 22px;" />
+
+                            <Label text="Machine Learning"
+                                   style="-fx-font-size: 16px;
+                  -fx-font-weight: bold;
+                  -fx-text-fill: #FEB707;" />
+
+                            <Label text="Supervisé, deep learning, IA"
+                                   style="-fx-font-size: 12px;
+                  -fx-text-fill: #8ECBE6;" />
+
+                            <Button text="2 Documents"
+                                    mouseTransparent="true"
+                                    style="-fx-background-color: #FEB707;
+                   -fx-text-fill: #023047;
+                   -fx-font-size: 12px;
+                   -fx-font-weight: bold;
+                   -fx-background-radius: 20;
+                   -fx-padding: 5 16;" />
+                        </VBox>
+
+                    </GridPane>
+                </VBox>
+            </ScrollPane>
+
+        </VBox>
+    </center>
+
+</BorderPane>
