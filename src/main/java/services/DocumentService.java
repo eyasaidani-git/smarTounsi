@@ -1,110 +1,168 @@
 package services;
-import models.Document;
+
+import enums.EvenementType;
+import models.Evenement;
 import util.DBConnection;
+
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DocumentService implements IService<Document> {
-    private Connection conn;
-    public DocumentService(Connection conn) {
+public class EvenementService implements IService<Evenement> {
+    private final Connection conn;
+
+    public EvenementService() {
         this.conn = DBConnection.getInstance().getConn();
     }
+
     @Override
-    public void add(Document d) {
-        String req = "INSERT INTO document (titre, type, contenu, id_module, id_utilisateur) " +
-                "VALUES (?, ?, ?, ?, ?)";
-        try (PreparedStatement ps = conn.prepareStatement(req)) {
-            ps.setString(1, d.getTitre());
-            ps.setString(2, d.getType());
-            ps.setString(3, d.getContenu());
-            ps.setInt(4, d.getIdModule());
-            ps.setInt(5, d.getIdUtilisateur());
+    public void add(Evenement e) {
+        String sql = "INSERT INTO evenement (titre, description, type_evenement, lieu, date_debut, date_fin, tarif, id_createur, image_evenement) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, e.getTitre());
+            ps.setString(2, e.getDescription());
+            ps.setString(3, e.getTypeEvenement() == null ? EvenementType.AUTRE.name() : e.getTypeEvenement().name());
+            ps.setString(4, e.getLieu());
+            ps.setTimestamp(5, Timestamp.valueOf(e.getDateDebut()));
+            if (e.getDateFin() == null) {
+                ps.setNull(6, Types.TIMESTAMP);
+            } else {
+                ps.setTimestamp(6, Timestamp.valueOf(e.getDateFin()));
+            }
+            ps.setBigDecimal(7, e.getTarif());
+            ps.setInt(8, e.getIdCreateur());
+            ps.setString(9, e.getImageEvenement());
             ps.executeUpdate();
-            System.out.println("Document ajouté (en attente d'approbation).");
+            System.out.println("Evenement ajoute avec succes.");
+        } catch (SQLException ex) {
+            System.out.println("Erreur add evenement : " + ex.getMessage());
+        }
+    }
+
+    @Override
+    public void update(Evenement e) {
+        String sql = "UPDATE evenement SET titre=?, description=?, type_evenement=?, lieu=?, date_debut=?, date_fin=?, " +
+                "tarif=?, image_evenement=? WHERE id_evenement=?";
+
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, e.getTitre());
+            ps.setString(2, e.getDescription());
+            ps.setString(3, e.getTypeEvenement().name());
+            ps.setString(4, e.getLieu());
+            ps.setTimestamp(5, Timestamp.valueOf(e.getDateDebut()));
+            if (e.getDateFin() == null) {
+                ps.setNull(6, Types.TIMESTAMP);
+            } else {
+                ps.setTimestamp(6, Timestamp.valueOf(e.getDateFin()));
+            }
+            ps.setBigDecimal(7, e.getTarif());
+            ps.setString(8, e.getImageEvenement());
+            ps.setInt(9, e.getId());
+            ps.executeUpdate();
+            System.out.println("Evenement modifie avec succes.");
+        } catch (SQLException ex) {
+            System.out.println("Erreur update evenement : " + ex.getMessage());
+        }
+    }
+
+    @Override
+    public void delete(Evenement e) {
+        String sql = "DELETE FROM evenement WHERE id_evenement=?";
+
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, e.getId());
+            ps.executeUpdate();
+            System.out.println("Evenement supprime avec succes.");
+        } catch (SQLException ex) {
+            System.out.println("Erreur delete evenement : " + ex.getMessage());
+        }
+    }
+
+    @Override
+    public List<Evenement> getAll() {
+        List<Evenement> list = new ArrayList<>();
+        String sql = "SELECT * FROM evenement ORDER BY date_debut ASC";
+
+        try (Statement st = conn.createStatement(); ResultSet rs = st.executeQuery(sql)) {
+            while (rs.next()) {
+                list.add(mapRow(rs));
+            }
         } catch (SQLException e) {
-            System.out.println("Erreur add document : " + e.getMessage());
+            System.out.println("Erreur getAll evenement : " + e.getMessage());
         }
 
+        return list;
     }
 
-    @Override
-    public void update(Document d) {
-        String req = "UPDATE document SET titre=?, type=?, contenu=?, id_module=? WHERE id=?";
-        try (PreparedStatement ps = conn.prepareStatement(req)) {
-            ps.setString(1, d.getTitre());
-            ps.setString(2, d.getType());
-            ps.setString(3, d.getContenu());
-            ps.setInt(4, d.getIdModule());
-            ps.setInt(5, d.getId());
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println("Erreur update document : " + e.getMessage());
-        }
+    public Evenement getById(int idEvenement) {
+        String sql = "SELECT * FROM evenement WHERE id_evenement=?";
 
-    }
-
-    @Override
-    public void delete(Document d) {
-        String req = "DELETE FROM document WHERE id=?";
-        try (PreparedStatement ps = conn.prepareStatement(req)) {
-            ps.setInt(1, d.getId());
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println("Erreur delete document : " + e.getMessage());
-        }
-
-    }
-
-    @Override
-    public List<Document> getAll() {
-        return getDocuments("SELECT * FROM document");
-
-    }
-    public List<Document> getByModule(int idModule) {
-        List<Document> list = new ArrayList<>();
-        String req = "SELECT * FROM document WHERE id_module=? AND approuve=1";
-        try (PreparedStatement ps = conn.prepareStatement(req)) {
-            ps.setInt(1, idModule);
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, idEvenement);
             ResultSet rs = ps.executeQuery();
-            while (rs.next()) list.add(mapRow(rs));
+            if (rs.next()) {
+                return mapRow(rs);
+            }
         } catch (SQLException e) {
-            System.out.println("Erreur getByModule : " + e.getMessage());
+            System.out.println("Erreur getById evenement : " + e.getMessage());
         }
+
+        return null;
+    }
+
+    public List<Evenement> getByType(EvenementType type) {
+        List<Evenement> list = new ArrayList<>();
+        String sql = "SELECT * FROM evenement WHERE type_evenement=? ORDER BY date_debut ASC";
+
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, type.name());
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(mapRow(rs));
+            }
+        } catch (SQLException e) {
+            System.out.println("Erreur getByType evenement : " + e.getMessage());
+        }
+
         return list;
     }
-    public void approuver(int idDocument) {
-        String req = "UPDATE document SET approuve=1 WHERE id=?";
-        try (PreparedStatement ps = conn.prepareStatement(req)) {
-            ps.setInt(1, idDocument);
-            ps.executeUpdate();
-            System.out.println("Document approuvé ✔");
+
+    public List<Evenement> getByDate(LocalDate date) {
+        List<Evenement> list = new ArrayList<>();
+        String sql = "SELECT * FROM evenement WHERE DATE(date_debut)=? ORDER BY date_debut ASC";
+
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setDate(1, Date.valueOf(date));
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(mapRow(rs));
+            }
         } catch (SQLException e) {
-            System.out.println("Erreur approbation : " + e.getMessage());
+            System.out.println("Erreur getByDate evenement : " + e.getMessage());
         }
-    }
 
-
-
-    private List<Document> getDocuments(String sql) {
-        List<Document> list = new ArrayList<>();
-        try (Statement st = conn.createStatement();
-             ResultSet rs = st.executeQuery(sql)) {
-            while (rs.next()) list.add(mapRow(rs));
-        } catch (SQLException e) {
-            System.out.println("Erreur getDocuments : " + e.getMessage());
-        }
         return list;
     }
-    private Document mapRow(ResultSet rs) throws SQLException {
-        Document d = new Document();
-        d.setId(rs.getInt("id"));
-        d.setTitre(rs.getString("titre"));
-        d.setType(rs.getString("type"));
-        d.setContenu(rs.getString("contenu"));
-        d.setIdModule(rs.getInt("id_module"));
-        d.setIdUtilisateur(rs.getInt("id_utilisateur"));
-        d.setApprouve(rs.getBoolean("approuve"));
-        return d;
+
+    private Evenement mapRow(ResultSet rs) throws SQLException {
+        Evenement e = new Evenement();
+        e.setId(rs.getInt("id_evenement"));
+        e.setTitre(rs.getString("titre"));
+        e.setDescription(rs.getString("description"));
+        e.setTypeEvenement(EvenementType.valueOf(rs.getString("type_evenement")));
+        e.setLieu(rs.getString("lieu"));
+        Timestamp dateDebut = rs.getTimestamp("date_debut");
+        e.setDateDebut(dateDebut == null ? null : dateDebut.toLocalDateTime());
+        Timestamp dateFin = rs.getTimestamp("date_fin");
+        e.setDateFin(dateFin == null ? null : dateFin.toLocalDateTime());
+        e.setTarif(rs.getBigDecimal("tarif"));
+        e.setIdCreateur(rs.getInt("id_createur"));
+        e.setImageEvenement(rs.getString("image_evenement"));
+        Timestamp dateCreation = rs.getTimestamp("date_creation");
+        e.setDateCreation(dateCreation == null ? null : dateCreation.toLocalDateTime());
+        return e;
     }
 }
