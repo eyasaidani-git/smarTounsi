@@ -2,12 +2,13 @@ package models;
 import java.time.LocalDateTime;
 
 public class ResultatQuiz {
-    private int id,idQuiz,idUtilisateur,scoreObtenu;
+    private int id, idQuiz, idUtilisateur, scoreObtenu;
     private LocalDateTime datePassage;
     private Integer tempsPasse;
 
     public ResultatQuiz() {
     }
+
     public ResultatQuiz(int idQuiz, int idUtilisateur, int scoreObtenu, Integer tempsPasse) {
         this.idQuiz = idQuiz;
         this.idUtilisateur = idUtilisateur;
@@ -62,10 +63,4 @@ public class ResultatQuiz {
     public void setTempsPasse(Integer tempsPasse) {
         this.tempsPasse = tempsPasse;
     }
-<<<<<<< HEAD
-
 }
-
-=======
-}
->>>>>>> origin/gestionmohamed
