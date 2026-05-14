@@ -28,18 +28,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-/**
- * PlayQuizController — SmarTounsi
- *
- * CORRECTIONS APPORTÉES :
- *  ✅ Reçoit le Quiz depuis QuizController (initialiserQuiz)
- *  ✅ Charge les vraies questions et réponses depuis la BDD
- *  ✅ Navigation question par question (Précédent / Suivant)
- *  ✅ Affiche les bonnes réponses après validation
- *  ✅ Calcule et affiche le score réel
- *  ✅ Gestion correcte du timer basé sur temps_limite du quiz
- *  ✅ Sauvegarde le résultat dans resultat_quiz
- */
+
+
 public class PlayQuizController implements Initializable {
 
     // ===== FXML =====
@@ -74,11 +64,14 @@ public class PlayQuizController implements Initializable {
         modeNavigation = (questionCardZone != null);
     }
 
-    // ================================================
-    // INITIALISER AVEC LE QUIZ SÉLECTIONNÉ
-    // Appelé par QuizController
-    // ================================================
     public void initialiserQuiz(Quiz quiz) {
+        int minutes = quiz.getTempsLimite();
+
+        if(minutes <= 0){
+            minutes = 30;
+        }
+
+        tempsRestant = minutes * 60;
         this.quiz = quiz;
 
         // Charger les questions depuis la BDD
@@ -102,9 +95,7 @@ public class PlayQuizController implements Initializable {
         }
     }
 
-    // ================================================
-    // MODE ORIGINAL : toutes les questions affichées
-    // ================================================
+
     private void afficherToutesLesQuestions() {
         questionsBox.getChildren().clear();
 
@@ -114,9 +105,6 @@ public class PlayQuizController implements Initializable {
         }
     }
 
-    // ================================================
-    // MODE NAVIGATION : une question à la fois
-    // ================================================
     private void afficherQuestionNavigation(int index) {
         if (questions == null || index < 0 || index >= questions.size()) return;
 
@@ -144,9 +132,6 @@ public class PlayQuizController implements Initializable {
         questionCardZone.getChildren().add(creerCarteQuestion(q));
     }
 
-    // ================================================
-    // CRÉER LA CARTE D'UNE QUESTION
-    // ================================================
     private VBox creerCarteQuestion(Question q) {
 
         VBox card = new VBox(15);
@@ -236,36 +221,82 @@ public class PlayQuizController implements Initializable {
         return card;
     }
 
-    // ================================================
-    // TIMER
-    // ================================================
+
     private void demarrerTimer() {
-        if (timer != null) timer.stop();
 
-        timer = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
-            tempsRestant--;
-            int min = tempsRestant / 60;
-            int sec = tempsRestant % 60;
-            if (timerLabel != null) {
-                timerLabel.setText(String.format("%02d:%02d", min, sec));
+        if (timer != null) {
+            timer.stop();
+        }
 
-                // Passer en rouge si < 1 minute
-                if (tempsRestant <= 60) {
-                    timerLabel.setStyle("-fx-text-fill:#E74C3C; -fx-font-weight:bold; -fx-font-size:16px;");
-                }
-            }
-            if (tempsRestant <= 0) {
-                timer.stop();
-                terminerQuiz(null);
-            }
-        }));
-        timer.setCycleCount(Timeline.INDEFINITE);
+        // AFFICHAGE INITIAL IMMÉDIAT
+
+        int minInitial = tempsRestant / 60;
+        int secInitial = tempsRestant % 60;
+
+        timerLabel.setText(
+                String.format("%02d:%02d",
+                        minInitial,
+                        secInitial)
+        );
+
+        timer = new Timeline(
+
+                new KeyFrame(
+                        Duration.seconds(1),
+
+                        e -> {
+
+                            // décrémenter APRÈS 1 seconde
+                            tempsRestant--;
+
+                            int min =
+                                    tempsRestant / 60;
+
+                            int sec =
+                                    tempsRestant % 60;
+
+                            if (timerLabel != null) {
+
+                                timerLabel.setText(
+                                        String.format(
+                                                "%02d:%02d",
+                                                min,
+                                                sec
+                                        )
+                                );
+
+                                // Rouge si moins de 1 min
+
+                                if (tempsRestant <= 60) {
+
+                                    timerLabel.setStyle(
+                                            "-fx-text-fill:#E74C3C;" +
+                                                    "-fx-font-weight:bold;" +
+                                                    "-fx-font-size:16px;"
+                                    );
+                                }
+                            }
+
+                            // FIN TIMER
+
+                            if (tempsRestant <= 0) {
+
+                                timer.stop();
+
+                                terminerQuiz(null);
+                            }
+                        }
+                )
+        );
+
+        timer.setCycleCount(
+                Timeline.INDEFINITE
+        );
+
         timer.play();
     }
 
-    // ================================================
-    // NAVIGATION (si mode navigation activé)
-    // ================================================
+
     @FXML
     void suivant(ActionEvent event) {
         if (modeNavigation) {
@@ -286,9 +317,6 @@ public class PlayQuizController implements Initializable {
         }
     }
 
-    // ================================================
-    // CALCULER LE SCORE
-    // ================================================
     private int calculerScore() {
         int score = 0;
 
@@ -346,9 +374,7 @@ public class PlayQuizController implements Initializable {
         fermerQuiz(event);
     }
 
-    // ================================================
-    // FERMER ET RETOURNER À LA LISTE
-    // ================================================
+
     private void fermerQuiz(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(

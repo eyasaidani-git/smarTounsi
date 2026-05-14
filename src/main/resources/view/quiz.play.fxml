@@ -4,14 +4,6 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<!--
-    quiz_play.fxml — SmarTounsi
-    CORRECTIONS :
-      ✅ Timer rouge si < 1 min
-      ✅ Label questionsBox toujours présent (mode original compatible)
-      ✅ Bouton Terminer bien positionné
-      ✅ Design cohérent avec le reste de l'app
--->
 <BorderPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="Controllers.PlayQuizController"
             stylesheets="@/style/quiz.css">

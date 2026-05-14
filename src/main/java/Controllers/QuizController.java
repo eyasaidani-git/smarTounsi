@@ -18,16 +18,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-/**
- * QuizController — SmarTounsi
- *
- * CORRECTIONS APPORTÉES :
- *  ✅ initialize() charge les quiz depuis la BDD (getAll)
- *  ✅ La grille est dynamique (plus de cartes hardcodées dans FXML)
- *  ✅ Recherche et filtre fonctionnels (appel BDD)
- *  ✅ Chaque bouton "Commencer" passe le bon Quiz au PlayQuizController
- *  ✅ CSS path unifié
- */
+
 public class QuizController implements Initializable {
 
     @FXML private ComboBox<String> comboMatiere;
@@ -37,9 +28,7 @@ public class QuizController implements Initializable {
 
     private final QuizService quizService = new QuizService();
 
-    // ================================================
-    // INITIALIZE : charge les quiz depuis la BDD
-    // ================================================
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
@@ -57,9 +46,6 @@ public class QuizController implements Initializable {
         chargerQuiz(null, null);
     }
 
-    // ================================================
-    // CHARGER / AFFICHER LES QUIZ
-    // ================================================
     private void chargerQuiz(String terme, String matiere) {
 
         quizGrid.getChildren().clear();
@@ -92,9 +78,6 @@ public class QuizController implements Initializable {
         }
     }
 
-    // ================================================
-    // CRÉER UNE CARTE QUIZ DYNAMIQUE
-    // ================================================
     private VBox creerCarteQuiz(Quiz quiz) {
 
         VBox card = new VBox(12);
@@ -146,9 +129,6 @@ public class QuizController implements Initializable {
         };
     }
 
-    // ================================================
-    // COMMENCER UN QUIZ (avec passage du Quiz)
-    // ================================================
     private void commencerQuizAvec(Quiz quiz, ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(
@@ -173,9 +153,6 @@ public class QuizController implements Initializable {
         }
     }
 
-    // ================================================
-    // RECHERCHER UN QUIZ
-    // ================================================
     @FXML
     void rechercherQuiz(ActionEvent event) {
         String terme   = searchField.getText() == null ? "" : searchField.getText().trim();
@@ -183,9 +160,6 @@ public class QuizController implements Initializable {
         chargerQuiz(terme, matiere);
     }
 
-    // ================================================
-    // CRÉER UN QUIZ → CreateQuizController
-    // ================================================
     @FXML
     void creerQuiz(ActionEvent event) {
         try {

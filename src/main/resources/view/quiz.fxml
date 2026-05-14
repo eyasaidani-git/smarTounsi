@@ -3,16 +3,6 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
-
-<!--
-    quiz.fxml — SmarTounsi
-    CORRECTIONS :
-      ✅ GridPane avec fx:id="quizGrid" (rempli dynamiquement depuis BDD)
-      ✅ Label emptyLabel pour état vide
-      ✅ Barre de recherche fonctionnelle reliée à rechercherQuiz()
-      ✅ ComboBox matière pour filtrer
-      ✅ Bouton + Créer un quiz → creerQuiz()
--->
 <BorderPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="Controllers.QuizController"
             stylesheets="@/style/quiz.css">

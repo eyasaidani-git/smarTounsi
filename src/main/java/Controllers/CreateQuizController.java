@@ -22,17 +22,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-/**
- * CreateQuizController — SmarTounsi
- *
- * CORRECTIONS APPORTÉES :
- *  ✅ Suppression du bug "question = null" avant questionService.add()
- *  ✅ scoreTotal calculé dynamiquement selon nb de questions
- *  ✅ Validation complète des champs
- *  ✅ Chaque carte question valide son type avant enregistrement
- *  ✅ Message d'erreur clair si type non sélectionné
- *  ✅ Liste déroulante (LISTE_DEROULANTE) ajoutée dans le ComboBox type
- */
 public class CreateQuizController implements Initializable {
 
     @FXML private VBox      questionsContainer;
@@ -48,9 +37,7 @@ public class CreateQuizController implements Initializable {
     private final QuestionService questionService = new QuestionService();
     private final ReponseService  reponseService  = new ReponseService();
 
-    // ================================================
-    // INITIALIZE
-    // ================================================
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
@@ -67,9 +54,7 @@ public class CreateQuizController implements Initializable {
         ajouterBlocQuestion();
     }
 
-    // ================================================
-    // AJOUTER UNE QUESTION (bouton)
-    // ================================================
+
     @FXML
     void ajouterQuestion(ActionEvent event) {
         if (questionNumber <= 20) {
@@ -79,9 +64,6 @@ public class CreateQuizController implements Initializable {
         }
     }
 
-    // ================================================
-    // CRÉER LE BLOC D'UNE QUESTION
-    // ================================================
     private void ajouterBlocQuestion() {
 
         VBox card = new VBox(10);
@@ -143,9 +125,6 @@ public class CreateQuizController implements Initializable {
         majCompteur();
     }
 
-    // ================================================
-    // CONSTRUIRE LA ZONE DE RÉPONSES SELON LE TYPE
-    // ================================================
     private void buildReponsesZone(String type, VBox reponsesBox) {
 
         if (type == null) return;
@@ -239,9 +218,6 @@ public class CreateQuizController implements Initializable {
         }
     }
 
-    // ================================================
-    // RENUMÉROTER LES QUESTIONS APRÈS SUPPRESSION
-    // ================================================
     private void renumeroterQuestions() {
         int num = 1;
         for (javafx.scene.Node node : questionsContainer.getChildren()) {
@@ -266,9 +242,7 @@ public class CreateQuizController implements Initializable {
         }
     }
 
-    // ================================================
-    // ENREGISTRER LE QUIZ DANS LA BDD
-    // ================================================
+
     @FXML
     void enregistrerQuiz(ActionEvent event) {
 
@@ -298,7 +272,8 @@ public class CreateQuizController implements Initializable {
                     descriptionQuiz.getText() == null ? "" : descriptionQuiz.getText().trim());
             quiz.setIdModule(idModule);
             quiz.setIdCreateur(1);       // utilisateur connecté (id=1 par défaut)
-                // 30 minutes
+            int tempsLimite = tempsLimiteSpinner.getValue();
+            quiz.setTempsLimite(tempsLimite);// 30 minutes
             quiz.setScoreTotal(nbQ);     // 1 point par question
             quiz.setEstActif(true);
 
@@ -383,9 +358,6 @@ public class CreateQuizController implements Initializable {
         }
     }
 
-    // ================================================
-    // SAUVEGARDER LES RÉPONSES SELON LE TYPE
-    // ================================================
     private void sauvegarderReponses(QuestionType type, VBox reponsesBox, int idQuestion) {
 
         switch (type) {
@@ -449,9 +421,6 @@ public class CreateQuizController implements Initializable {
         }
     }
 
-    // ================================================
-    // MAPPING MATIÈRE → ID MODULE (correspond au SQL)
-    // ================================================
     private int getIdModule(String matiere) {
         return switch (matiere) {
             case "Mathématiques"  -> 1;
@@ -464,9 +433,7 @@ public class CreateQuizController implements Initializable {
         };
     }
 
-    // ================================================
-    // AFFICHER UNE ERREUR
-    // ================================================
+
     private void afficherErreur(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setHeaderText(null);
@@ -474,9 +441,7 @@ public class CreateQuizController implements Initializable {
         alert.showAndWait();
     }
 
-    // ================================================
-    // RETOUR PAGE QUIZ
-    // ================================================
+
     @FXML
     void retourQuiz(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(

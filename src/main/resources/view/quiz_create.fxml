@@ -4,14 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<!--
-    quiz_create.fxml — SmarTounsi
-    CORRECTIONS :
-      ✅ Ajout fx:id="compteurLabel" pour afficher nb questions
-      ✅ Topbar cohérente avec quiz.fxml
-      ✅ Section infos quiz plus complète (description, matière, temps)
-      ✅ Boutons mieux stylés
--->
+
 <BorderPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="Controllers.CreateQuizController"
             stylesheets="@/style/quiz.css">
