@@ -29,8 +29,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class MailService {
-    private static final String FROM_EMAIL = "smartounsi7@gmail.com";
-    private static final String APP_PASSWORD = "zbtz qbpp hjix ccpn";
+    private static final String FROM_EMAIL = "smartounsi6@gmail.com";
+    private static final String APP_PASSWORD = "SMARTOUNSI_MAIL_PASSWORD";
     private static final String SENDER_NAME = "smarTounsi";
     private static final String SMTP_HOST = "smtp.gmail.com";
     private static final int SMTP_PORT = 587;
