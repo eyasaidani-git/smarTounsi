@@ -1,6 +1,5 @@
 package models;
 
-<<<<<<< HEAD
 import java.time.LocalDateTime;
 
 public class Projet {
@@ -51,22 +50,6 @@ public class Projet {
         this.fichierRapport = fichierRapport;
         this.statut = statut;
         this.dateCreation = dateCreation;
-=======
-public class Projet {
-    private int id, idCreateur;
-    private String nom, description, fichierCode, fichierPresentation, fichierRapport;
-    private boolean aCode, aPresentation, aRapport;
-
-    public Projet() {}
-    public Projet(String nom, String description, boolean aCode,
-                  boolean aPresentation, boolean aRapport, int idCreateur) {
-        this.nom = nom;
-        this.description = description;
-        this.aCode = aCode;
-        this.aPresentation = aPresentation;
-        this.aRapport = aRapport;
-        this.idCreateur = idCreateur;
->>>>>>> origin/gestionikram
     }
 
     public int getId() {
@@ -77,7 +60,6 @@ public class Projet {
         this.id = id;
     }
 
-<<<<<<< HEAD
 
     public String getNomProjet() {
         return nomProjet;
@@ -104,8 +86,6 @@ public class Projet {
         this.description = description;
     }
 
-=======
->>>>>>> origin/gestionikram
     public int getIdCreateur() {
         return idCreateur;
     }
@@ -114,7 +94,6 @@ public class Projet {
         this.idCreateur = idCreateur;
     }
 
-<<<<<<< HEAD
 
     public boolean isContientCode() {
         return contientCode;
@@ -141,24 +120,6 @@ public class Projet {
     }
 
 
-=======
-    public String getNom() {
-        return nom;
-    }
-
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
->>>>>>> origin/gestionikram
     public String getFichierCode() {
         return fichierCode;
     }
@@ -183,7 +144,6 @@ public class Projet {
         this.fichierRapport = fichierRapport;
     }
 
-<<<<<<< HEAD
 
     public String getStatut() {
         return statut;
@@ -220,29 +180,3 @@ public class Projet {
                 '}';
     }
 }
-=======
-    public boolean isaCode() {
-        return aCode;
-    }
-
-    public void setaCode(boolean aCode) {
-        this.aCode = aCode;
-    }
-
-    public boolean isaPresentation() {
-        return aPresentation;
-    }
-
-    public void setaPresentation(boolean aPresentation) {
-        this.aPresentation = aPresentation;
-    }
-
-    public boolean isaRapport() {
-        return aRapport;
-    }
-
-    public void setaRapport(boolean aRapport) {
-        this.aRapport = aRapport;
-    }
-}
->>>>>>> origin/gestionikram

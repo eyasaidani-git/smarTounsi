@@ -1,11 +1,15 @@
 package services;
-<<<<<<< HEAD
 
 import models.Utilisateur;
 import util.DBConnection;
 import util.PasswordUtil;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,17 +28,13 @@ public class UtilisateurService implements IService<Utilisateur> {
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement ps = conn.prepareStatement(req, Statement.RETURN_GENERATED_KEYS)) {
-
             ps.setString(1, u.getNom());
             ps.setString(2, u.getPrenom());
             ps.setString(3, u.getEmail());
-
-            String hashedPassword = PasswordUtil.hashPassword(u.getMotDePasse());
-            ps.setString(4, hashedPassword);
-
+            ps.setString(4, PasswordUtil.hashPassword(u.getMotDePasse()));
             ps.setString(5, u.getRole());
             ps.setString(6, u.getPhotoProfil());
-            ps.setBoolean(7, true);
+            ps.setBoolean(7, u.isEstActif());
             ps.setString(8, u.getFiliere());
             ps.setString(9, u.getAnnee());
             ps.setString(10, u.getUniversite());
@@ -43,7 +43,7 @@ public class UtilisateurService implements IService<Utilisateur> {
             int rows = ps.executeUpdate();
 
             if (rows == 0) {
-                throw new SQLException("Aucune ligne insérée.");
+                throw new SQLException("Aucune ligne inseree.");
             }
 
             try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
@@ -52,56 +52,22 @@ public class UtilisateurService implements IService<Utilisateur> {
                 }
             }
 
-            System.out.println("Utilisateur ajouté avec succès. ID = " + u.getId());
-
+            System.out.println("Utilisateur ajoute avec succes. ID = " + u.getId());
         } catch (SQLException e) {
-            throw new RuntimeException("Erreur add utilisateur : " + e.getMessage());
-=======
-import models.Utilisateur;
-import util.DBConnection;
-import java.util.List;
-import java.util.ArrayList;
-import java.sql.*;
-public class UtilisateurService implements IService<Utilisateur> {
-    private Connection conn;
-    public UtilisateurService() {
-        this.conn = DBConnection.getInstance().getConn();
-    }
-    @Override
-    public void add(Utilisateur u) {
-        String req = "INSERT INTO utilisateur (nom, prenom, email, mot_de_passe, role) " +
-                "VALUES (?, ?, ?, ?, ?)";
-        try (PreparedStatement ps = conn.prepareStatement(req)) {
-            ps.setString(1, u.getNom());
-            ps.setString(2, u.getPrenom());
-            ps.setString(3, u.getEmail());
-            ps.setString(4, u.getMotDePasse()); // hashé avant d'appeler
-            ps.setString(5, u.getRole());
-            ps.executeUpdate();
-            System.out.println("User added successfully");
-        } catch (SQLException e) {
-            System.out.println("Error cannot be add user  : " + e.getMessage());
->>>>>>> origin/gestionikram
+            throw new RuntimeException("Erreur add utilisateur : " + e.getMessage(), e);
         }
     }
 
     @Override
     public void update(Utilisateur u) {
-<<<<<<< HEAD
         String req = "UPDATE utilisateur SET nom=?, prenom=?, email=?, role=?, photo_profil=?, est_actif=?, " +
                 "filiere=?, annee=?, universite=?, numero_etudiant=? WHERE id_utilisateur=?";
 
         try (PreparedStatement ps = conn.prepareStatement(req)) {
-
-=======
-        String req = "UPDATE utilisateur SET nom=?, prenom=?, email=?, role=? WHERE id=?";
-        try (PreparedStatement ps = conn.prepareStatement(req)) {
->>>>>>> origin/gestionikram
             ps.setString(1, u.getNom());
             ps.setString(2, u.getPrenom());
             ps.setString(3, u.getEmail());
             ps.setString(4, u.getRole());
-<<<<<<< HEAD
             ps.setString(5, u.getPhotoProfil());
             ps.setBoolean(6, u.isEstActif());
             ps.setString(7, u.getFiliere());
@@ -111,10 +77,9 @@ public class UtilisateurService implements IService<Utilisateur> {
             ps.setInt(11, u.getId());
 
             ps.executeUpdate();
-            System.out.println("Utilisateur modifié avec succès.");
-
+            System.out.println("Utilisateur modifie avec succes.");
         } catch (SQLException e) {
-            throw new RuntimeException("Erreur update utilisateur : " + e.getMessage());
+            throw new RuntimeException("Erreur update utilisateur : " + e.getMessage(), e);
         }
     }
 
@@ -123,47 +88,32 @@ public class UtilisateurService implements IService<Utilisateur> {
             throw new RuntimeException(PasswordUtil.getPasswordRulesMessage());
         }
 
+        changerMotDePasseHash(idUtilisateur, nouveauMotDePasse);
+        System.out.println("Mot de passe modifie avec succes.");
+    }
+
+    private void changerMotDePasseHash(int idUtilisateur, String motDePasseClair) {
         String req = "UPDATE utilisateur SET mot_de_passe=? WHERE id_utilisateur=?";
 
         try (PreparedStatement ps = conn.prepareStatement(req)) {
-            ps.setString(1, PasswordUtil.hashPassword(nouveauMotDePasse));
+            ps.setString(1, PasswordUtil.hashPassword(motDePasseClair));
             ps.setInt(2, idUtilisateur);
-
-            ps.executeUpdate();
-            System.out.println("Mot de passe modifié avec succès.");
-
-        } catch (SQLException e) {
-            throw new RuntimeException("Erreur update mot de passe : " + e.getMessage());
-        }
-=======
-            ps.setInt(5, u.getId());
             ps.executeUpdate();
         } catch (SQLException e) {
-            System.out.println("Erreur update utilisateur : " + e.getMessage());
+            throw new RuntimeException("Erreur update mot de passe : " + e.getMessage(), e);
         }
-
-
->>>>>>> origin/gestionikram
     }
 
     @Override
     public void delete(Utilisateur u) {
-<<<<<<< HEAD
         String req = "DELETE FROM utilisateur WHERE id_utilisateur=?";
 
         try (PreparedStatement ps = conn.prepareStatement(req)) {
             ps.setInt(1, u.getId());
             ps.executeUpdate();
-            System.out.println("Utilisateur supprimé avec succès.");
-
-=======
-        String req = "DELETE FROM utilisateur WHERE id=?";
-        try (PreparedStatement ps = conn.prepareStatement(req)) {
-            ps.setInt(1, u.getId());
-            ps.executeUpdate();
->>>>>>> origin/gestionikram
+            System.out.println("Utilisateur supprime avec succes.");
         } catch (SQLException e) {
-            System.out.println("Erreur delete utilisateur : " + e.getMessage());
+            throw new RuntimeException("Erreur delete utilisateur : " + e.getMessage(), e);
         }
     }
 
@@ -171,51 +121,34 @@ public class UtilisateurService implements IService<Utilisateur> {
     public List<Utilisateur> getAll() {
         List<Utilisateur> list = new ArrayList<>();
         String req = "SELECT * FROM utilisateur";
-<<<<<<< HEAD
 
         try (Statement st = conn.createStatement();
              ResultSet rs = st.executeQuery(req)) {
-
             while (rs.next()) {
                 list.add(mapRow(rs));
             }
-
         } catch (SQLException e) {
-            System.out.println("Erreur getAll utilisateurs : " + e.getMessage());
+            throw new RuntimeException("Erreur getAll utilisateurs : " + e.getMessage(), e);
         }
 
         return list;
     }
 
     public Utilisateur login(String email, String motDePasse, String role) {
-        String req = "SELECT * FROM utilisateur WHERE LOWER(email)=LOWER(?) AND LOWER(role)=LOWER(?) AND est_actif=1";
+        String req = "SELECT * FROM utilisateur " +
+                "WHERE LOWER(email)=LOWER(?) AND LOWER(role)=LOWER(?) AND est_actif=1";
 
         try (PreparedStatement ps = conn.prepareStatement(req)) {
-
             ps.setString(1, email.trim());
             ps.setString(2, role.trim());
 
             try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    Utilisateur u = mapRow(rs);
-                    String storedPassword = rs.getString("mot_de_passe");
-
-                    if (PasswordUtil.isBCryptHash(storedPassword)) {
-                        if (PasswordUtil.checkPassword(motDePasse, storedPassword)) {
-                            return u;
-                        }
-                    } else {
-                        // Compatibilité avec les anciens comptes dont le mot de passe était stocké en clair
-                        if (storedPassword != null && storedPassword.equals(motDePasse)) {
-                            updateMotDePasse(u.getId(), motDePasse);
-                            return u;
-                        }
-                    }
+                if (rs.next() && motDePasseValide(rs, motDePasse)) {
+                    return mapRow(rs);
                 }
             }
-
         } catch (SQLException e) {
-            System.out.println("Erreur login : " + e.getMessage());
+            throw new RuntimeException("Erreur login : " + e.getMessage(), e);
         }
 
         return null;
@@ -225,32 +158,37 @@ public class UtilisateurService implements IService<Utilisateur> {
         String req = "SELECT * FROM utilisateur WHERE LOWER(email)=LOWER(?) AND est_actif=1";
 
         try (PreparedStatement ps = conn.prepareStatement(req)) {
-
             ps.setString(1, email.trim());
 
             try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    Utilisateur u = mapRow(rs);
-                    String storedPassword = rs.getString("mot_de_passe");
-
-                    if (PasswordUtil.isBCryptHash(storedPassword)) {
-                        if (PasswordUtil.checkPassword(motDePasse, storedPassword)) {
-                            return u;
-                        }
-                    } else {
-                        if (storedPassword != null && storedPassword.equals(motDePasse)) {
-                            updateMotDePasse(u.getId(), motDePasse);
-                            return u;
-                        }
-                    }
+                if (rs.next() && motDePasseValide(rs, motDePasse)) {
+                    return mapRow(rs);
                 }
             }
-
         } catch (SQLException e) {
-            System.out.println("Erreur login : " + e.getMessage());
+            throw new RuntimeException("Erreur login : " + e.getMessage(), e);
         }
 
         return null;
+    }
+
+    private boolean motDePasseValide(ResultSet rs, String motDePasse) throws SQLException {
+        String storedPassword = rs.getString("mot_de_passe");
+
+        if (storedPassword == null || motDePasse == null) {
+            return false;
+        }
+
+        if (PasswordUtil.isBCryptHash(storedPassword)) {
+            return PasswordUtil.checkPassword(motDePasse, storedPassword);
+        }
+
+        boolean ancienMotDePasseValide = storedPassword.equals(motDePasse);
+        if (ancienMotDePasseValide) {
+            changerMotDePasseHash(rs.getInt("id_utilisateur"), motDePasse);
+        }
+
+        return ancienMotDePasseValide;
     }
 
     public boolean emailExiste(String email) {
@@ -260,16 +198,11 @@ public class UtilisateurService implements IService<Utilisateur> {
             ps.setString(1, email.trim());
 
             try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    return rs.getInt(1) > 0;
-                }
+                return rs.next() && rs.getInt(1) > 0;
             }
-
         } catch (SQLException e) {
-            System.out.println("Erreur emailExiste : " + e.getMessage());
+            throw new RuntimeException("Erreur emailExiste : " + e.getMessage(), e);
         }
-
-        return false;
     }
 
     public Utilisateur getByEmail(String email) {
@@ -283,9 +216,8 @@ public class UtilisateurService implements IService<Utilisateur> {
                     return mapRow(rs);
                 }
             }
-
         } catch (SQLException e) {
-            System.out.println("Erreur getByEmail utilisateur : " + e.getMessage());
+            throw new RuntimeException("Erreur getByEmail utilisateur : " + e.getMessage(), e);
         }
 
         return null;
@@ -302,37 +234,30 @@ public class UtilisateurService implements IService<Utilisateur> {
                     return mapRow(rs);
                 }
             }
-
         } catch (SQLException e) {
-            System.out.println("Erreur getById utilisateur : " + e.getMessage());
+            throw new RuntimeException("Erreur getById utilisateur : " + e.getMessage(), e);
         }
 
         return null;
     }
 
     public void desactiverCompte(int idUtilisateur) {
-        String req = "UPDATE utilisateur SET est_actif=0 WHERE id_utilisateur=?";
-
-        try (PreparedStatement ps = conn.prepareStatement(req)) {
-            ps.setInt(1, idUtilisateur);
-            ps.executeUpdate();
-            System.out.println("Compte désactivé avec succès.");
-
-        } catch (SQLException e) {
-            System.out.println("Erreur désactivation utilisateur : " + e.getMessage());
-        }
+        changerStatutCompte(idUtilisateur, false);
     }
 
     public void activerCompte(int idUtilisateur) {
-        String req = "UPDATE utilisateur SET est_actif=1 WHERE id_utilisateur=?";
+        changerStatutCompte(idUtilisateur, true);
+    }
+
+    private void changerStatutCompte(int idUtilisateur, boolean actif) {
+        String req = "UPDATE utilisateur SET est_actif=? WHERE id_utilisateur=?";
 
         try (PreparedStatement ps = conn.prepareStatement(req)) {
-            ps.setInt(1, idUtilisateur);
+            ps.setBoolean(1, actif);
+            ps.setInt(2, idUtilisateur);
             ps.executeUpdate();
-            System.out.println("Compte activé avec succès.");
-
         } catch (SQLException e) {
-            System.out.println("Erreur activation utilisateur : " + e.getMessage());
+            throw new RuntimeException("Erreur changement statut utilisateur : " + e.getMessage(), e);
         }
     }
 
@@ -347,6 +272,14 @@ public class UtilisateurService implements IService<Utilisateur> {
         u.setRole(rs.getString("role"));
         u.setPhotoProfil(rs.getString("photo_profil"));
         u.setEstActif(rs.getBoolean("est_actif"));
+
+        try {
+            Timestamp date = rs.getTimestamp("date_inscription");
+            if (date != null) {
+                u.setDateInscription(date.toLocalDateTime());
+            }
+        } catch (SQLException ignored) {
+        }
 
         try {
             u.setFiliere(rs.getString("filiere"));
@@ -368,55 +301,6 @@ public class UtilisateurService implements IService<Utilisateur> {
         } catch (SQLException ignored) {
         }
 
-        try {
-            Timestamp date = rs.getTimestamp("date_inscription");
-            if (date != null) {
-                u.setDateInscription(date.toLocalDateTime());
-            }
-        } catch (SQLException ignored) {
-        }
-
         return u;
     }
 }
-=======
-        try (Statement st = conn.createStatement();
-             ResultSet rs = st.executeQuery(req)) {
-            while (rs.next()) {
-                Utilisateur u = new Utilisateur();
-                u.setId(rs.getInt("id"));
-                u.setNom(rs.getString("nom"));
-                u.setPrenom(rs.getString("prenom"));
-                u.setEmail(rs.getString("email"));
-                u.setRole(rs.getString("role"));
-                u.setActif(rs.getBoolean("actif"));
-                list.add(u);
-            }
-        } catch (SQLException e) {
-            System.out.println("Erreur getAll utilisateurs : " + e.getMessage());
-        }
-        return list;
-    }
-    public Utilisateur login(String email, String motDePasse) {
-        String req = "SELECT * FROM utilisateur WHERE email=? AND mot_de_passe=? AND actif=1";
-        try (PreparedStatement ps = conn.prepareStatement(req)) {
-            ps.setString(1, email);
-            ps.setString(2, motDePasse); // comparer avec le hash
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                Utilisateur u = new Utilisateur();
-                u.setId(rs.getInt("id"));
-                u.setNom(rs.getString("nom"));
-                u.setPrenom(rs.getString("prenom"));
-                u.setEmail(rs.getString("email"));
-                u.setRole(rs.getString("role"));
-                return u;
-            }
-        } catch (SQLException e) {
-            System.out.println("Erreur login : " + e.getMessage());
-        }
-        return null;
-    }
-}
-
->>>>>>> origin/gestionikram

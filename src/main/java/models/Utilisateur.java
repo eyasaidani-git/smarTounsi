@@ -1,6 +1,5 @@
 package models;
 
-<<<<<<< HEAD
 import java.time.LocalDateTime;
 
 public class Utilisateur {
@@ -13,7 +12,7 @@ public class Utilisateur {
     private String role;
     private String photoProfil;
     private LocalDateTime dateInscription;
-    private boolean estActif;
+    private boolean estActif = true;
 
     private String filiere;
     private String annee;
@@ -24,43 +23,22 @@ public class Utilisateur {
     }
 
     public Utilisateur(String nom, String prenom, String email, String motDePasse, String role) {
-=======
-public class Utilisateur {
-    private int id;
-    private String nom, prenom, email, motDePasse, role, photoProfil;
-    private boolean actif;
-
-    public Utilisateur() {}
-
-    public Utilisateur(String nom, String prenom, String email,
-                       String motDePasse, String role) {
->>>>>>> origin/gestionikram
         this.nom = nom;
         this.prenom = prenom;
         this.email = email;
         this.motDePasse = motDePasse;
         this.role = role;
-<<<<<<< HEAD
         this.estActif = true;
     }
 
     public Utilisateur(String nom, String prenom, String email, String motDePasse, String role,
                        String filiere, String annee, String universite, String numeroEtudiant) {
-        this.nom = nom;
-        this.prenom = prenom;
-        this.email = email;
-        this.motDePasse = motDePasse;
-        this.role = role;
+        this(nom, prenom, email, motDePasse, role);
         this.filiere = filiere;
         this.annee = annee;
         this.universite = universite;
         this.numeroEtudiant = numeroEtudiant;
-        this.estActif = true;
     }
-=======
-        this.actif = true;
-}
->>>>>>> origin/gestionikram
 
     public int getId() {
         return id;
@@ -70,10 +48,6 @@ public class Utilisateur {
         this.id = id;
     }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/gestionikram
     public String getNom() {
         return nom;
     }
@@ -82,10 +56,6 @@ public class Utilisateur {
         this.nom = nom;
     }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/gestionikram
     public String getPrenom() {
         return prenom;
     }
@@ -93,8 +63,6 @@ public class Utilisateur {
     public void setPrenom(String prenom) {
         this.prenom = prenom;
     }
-
-<<<<<<< HEAD
 
     public String getNomComplet() {
         String p = prenom == null ? "" : prenom;
@@ -120,9 +88,6 @@ public class Utilisateur {
         }
     }
 
-
-=======
->>>>>>> origin/gestionikram
     public String getEmail() {
         return email;
     }
@@ -131,10 +96,6 @@ public class Utilisateur {
         this.email = email;
     }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/gestionikram
     public String getMotDePasse() {
         return motDePasse;
     }
@@ -143,10 +104,6 @@ public class Utilisateur {
         this.motDePasse = motDePasse;
     }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/gestionikram
     public String getRole() {
         return role;
     }
@@ -155,10 +112,6 @@ public class Utilisateur {
         this.role = role;
     }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/gestionikram
     public String getPhotoProfil() {
         return photoProfil;
     }
@@ -167,8 +120,6 @@ public class Utilisateur {
         this.photoProfil = photoProfil;
     }
 
-<<<<<<< HEAD
-
     public LocalDateTime getDateInscription() {
         return dateInscription;
     }
@@ -176,7 +127,6 @@ public class Utilisateur {
     public void setDateInscription(LocalDateTime dateInscription) {
         this.dateInscription = dateInscription;
     }
-
 
     public boolean isEstActif() {
         return estActif;
@@ -194,7 +144,6 @@ public class Utilisateur {
         this.estActif = actif;
     }
 
-
     public String getFiliere() {
         return filiere;
     }
@@ -202,7 +151,6 @@ public class Utilisateur {
     public void setFiliere(String filiere) {
         this.filiere = filiere;
     }
-
 
     public String getAnnee() {
         return annee;
@@ -212,7 +160,6 @@ public class Utilisateur {
         this.annee = annee;
     }
 
-
     public String getUniversite() {
         return universite;
     }
@@ -220,7 +167,6 @@ public class Utilisateur {
     public void setUniversite(String universite) {
         this.universite = universite;
     }
-
 
     public String getNumeroEtudiant() {
         return numeroEtudiant;
@@ -230,17 +176,6 @@ public class Utilisateur {
         this.numeroEtudiant = numeroEtudiant;
     }
 
-
-=======
-    public boolean isActif() {
-        return actif;
-    }
-
-    public void setActif(boolean actif) {
-        this.actif = actif;
-    }
-
->>>>>>> origin/gestionikram
     @Override
     public String toString() {
         return "Utilisateur{" +
@@ -248,7 +183,6 @@ public class Utilisateur {
                 ", nom='" + nom + '\'' +
                 ", prenom='" + prenom + '\'' +
                 ", email='" + email + '\'' +
-<<<<<<< HEAD
                 ", role='" + role + '\'' +
                 ", photoProfil='" + photoProfil + '\'' +
                 ", dateInscription=" + dateInscription +
@@ -260,13 +194,3 @@ public class Utilisateur {
                 '}';
     }
 }
-=======
-                ", motDePasse='" + motDePasse + '\'' +
-                ", role='" + role + '\'' +
-                ", photoProfil='" + photoProfil + '\'' +
-                ", actif=" + actif +
-                '}';
-    }
-}
-
->>>>>>> origin/gestionikram

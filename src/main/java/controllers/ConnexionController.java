@@ -8,10 +8,12 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import models.Utilisateur;
 import services.UtilisateurService;
+import util.CaptchaUtil;
 import util.Session;
 
 import java.io.IOException;
-import util.CaptchaUtil;
+import java.net.URL;
+
 public class ConnexionController {
 
     @FXML
@@ -26,49 +28,72 @@ public class ConnexionController {
     @FXML
     private PasswordField passwordField;
 
-    private String selectedRole = "etudiant";
-
-    private final UtilisateurService utilisateurService = new UtilisateurService();
     @FXML
     private Label captchaLabel;
 
     @FXML
     private TextField captchaField;
 
+    private String selectedRole = "etudiant";
+
+    private final UtilisateurService utilisateurService = new UtilisateurService();
     private final CaptchaUtil captchaUtil = new CaptchaUtil();
 
     @FXML
     private void initialize() {
-        captchaLabel.setText(captchaUtil.getQuestion());
+        choisirEtudiant();
+
+        if (captchaLabel != null) {
+            captchaLabel.setText(captchaUtil.getQuestion());
+        }
     }
 
     @FXML
     private void choisirEtudiant() {
         selectedRole = "etudiant";
-        btnEtudiant.getStyleClass().setAll("role-button-selected");
-        btnProf.getStyleClass().setAll("role-button");
+
+        if (btnEtudiant != null && btnProf != null) {
+            btnEtudiant.getStyleClass().removeAll("role-button", "role-button-selected");
+            btnEtudiant.getStyleClass().add("role-button-selected");
+
+            btnProf.getStyleClass().removeAll("role-button", "role-button-selected");
+            btnProf.getStyleClass().add("role-button");
+        }
     }
 
     @FXML
     private void choisirProf() {
-        selectedRole = "prof";
-        btnProf.getStyleClass().setAll("role-button-selected");
-        btnEtudiant.getStyleClass().setAll("role-button");
+        /*
+         * Important :
+         * Cette valeur doit être identique à celle enregistrée dans XAMPP.
+         * Si dans la base tu as role='prof', mets "prof".
+         * Si dans la base tu as role='professeur', garde "professeur".
+         */
+        selectedRole = "professeur";
+
+        if (btnEtudiant != null && btnProf != null) {
+            btnProf.getStyleClass().removeAll("role-button", "role-button-selected");
+            btnProf.getStyleClass().add("role-button-selected");
+
+            btnEtudiant.getStyleClass().removeAll("role-button", "role-button-selected");
+            btnEtudiant.getStyleClass().add("role-button");
+        }
     }
 
     @FXML
     private void connecter() {
-        String email = emailField.getText().trim();
-        String password = passwordField.getText().trim();
-        if (!captchaUtil.validate(captchaField.getText())) {
-            afficherAlerte(Alert.AlertType.ERROR, "Captcha incorrect", "Veuillez vérifier que vous n'êtes pas un robot.");
-            captchaUtil.generate();
-            captchaLabel.setText(captchaUtil.getQuestion());
-            captchaField.clear();
+        String email = emailField.getText() == null ? "" : emailField.getText().trim();
+        String password = passwordField.getText() == null ? "" : passwordField.getText().trim();
+        String captcha = captchaField.getText() == null ? "" : captchaField.getText().trim();
+
+        if (email.isBlank() || password.isBlank()) {
+            afficherAlerte(Alert.AlertType.WARNING, "Champs manquants", "Veuillez saisir votre email et votre mot de passe.");
             return;
         }
-        if (email.isBlank() || password.isBlank()) {
-            afficherAlerte(Alert.AlertType.WARNING, "Champs manquants", "Veuillez saisir votre email et mot de passe.");
+
+        if (!captchaUtil.validate(captcha)) {
+            afficherAlerte(Alert.AlertType.ERROR, "Captcha incorrect", "Veuillez vérifier que vous n'êtes pas un robot.");
+            renouvelerCaptcha();
             return;
         }
 
@@ -76,6 +101,7 @@ public class ConnexionController {
 
         if (u == null) {
             afficherAlerte(Alert.AlertType.ERROR, "Connexion échouée", "Email, mot de passe ou rôle incorrect.");
+            renouvelerCaptcha();
             return;
         }
 
@@ -98,13 +124,35 @@ public class ConnexionController {
         ouvrirPage("/Acceuil.fxml", "Accueil - SmarTounsi");
     }
 
+    private void renouvelerCaptcha() {
+        captchaUtil.generate();
+
+        if (captchaLabel != null) {
+            captchaLabel.setText(captchaUtil.getQuestion());
+        }
+
+        if (captchaField != null) {
+            captchaField.clear();
+        }
+    }
+
     private void ouvrirPage(String path, String title) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource(path));
+            URL resource = getClass().getResource(path);
+
+            if (resource == null) {
+                afficherAlerte(Alert.AlertType.ERROR, "FXML introuvable", "Impossible de trouver : " + path);
+                return;
+            }
+
+            Parent root = FXMLLoader.load(resource);
             Stage stage = (Stage) emailField.getScene().getWindow();
-            stage.setScene(new Scene(root, 1400, 850));
+
+            Scene scene = new Scene(root, 1400, 850);
+            stage.setScene(scene);
             stage.setTitle(title);
             stage.show();
+
         } catch (IOException e) {
             afficherAlerte(Alert.AlertType.ERROR, "Erreur navigation", e.getMessage());
         }

@@ -1,6 +1,5 @@
 package models;
 
-<<<<<<< HEAD
 import java.time.LocalDateTime;
 
 public class Quiz {
@@ -9,11 +8,12 @@ public class Quiz {
     private String titre;
     private String description;
     private int idModule;
+    private String nomModule;
     private int idCreateur;
-    private Integer tempsLimite;
-    private int scoreTotal;
+    private Integer tempsLimite = 30;
+    private int scoreTotal = 20;
     private LocalDateTime dateCreation;
-    private boolean estActif;
+    private boolean estActif = true;
 
     public Quiz() {
     }
@@ -50,7 +50,6 @@ public class Quiz {
         this.id = id;
     }
 
-
     public String getTitre() {
         return titre;
     }
@@ -58,7 +57,6 @@ public class Quiz {
     public void setTitre(String titre) {
         this.titre = titre;
     }
-
 
     public String getDescription() {
         return description;
@@ -68,7 +66,6 @@ public class Quiz {
         this.description = description;
     }
 
-
     public int getIdModule() {
         return idModule;
     }
@@ -77,6 +74,13 @@ public class Quiz {
         this.idModule = idModule;
     }
 
+    public String getNomModule() {
+        return nomModule;
+    }
+
+    public void setNomModule(String nomModule) {
+        this.nomModule = nomModule;
+    }
 
     public int getIdCreateur() {
         return idCreateur;
@@ -86,9 +90,12 @@ public class Quiz {
         this.idCreateur = idCreateur;
     }
 
+    public int getTempsLimite() {
+        return tempsLimite == null ? 0 : tempsLimite;
+    }
 
-    public Integer getTempsLimite() {
-        return tempsLimite;
+    public void setTempsLimite(int tempsLimite) {
+        this.tempsLimite = tempsLimite;
     }
 
     public void setTempsLimite(Integer tempsLimite) {
@@ -103,7 +110,6 @@ public class Quiz {
         this.tempsLimite = tempsMinutes;
     }
 
-
     public int getScoreTotal() {
         return scoreTotal;
     }
@@ -112,7 +118,6 @@ public class Quiz {
         this.scoreTotal = scoreTotal;
     }
 
-
     public LocalDateTime getDateCreation() {
         return dateCreation;
     }
@@ -120,7 +125,6 @@ public class Quiz {
     public void setDateCreation(LocalDateTime dateCreation) {
         this.dateCreation = dateCreation;
     }
-
 
     public boolean isEstActif() {
         return estActif;
@@ -140,74 +144,6 @@ public class Quiz {
 
     @Override
     public String toString() {
-        return "Quiz{" +
-                "id=" + id +
-                ", titre='" + titre + '\'' +
-                ", description='" + description + '\'' +
-                ", idModule=" + idModule +
-                ", idCreateur=" + idCreateur +
-                ", tempsLimite=" + tempsLimite +
-                ", scoreTotal=" + scoreTotal +
-                ", dateCreation=" + dateCreation +
-                ", estActif=" + estActif +
-                '}';
-=======
-/**
- * Modèle Quiz — SmarTounsi
- * Ajout du champ nomModule pour l'affichage dans l'interface.
- */
-public class Quiz {
-
-    private int     id;
-    private String  titre;
-    private String  description;
-    private int     idModule;
-    private String  nomModule;     // ← NOUVEAU : nom lisible de la matière
-    private int     idCreateur;
-    private int     tempsLimite;
-    private int     scoreTotal;
-    private boolean estActif;
-
-    // ===== Constructeurs =====
-
-    public Quiz() {
-        this.estActif   = true;
-        this.tempsLimite = 30;
-        this.scoreTotal  = 20;
-    }
-
-    // ===== Getters / Setters =====
-
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
-
-    public String getTitre() { return titre; }
-    public void setTitre(String titre) { this.titre = titre; }
-
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
-
-    public int getIdModule() { return idModule; }
-    public void setIdModule(int idModule) { this.idModule = idModule; }
-
-    public String getNomModule() { return nomModule; }
-    public void setNomModule(String nomModule) { this.nomModule = nomModule; }
-
-    public int getIdCreateur() { return idCreateur; }
-    public void setIdCreateur(int idCreateur) { this.idCreateur = idCreateur; }
-
-    public int getTempsLimite() { return tempsLimite; }
-    public void setTempsLimite(int tempsLimite) { this.tempsLimite = tempsLimite; }
-
-    public int getScoreTotal() { return scoreTotal; }
-    public void setScoreTotal(int scoreTotal) { this.scoreTotal = scoreTotal; }
-
-    public boolean isEstActif() { return estActif; }
-    public void setEstActif(boolean estActif) { this.estActif = estActif; }
-
-    @Override
-    public String toString() {
-        return titre;
->>>>>>> origin/gestionikram
+        return titre == null ? "" : titre;
     }
 }

@@ -14,7 +14,6 @@ public class Question {
     public Question() {
     }
 
-<<<<<<< HEAD
     public Question(int idQuiz, String enonce, QuestionType typeQuestion, int points, int ordre) {
         this.idQuiz = idQuiz;
         this.enonce = enonce;
@@ -22,9 +21,6 @@ public class Question {
         this.points = points;
         this.ordre = ordre;
     }
-=======
-
->>>>>>> origin/gestionikram
 
     public Question(int id, int idQuiz, String enonce, QuestionType typeQuestion, int points, int ordre) {
         this.id = id;
@@ -70,27 +66,16 @@ public class Question {
         this.typeQuestion = typeQuestion;
     }
 
-<<<<<<< HEAD
     // Méthodes de compatibilité si les services utilisent getType() / setType()
-=======
-    // Méthodes de compatibilité si tes services utilisent getType() / setType()
->>>>>>> origin/gestionikram
     public String getType() {
         return typeQuestion == null ? null : typeQuestion.name();
     }
 
     public void setType(String type) {
-<<<<<<< HEAD
         if (type == null || type.isBlank()) {
             this.typeQuestion = null;
         } else {
             this.typeQuestion = QuestionType.valueOf(type.toUpperCase());
-=======
-        if (type == null) {
-            this.typeQuestion = null;
-        } else {
-            this.typeQuestion = QuestionType.valueOf(type);
->>>>>>> origin/gestionikram
         }
     }
 

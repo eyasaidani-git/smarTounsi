@@ -1,6 +1,5 @@
 package services;
 
-<<<<<<< HEAD
 import models.Notification;
 import util.DBConnection;
 
@@ -196,7 +195,3 @@ public class NotificationService implements IService<Notification> {
         return n;
     }
 }
-=======
-public class NotificationService {
-}
->>>>>>> origin/gestionikram
