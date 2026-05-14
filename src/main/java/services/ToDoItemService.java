@@ -1,15 +1,25 @@
 package services;
+<<<<<<< HEAD
 
 import enums.TodoStatus;
+=======
+>>>>>>> origin/gestionikram
 import models.ToDoItem;
 import util.DBConnection;
 
 import java.sql.*;
+<<<<<<< HEAD
 import java.util.ArrayList;
 import java.util.List;
 
 public class ToDoItemService implements IService<ToDoItem> {
     private final Connection conn;
+=======
+import java.util.List;
+import java.util.ArrayList;
+public class ToDoItemService implements IService<ToDoItem> {
+    private Connection conn;
+>>>>>>> origin/gestionikram
 
     public ToDoItemService() {
         this.conn = DBConnection.getInstance().getConn();
@@ -17,6 +27,7 @@ public class ToDoItemService implements IService<ToDoItem> {
 
     @Override
     public void add(ToDoItem t) {
+<<<<<<< HEAD
         String sql = "INSERT INTO todo_item (id_planning, id_document, lien_externe, fichier_url, nom_document, description, heure, ordre, statut) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -36,6 +47,19 @@ public class ToDoItemService implements IService<ToDoItem> {
             ps.setString(9, t.getStatut() == null ? TodoStatus.A_FAIRE.name() : t.getStatut().name());
             ps.executeUpdate();
             System.out.println("ToDo ajoute avec succes.");
+=======
+        String req = "INSERT INTO todo_item (titre, description, duree_minutes, " +
+                "heure_debut, id_planning, id_document) VALUES (?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement ps = conn.prepareStatement(req)) {
+            ps.setString(1, t.getTitre());
+            ps.setString(2, t.getDescription());
+            ps.setInt(3, t.getDureeMinutes());
+            ps.setString(4, t.getHeureDebut());
+            ps.setInt(5, t.getIdPlanning());
+            if (t.getIdDocument() > 0) ps.setInt(6, t.getIdDocument());
+            else ps.setNull(6, Types.INTEGER);
+            ps.executeUpdate();
+>>>>>>> origin/gestionikram
         } catch (SQLException e) {
             System.out.println("Erreur add todo : " + e.getMessage());
         }
@@ -43,6 +67,7 @@ public class ToDoItemService implements IService<ToDoItem> {
 
     @Override
     public void update(ToDoItem t) {
+<<<<<<< HEAD
         String sql = "UPDATE todo_item SET id_document=?, lien_externe=?, fichier_url=?, nom_document=?, " +
                 "description=?, heure=?, ordre=?, statut=? WHERE id_todo=?";
 
@@ -62,6 +87,15 @@ public class ToDoItemService implements IService<ToDoItem> {
             ps.setInt(9, t.getId());
             ps.executeUpdate();
             System.out.println("ToDo modifie avec succes.");
+=======
+        String req = "UPDATE todo_item SET titre=?, statut=?, duree_minutes=? WHERE id=?";
+        try (PreparedStatement ps = conn.prepareStatement(req)) {
+            ps.setString(1, t.getTitre());
+            ps.setString(2, t.getStatut());
+            ps.setInt(3, t.getDureeMinutes());
+            ps.setInt(4, t.getId());
+            ps.executeUpdate();
+>>>>>>> origin/gestionikram
         } catch (SQLException e) {
             System.out.println("Erreur update todo : " + e.getMessage());
         }
@@ -69,12 +103,18 @@ public class ToDoItemService implements IService<ToDoItem> {
 
     @Override
     public void delete(ToDoItem t) {
+<<<<<<< HEAD
         String sql = "DELETE FROM todo_item WHERE id_todo=?";
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, t.getId());
             ps.executeUpdate();
             System.out.println("ToDo supprime avec succes.");
+=======
+        try (PreparedStatement ps = conn.prepareStatement("DELETE FROM todo_item WHERE id=?")) {
+            ps.setInt(1, t.getId());
+            ps.executeUpdate();
+>>>>>>> origin/gestionikram
         } catch (SQLException e) {
             System.out.println("Erreur delete todo : " + e.getMessage());
         }
@@ -82,6 +122,7 @@ public class ToDoItemService implements IService<ToDoItem> {
 
     @Override
     public List<ToDoItem> getAll() {
+<<<<<<< HEAD
         List<ToDoItem> list = new ArrayList<>();
         String sql = "SELECT * FROM todo_item ORDER BY id_planning ASC, heure ASC, ordre ASC";
 
@@ -154,3 +195,31 @@ public class ToDoItemService implements IService<ToDoItem> {
         }
     }
 }
+=======
+        return getByPlanning(-1);
+    }
+    public List<ToDoItem> getByPlanning(int idPlanning) {
+        List<ToDoItem> list = new ArrayList<>();
+        String req = "SELECT * FROM todo_item WHERE id_planning=? ORDER BY heure_debut";
+        try (PreparedStatement ps = conn.prepareStatement(req)) {
+            ps.setInt(1, idPlanning);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                ToDoItem t = new ToDoItem();
+                t.setId(rs.getInt("id"));
+                t.setTitre(rs.getString("titre"));
+                t.setDescription(rs.getString("description"));
+                t.setDureeMinutes(rs.getInt("duree_minutes"));
+                t.setHeureDebut(rs.getString("heure_debut"));
+                t.setStatut(rs.getString("statut"));
+                t.setIdPlanning(rs.getInt("id_planning"));
+                t.setIdDocument(rs.getInt("id_document"));
+                list.add(t);
+            }
+        } catch (SQLException e) {
+            System.out.println("Erreur getByPlanning : " + e.getMessage());
+        }
+        return list;
+    }
+}
+>>>>>>> origin/gestionikram

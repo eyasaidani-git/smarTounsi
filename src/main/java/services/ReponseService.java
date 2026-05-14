@@ -98,5 +98,9 @@ public class ReponseService implements IService<Reponse> {
         r.setEstCorrecte(rs.getBoolean("est_correcte"));
         return r;
     }
+<<<<<<< HEAD
 }
 
+=======
+}
+>>>>>>> origin/gestionikram

@@ -1,4 +1,5 @@
 package models;
+<<<<<<< HEAD
 import enums.TodoStatus;
 import java.time.LocalTime;
 public class ToDoItem {
@@ -23,6 +24,22 @@ public class ToDoItem {
         this.heure = heure;
         this.ordre = ordre;
         this.statut = statut;
+=======
+
+public class ToDoItem {
+    private int id, idPlanning, idDocument, dureeMinutes;
+    private String titre, description, statut, heureDebut;
+    public ToDoItem() {
+    }
+
+    public ToDoItem(int dureeMinutes, String titre, String description, String statut, String heureDebut) {
+
+        this.dureeMinutes = dureeMinutes;
+        this.titre = titre;
+        this.description = description;
+        this.statut = statut;
+        this.heureDebut = heureDebut;
+>>>>>>> origin/gestionikram
     }
 
     public int getId() {
@@ -41,6 +58,7 @@ public class ToDoItem {
         this.idPlanning = idPlanning;
     }
 
+<<<<<<< HEAD
     public Integer getIdDocument() {
         return idDocument;
     }
@@ -71,6 +89,30 @@ public class ToDoItem {
 
     public void setNomDocument(String nomDocument) {
         this.nomDocument = nomDocument;
+=======
+    public int getIdDocument() {
+        return idDocument;
+    }
+
+    public void setIdDocument(int idDocument) {
+        this.idDocument = idDocument;
+    }
+
+    public int getDureeMinutes() {
+        return dureeMinutes;
+    }
+
+    public void setDureeMinutes(int dureeMinutes) {
+        this.dureeMinutes = dureeMinutes;
+    }
+
+    public String getTitre() {
+        return titre;
+    }
+
+    public void setTitre(String titre) {
+        this.titre = titre;
+>>>>>>> origin/gestionikram
     }
 
     public String getDescription() {
@@ -81,6 +123,7 @@ public class ToDoItem {
         this.description = description;
     }
 
+<<<<<<< HEAD
     public LocalTime getHeure() {
         return heure;
     }
@@ -121,3 +164,35 @@ public class ToDoItem {
                 '}';
     }
 }
+=======
+    public String getStatut() {
+        return statut;
+    }
+
+    public void setStatut(String statut) {
+        this.statut = statut;
+    }
+
+    public String getHeureDebut() {
+        return heureDebut;
+    }
+
+    public void setHeureDebut(String heureDebut) {
+        this.heureDebut = heureDebut;
+    }
+
+    @Override
+    public String toString() {
+        return "TodoItem{" +
+                "id=" + id +
+                ", idPlanning=" + idPlanning +
+                ", idDocument=" + idDocument +
+                ", dureeMinutes=" + dureeMinutes +
+                ", titre='" + titre + '\'' +
+                ", description='" + description + '\'' +
+                ", statut='" + statut + '\'' +
+                ", heureDebut='" + heureDebut + '\'' +
+                '}';
+    }
+}
+>>>>>>> origin/gestionikram

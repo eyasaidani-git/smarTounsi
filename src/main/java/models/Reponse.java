@@ -74,7 +74,10 @@ public class Reponse {
         this.estCorrecte = correcte;
     }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/gestionikram
     @Override
     public String toString() {
         return "Reponse{" +

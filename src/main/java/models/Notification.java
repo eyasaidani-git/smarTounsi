@@ -1,5 +1,6 @@
 package models;
 
+<<<<<<< HEAD
 import java.time.LocalDateTime;
 
 public class Notification {
@@ -77,3 +78,7 @@ public class Notification {
         this.idUtilisateur = idUtilisateur;
     }
 }
+=======
+public class Notification {
+}
+>>>>>>> origin/gestionikram

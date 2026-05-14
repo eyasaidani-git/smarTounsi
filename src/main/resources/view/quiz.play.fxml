@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="Controllers.PlayQuizController"
+            stylesheets="@/style/quiz.css">
+
+    <!-- ===== TOPBAR ===== -->
+    <top>
+        <HBox styleClass="topbar"
+              alignment="CENTER_LEFT"
+              spacing="20">
+            <padding><Insets left="24" right="24"/></padding>
+
+            <Label text="🧩 Quiz en cours"
+                   style="-fx-font-size:16px; -fx-font-weight:bold; -fx-text-fill:white;"/>
+
+            <Region HBox.hgrow="ALWAYS"/>
+
+            <Label text="⏱ Temps restant :"
+                   style="-fx-text-fill:rgba(255,255,255,0.8); -fx-font-size:13px;"/>
+
+            <Label fx:id="timerLabel"
+                   text="30:00"
+                   styleClass="timer-label"/>
+        </HBox>
+    </top>
+
+    <!-- ===== CONTENU ===== -->
+    <center>
+        <ScrollPane fitToWidth="true">
+
+            <VBox fx:id="questionsBox"
+                  spacing="20"
+                  styleClass="main-content">
+                <padding>
+                    <Insets top="25" left="25" right="25" bottom="25"/>
+                </padding>
+
+                <!-- Les questions sont injectées dynamiquement par PlayQuizController -->
+
+            </VBox>
+
+        </ScrollPane>
+    </center>
+
+    <!-- ===== BOTTOM ===== -->
+    <bottom>
+        <HBox alignment="CENTER_RIGHT"
+              spacing="16"
+              style="-fx-padding:16 24 16 24;
+                     -fx-background-color:#DFE5EA;
+                     -fx-border-color:#C0C5D0;
+                     -fx-border-width:1 0 0 0;">
+
+            <Label text="Répondez à toutes les questions puis cliquez sur Terminer."
+                   style="-fx-font-size:12px; -fx-text-fill:#555870;"/>
+
+            <Region HBox.hgrow="ALWAYS"/>
+
+            <Button text="✅ Terminer le quiz"
+                    styleClass="yellow-button"
+                    onAction="#terminerQuiz"/>
+
+        </HBox>
+    </bottom>
+
+</BorderPane>

@@ -1,4 +1,5 @@
 package models;
+<<<<<<< HEAD
 import enums.PlanningType;
 import java.time.LocalDateTime;
 public class Planning {
@@ -17,6 +18,19 @@ public class Planning {
         this.titre = titre;
         this.dateRevision = dateRevision;
         this.typeActivite = typeActivite;
+=======
+import java.time.LocalDate;
+public class Planning {
+    private int id, idUtilisateur;
+    private LocalDate dateRevision;
+    private String titre;
+    public Planning() {}
+
+    public Planning(int idUtilisateur, LocalDate dateRevision, String titre) {
+        this.idUtilisateur = idUtilisateur;
+        this.dateRevision = dateRevision;
+        this.titre = titre;
+>>>>>>> origin/gestionikram
     }
 
     public int getId() {
@@ -35,6 +49,17 @@ public class Planning {
         this.idUtilisateur = idUtilisateur;
     }
 
+<<<<<<< HEAD
+=======
+    public LocalDate getDateRevision() {
+        return dateRevision;
+    }
+
+    public void setDateRevision(LocalDate dateRevision) {
+        this.dateRevision = dateRevision;
+    }
+
+>>>>>>> origin/gestionikram
     public String getTitre() {
         return titre;
     }
@@ -42,6 +67,7 @@ public class Planning {
     public void setTitre(String titre) {
         this.titre = titre;
     }
+<<<<<<< HEAD
 
     public LocalDateTime getDateRevision() {
         return dateRevision;
@@ -78,4 +104,6 @@ public class Planning {
                 ", dateCreation=" + dateCreation +
                 '}';
     }
+=======
+>>>>>>> origin/gestionikram
 }

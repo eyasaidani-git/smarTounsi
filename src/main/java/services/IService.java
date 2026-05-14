@@ -6,3 +6,7 @@ public interface IService<T>{
     void delete(T t);
     List<T> getAll();
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/gestionikram
