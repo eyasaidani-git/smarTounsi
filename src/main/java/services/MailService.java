@@ -2,14 +2,15 @@ package services;
 
 import controllers.PlanningController.TodoItem;
 
-import javax.mail.Authenticator;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
+import jakarta.mail.Authenticator;
+import jakarta.mail.Message;
+import jakarta.mail.MessagingException;
+import jakarta.mail.PasswordAuthentication;
+import jakarta.mail.Session;
+import jakarta.mail.Transport;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeMessage;
+
 import java.io.UnsupportedEncodingException;
 import java.time.Duration;
 import java.time.LocalDate;
@@ -29,8 +30,12 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class MailService {
+
     private static final String FROM_EMAIL = "smartounsi6@gmail.com";
-    private static final String APP_PASSWORD = "SMARTOUNSI_MAIL_PASSWORD";
+
+    // Ici on lit le mot de passe d'application depuis IntelliJ / variable d'environnement
+    private static final String APP_PASSWORD = System.getenv("SMARTOUNSI_MAIL_PASSWORD");
+
     private static final String SENDER_NAME = "smarTounsi";
     private static final String SMTP_HOST = "smtp.gmail.com";
     private static final int SMTP_PORT = 587;
@@ -54,6 +59,7 @@ public class MailService {
         stopScheduler();
 
         Map<LocalDate, List<TodoItem>> snapshot = copyTodoMap(todoMap);
+
         scheduler = Executors.newSingleThreadScheduledExecutor(runnable -> {
             Thread thread = new Thread(runnable, "mail-reminder-scheduler");
             thread.setDaemon(true);
@@ -61,6 +67,7 @@ public class MailService {
         });
 
         scheduler.execute(() -> checkAndNotify(snapshot, userEmail));
+
         scheduler.scheduleAtFixedRate(
                 () -> checkAndNotify(snapshot, userEmail),
                 calculateInitialDelay(),
@@ -68,7 +75,7 @@ public class MailService {
                 TimeUnit.SECONDS
         );
 
-        System.out.println("[MailService] Verification quotidienne activee.");
+        System.out.println("[MailService] Vérification quotidienne activée.");
     }
 
     public void stopScheduler() {
@@ -83,13 +90,19 @@ public class MailService {
             return;
         }
 
+        if (todoMap == null || todoMap.isEmpty()) {
+            return;
+        }
+
         LocalDate revisionDate = LocalDate.now().plusDays(3);
         List<TodoItem> items = todoMap.get(revisionDate);
+
         if (items == null || items.isEmpty()) {
             return;
         }
 
         String reminderKey = userEmail + "|" + revisionDate;
+
         if (sentReminderKeys.contains(reminderKey)) {
             return;
         }
@@ -97,6 +110,7 @@ public class MailService {
         try {
             sendReminderEmail(userEmail, revisionDate, items);
             sentReminderKeys.add(reminderKey);
+
         } catch (MessagingException | UnsupportedEncodingException e) {
             System.err.println("[MailService] Erreur envoi email : " + e.getMessage());
         }
@@ -104,20 +118,24 @@ public class MailService {
 
     public void sendReminderEmail(String toEmail, LocalDate revisionDate, List<TodoItem> items)
             throws MessagingException, UnsupportedEncodingException {
+
         Session session = createMailSession();
 
         MimeMessage message = new MimeMessage(session);
         message.setFrom(new InternetAddress(FROM_EMAIL, SENDER_NAME, "UTF-8"));
         message.setRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
+
         message.setSubject(
-                "Rappel smarTounsi - revision dans 3 jours (" + revisionDate.format(dateFormat()) + ")",
+                "Rappel smarTounsi - révision dans 3 jours (" + revisionDate.format(dateFormat()) + ")",
                 "UTF-8"
         );
+
         message.setSentDate(new Date());
         message.setContent(buildHtmlBody(revisionDate, items), "text/html; charset=UTF-8");
 
         Transport.send(message);
-        System.out.println("[MailService] Email envoye a : " + toEmail);
+
+        System.out.println("[MailService] Email envoyé à : " + toEmail);
     }
 
     public void sendTestEmail(String toEmail) throws MessagingException, UnsupportedEncodingException {
@@ -128,16 +146,35 @@ public class MailService {
         message.setRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
         message.setSubject("Test smarTounsi - service mail", "UTF-8");
         message.setSentDate(new Date());
+
         message.setContent(
                 "<h2>smarTounsi</h2><p>Le service mail fonctionne correctement.</p>",
                 "text/html; charset=UTF-8"
         );
 
         Transport.send(message);
-        System.out.println("[MailService] Email de test envoye a : " + toEmail);
+
+        System.out.println("[MailService] Email de test envoyé à : " + toEmail);
     }
 
     private Session createMailSession() {
+        if (APP_PASSWORD == null || APP_PASSWORD.isBlank()) {
+            throw new RuntimeException("SMARTOUNSI_MAIL_PASSWORD n'est pas configuré dans IntelliJ.");
+        }
+
+        String cleanPassword = APP_PASSWORD.replace(" ", "").trim();
+
+        System.out.println("[MailService] FROM_EMAIL = " + FROM_EMAIL);
+        System.out.println("[MailService] APP_PASSWORD configuré = oui");
+        System.out.println("[MailService] Longueur APP_PASSWORD après nettoyage = " + cleanPassword.length());
+
+        if (cleanPassword.length() != 16) {
+            throw new RuntimeException(
+                    "Le mot de passe d'application Gmail doit contenir exactement 16 caractères sans espaces. Longueur actuelle : "
+                            + cleanPassword.length()
+            );
+        }
+
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
@@ -148,13 +185,14 @@ public class MailService {
         return Session.getInstance(props, new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(FROM_EMAIL, APP_PASSWORD);
+                return new PasswordAuthentication(FROM_EMAIL, cleanPassword);
             }
         });
     }
 
     private String buildHtmlBody(LocalDate revisionDate, List<TodoItem> items) {
         StringBuilder rows = new StringBuilder();
+
         for (TodoItem item : items) {
             rows.append("""
                     <tr>
@@ -177,7 +215,9 @@ public class MailService {
         return """
                 <!DOCTYPE html>
                 <html lang="fr">
-                <head><meta charset="UTF-8"></head>
+                <head>
+                    <meta charset="UTF-8">
+                </head>
                 <body style="margin:0;padding:0;background:#f4f7fb;font-family:Arial,sans-serif;color:#023047;">
                     <table width="100%%" cellpadding="0" cellspacing="0" style="padding:28px 0;background:#f4f7fb;">
                         <tr>
@@ -186,21 +226,21 @@ public class MailService {
                                     <tr>
                                         <td style="background:#023047;color:#ffffff;padding:22px 28px;text-align:center;">
                                             <div style="font-size:22px;font-weight:bold;">smarTounsi</div>
-                                            <div style="color:#FEB707;margin-top:6px;">Rappel de revision</div>
+                                            <div style="color:#FEB707;margin-top:6px;">Rappel de révision</div>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td style="padding:24px 28px;">
                                             <p style="margin:0 0 12px 0;">Bonjour,</p>
                                             <p style="margin:0 0 16px 0;">
-                                                Vous avez <strong>%d revision(s)</strong> planifiee(s)
+                                                Vous avez <strong>%d révision(s)</strong> planifiée(s)
                                                 dans 3 jours, le <strong>%s</strong>.
                                             </p>
                                             <table width="100%%" cellpadding="0" cellspacing="0" style="border:1px solid #e5edf3;border-radius:8px;">
                                                 %s
                                             </table>
                                             <p style="margin:18px 0 0 0;color:#556070;font-size:13px;">
-                                                Cet email a ete envoye automatiquement par smarTounsi.
+                                                Cet email a été envoyé automatiquement par smarTounsi.
                                             </p>
                                         </td>
                                     </tr>
@@ -217,6 +257,7 @@ public class MailService {
         if (item.getDescription() == null || item.getDescription().isBlank()) {
             return "";
         }
+
         return "<div style=\"color:#556070;margin-top:6px;\">"
                 + escapeHtml(item.getDescription())
                 + "</div>";
@@ -227,12 +268,17 @@ public class MailService {
             return "";
         }
 
-        StringBuilder html = new StringBuilder("<ul style=\"margin:8px 0 0 18px;padding:0;color:#556070;font-size:12px;\">");
+        StringBuilder html = new StringBuilder(
+                "<ul style=\"margin:8px 0 0 18px;padding:0;color:#556070;font-size:12px;\">"
+        );
+
         for (String file : item.getFichiers()) {
             String fileName = fileName(file);
             html.append("<li>").append(escapeHtml(fileName)).append("</li>");
         }
+
         html.append("</ul>");
+
         return html.toString();
     }
 
@@ -240,8 +286,14 @@ public class MailService {
         if (path == null || path.isBlank()) {
             return "";
         }
+
         int slash = Math.max(path.lastIndexOf('/'), path.lastIndexOf('\\'));
-        return slash >= 0 ? path.substring(slash + 1) : path;
+
+        if (slash >= 0) {
+            return path.substring(slash + 1);
+        }
+
+        return path;
     }
 
     private String escapeHtml(String value) {
@@ -260,14 +312,21 @@ public class MailService {
     private long calculateInitialDelay() {
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime nextMidnight = now.toLocalDate().plusDays(1).atStartOfDay();
+
         return Duration.between(now, nextMidnight).getSeconds();
     }
 
     private Map<LocalDate, List<TodoItem>> copyTodoMap(Map<LocalDate, List<TodoItem>> todoMap) {
         Map<LocalDate, List<TodoItem>> copy = new java.util.HashMap<>();
+
+        if (todoMap == null) {
+            return copy;
+        }
+
         for (Map.Entry<LocalDate, List<TodoItem>> entry : todoMap.entrySet()) {
             copy.put(entry.getKey(), new ArrayList<>(entry.getValue()));
         }
+
         return copy;
     }
 }

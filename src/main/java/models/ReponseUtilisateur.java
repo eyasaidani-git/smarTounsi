@@ -84,10 +84,7 @@ public class ReponseUtilisateur {
         this.estCorrecte = estCorrecte;
     }
 
-<<<<<<< HEAD
-=======
     // Compatibilité si ton service utilise isCorrecte()
->>>>>>> origin/GestionNour
     public Boolean isCorrecte() {
         return estCorrecte;
     }

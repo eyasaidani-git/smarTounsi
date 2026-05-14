@@ -82,9 +82,5 @@ public class Reponse {
                 ", texteReponse='" + texteReponse + '\'' +
                 ", estCorrecte=" + estCorrecte +
                 '}';
-<<<<<<< HEAD
-}
-=======
     }
->>>>>>> origin/GestionNour
 }

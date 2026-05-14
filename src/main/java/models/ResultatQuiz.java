@@ -62,8 +62,6 @@ public class ResultatQuiz {
     public void setTempsPasse(Integer tempsPasse) {
         this.tempsPasse = tempsPasse;
     }
-<<<<<<< HEAD
+
 }
-=======
-}
->>>>>>> origin/GestionNour
+

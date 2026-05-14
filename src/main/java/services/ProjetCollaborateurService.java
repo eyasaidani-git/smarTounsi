@@ -143,8 +143,6 @@ public class ProjetCollaborateurService implements IService<ProjetCollaborateur>
         pc.setDateAjout(dateAjout == null ? null : dateAjout.toLocalDateTime());
         return pc;
     }
-<<<<<<< HEAD
+
 }
-=======
-}
->>>>>>> origin/GestionNour
+

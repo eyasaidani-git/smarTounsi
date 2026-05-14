@@ -1,22 +1,16 @@
 package models;
-import enums.UtilisateurRole;
-import java.time.LocalDateTime;
 
 import java.time.LocalDateTime;
 
 public class Utilisateur {
 
     private int id;
-<<<<<<< HEAD
     private String nom;
     private String prenom;
     private String email;
     private String motDePasse;
     private String role;
     private String photoProfil;
-=======
-    private String nom, prenom, email, motDePasse, role, photoProfil;
->>>>>>> origin/GestionNour
     private LocalDateTime dateInscription;
     private boolean estActif;
 
@@ -36,7 +30,6 @@ public class Utilisateur {
         this.role = role;
         this.estActif = true;
     }
-<<<<<<< HEAD
 
     public Utilisateur(String nom, String prenom, String email, String motDePasse, String role,
                        String filiere, String annee, String universite, String numeroEtudiant) {
@@ -51,8 +44,6 @@ public class Utilisateur {
         this.numeroEtudiant = numeroEtudiant;
         this.estActif = true;
     }
-=======
->>>>>>> origin/GestionNour
 
     public int getId() {
         return id;
@@ -62,6 +53,7 @@ public class Utilisateur {
         this.id = id;
     }
 
+
     public String getNom() {
         return nom;
     }
@@ -70,6 +62,7 @@ public class Utilisateur {
         this.nom = nom;
     }
 
+
     public String getPrenom() {
         return prenom;
     }
@@ -77,6 +70,7 @@ public class Utilisateur {
     public void setPrenom(String prenom) {
         this.prenom = prenom;
     }
+
 
     public String getNomComplet() {
         String p = prenom == null ? "" : prenom;
@@ -102,6 +96,7 @@ public class Utilisateur {
         }
     }
 
+
     public String getEmail() {
         return email;
     }
@@ -109,6 +104,7 @@ public class Utilisateur {
     public void setEmail(String email) {
         this.email = email;
     }
+
 
     public String getMotDePasse() {
         return motDePasse;
@@ -118,6 +114,7 @@ public class Utilisateur {
         this.motDePasse = motDePasse;
     }
 
+
     public String getRole() {
         return role;
     }
@@ -125,6 +122,7 @@ public class Utilisateur {
     public void setRole(String role) {
         this.role = role;
     }
+
 
     public String getPhotoProfil() {
         return photoProfil;
@@ -134,6 +132,7 @@ public class Utilisateur {
         this.photoProfil = photoProfil;
     }
 
+
     public LocalDateTime getDateInscription() {
         return dateInscription;
     }
@@ -141,6 +140,7 @@ public class Utilisateur {
     public void setDateInscription(LocalDateTime dateInscription) {
         this.dateInscription = dateInscription;
     }
+
 
     public boolean isEstActif() {
         return estActif;
@@ -156,8 +156,8 @@ public class Utilisateur {
 
     public void setActif(boolean actif) {
         this.estActif = actif;
-<<<<<<< HEAD
     }
+
 
     public String getFiliere() {
         return filiere;
@@ -167,6 +167,7 @@ public class Utilisateur {
         this.filiere = filiere;
     }
 
+
     public String getAnnee() {
         return annee;
     }
@@ -174,6 +175,7 @@ public class Utilisateur {
     public void setAnnee(String annee) {
         this.annee = annee;
     }
+
 
     public String getUniversite() {
         return universite;
@@ -183,15 +185,15 @@ public class Utilisateur {
         this.universite = universite;
     }
 
+
     public String getNumeroEtudiant() {
         return numeroEtudiant;
     }
 
     public void setNumeroEtudiant(String numeroEtudiant) {
         this.numeroEtudiant = numeroEtudiant;
-=======
->>>>>>> origin/GestionNour
     }
+
 
     @Override
     public String toString() {
@@ -201,17 +203,13 @@ public class Utilisateur {
                 ", prenom='" + prenom + '\'' +
                 ", email='" + email + '\'' +
                 ", role='" + role + '\'' +
-<<<<<<< HEAD
+                ", photoProfil='" + photoProfil + '\'' +
+                ", dateInscription=" + dateInscription +
+                ", estActif=" + estActif +
                 ", filiere='" + filiere + '\'' +
                 ", annee='" + annee + '\'' +
                 ", universite='" + universite + '\'' +
                 ", numeroEtudiant='" + numeroEtudiant + '\'' +
-                ", estActif=" + estActif +
-=======
-                ", photoProfil='" + photoProfil + '\'' +
-                ", dateInscription=" + dateInscription +
-                ", actif=" + estActif +
->>>>>>> origin/GestionNour
                 '}';
     }
 }

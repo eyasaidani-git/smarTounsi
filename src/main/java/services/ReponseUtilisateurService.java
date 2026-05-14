@@ -125,8 +125,4 @@ public class ReponseUtilisateurService implements IService<ReponseUtilisateur> {
             ps.setBoolean(index, value);
         }
     }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> origin/GestionNour

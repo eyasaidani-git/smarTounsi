@@ -1,9 +1,5 @@
 package enums;
 
 public enum UtilisateurRole {
-    ADMIN,ENSEIGNANT,ETUDIANT;
-<<<<<<< HEAD
+    ADMIN, ENSEIGNANT, ETUDIANT;
 }
-=======
-}
->>>>>>> origin/GestionNour

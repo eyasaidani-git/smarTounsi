@@ -2,10 +2,7 @@ package services;
 
 import models.Utilisateur;
 import util.DBConnection;
-<<<<<<< HEAD
 import util.PasswordUtil;
-=======
->>>>>>> origin/GestionNour
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -22,7 +19,6 @@ public class UtilisateurService implements IService<Utilisateur> {
     @Override
     public void add(Utilisateur u) {
         String req = "INSERT INTO utilisateur " +
-<<<<<<< HEAD
                 "(nom, prenom, email, mot_de_passe, role, photo_profil, est_actif, filiere, annee, universite, numero_etudiant) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -59,44 +55,19 @@ public class UtilisateurService implements IService<Utilisateur> {
 
         } catch (SQLException e) {
             throw new RuntimeException("Erreur add utilisateur : " + e.getMessage());
-=======
-                "(nom, prenom, email, mot_de_passe, role, photo_profil, est_actif) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?)";
-
-        try (PreparedStatement ps = conn.prepareStatement(req)) {
-            ps.setString(1, u.getNom());
-            ps.setString(2, u.getPrenom());
-            ps.setString(3, u.getEmail());
-            ps.setString(4, u.getMotDePasse());
-            ps.setString(5, u.getRole());
-            ps.setString(6, u.getPhotoProfil());
-            ps.setBoolean(7, u.isEstActif());
-
-            ps.executeUpdate();
-            System.out.println("Utilisateur ajouté avec succès.");
-
-        } catch (SQLException e) {
-            System.out.println("Erreur add utilisateur : " + e.getMessage());
->>>>>>> origin/GestionNour
         }
     }
 
     @Override
     public void update(Utilisateur u) {
-<<<<<<< HEAD
         String req = "UPDATE utilisateur SET nom=?, prenom=?, email=?, role=?, photo_profil=?, est_actif=?, " +
                 "filiere=?, annee=?, universite=?, numero_etudiant=? WHERE id_utilisateur=?";
-=======
-        String req = "UPDATE utilisateur SET nom=?, prenom=?, email=?, mot_de_passe=?, role=?, photo_profil=?, est_actif=? " +
-                "WHERE id_utilisateur=?";
->>>>>>> origin/GestionNour
 
         try (PreparedStatement ps = conn.prepareStatement(req)) {
 
             ps.setString(1, u.getNom());
             ps.setString(2, u.getPrenom());
             ps.setString(3, u.getEmail());
-<<<<<<< HEAD
             ps.setString(4, u.getRole());
             ps.setString(5, u.getPhotoProfil());
             ps.setBoolean(6, u.isEstActif());
@@ -107,16 +78,7 @@ public class UtilisateurService implements IService<Utilisateur> {
             ps.setInt(11, u.getId());
 
             ps.executeUpdate();
-=======
-            ps.setString(4, u.getMotDePasse());
-            ps.setString(5, u.getRole());
-            ps.setString(6, u.getPhotoProfil());
-            ps.setBoolean(7, u.isEstActif());
-            ps.setInt(8, u.getId());
-
-            ps.executeUpdate();
             System.out.println("Utilisateur modifié avec succès.");
->>>>>>> origin/GestionNour
 
         } catch (SQLException e) {
             throw new RuntimeException("Erreur update utilisateur : " + e.getMessage());
@@ -127,7 +89,6 @@ public class UtilisateurService implements IService<Utilisateur> {
         if (!PasswordUtil.isStrongPassword(nouveauMotDePasse)) {
             throw new RuntimeException(PasswordUtil.getPasswordRulesMessage());
         }
-<<<<<<< HEAD
 
         String req = "UPDATE utilisateur SET mot_de_passe=? WHERE id_utilisateur=?";
 
@@ -136,12 +97,11 @@ public class UtilisateurService implements IService<Utilisateur> {
             ps.setInt(2, idUtilisateur);
 
             ps.executeUpdate();
+            System.out.println("Mot de passe modifié avec succès.");
 
         } catch (SQLException e) {
             throw new RuntimeException("Erreur update mot de passe : " + e.getMessage());
         }
-=======
->>>>>>> origin/GestionNour
     }
 
     @Override
@@ -151,10 +111,7 @@ public class UtilisateurService implements IService<Utilisateur> {
         try (PreparedStatement ps = conn.prepareStatement(req)) {
             ps.setInt(1, u.getId());
             ps.executeUpdate();
-<<<<<<< HEAD
-=======
             System.out.println("Utilisateur supprimé avec succès.");
->>>>>>> origin/GestionNour
 
         } catch (SQLException e) {
             System.out.println("Erreur delete utilisateur : " + e.getMessage());
@@ -180,7 +137,6 @@ public class UtilisateurService implements IService<Utilisateur> {
         return list;
     }
 
-<<<<<<< HEAD
     public Utilisateur login(String email, String motDePasse, String role) {
         String req = "SELECT * FROM utilisateur WHERE LOWER(email)=LOWER(?) AND LOWER(role)=LOWER(?) AND est_actif=1";
 
@@ -199,24 +155,12 @@ public class UtilisateurService implements IService<Utilisateur> {
                             return u;
                         }
                     } else {
-                        // Pour les anciens comptes stockés en clair
-                        if (storedPassword.equals(motDePasse)) {
+                        // Compatibilité avec les anciens comptes dont le mot de passe était stocké en clair
+                        if (storedPassword != null && storedPassword.equals(motDePasse)) {
                             updateMotDePasse(u.getId(), motDePasse);
                             return u;
                         }
                     }
-=======
-    public Utilisateur login(String email, String motDePasse) {
-        String req = "SELECT * FROM utilisateur WHERE email=? AND mot_de_passe=? AND est_actif=1";
-
-        try (PreparedStatement ps = conn.prepareStatement(req)) {
-            ps.setString(1, email);
-            ps.setString(2, motDePasse);
-
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    return mapRow(rs);
->>>>>>> origin/GestionNour
                 }
             }
 
@@ -227,7 +171,38 @@ public class UtilisateurService implements IService<Utilisateur> {
         return null;
     }
 
-<<<<<<< HEAD
+    public Utilisateur login(String email, String motDePasse) {
+        String req = "SELECT * FROM utilisateur WHERE LOWER(email)=LOWER(?) AND est_actif=1";
+
+        try (PreparedStatement ps = conn.prepareStatement(req)) {
+
+            ps.setString(1, email.trim());
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    Utilisateur u = mapRow(rs);
+                    String storedPassword = rs.getString("mot_de_passe");
+
+                    if (PasswordUtil.isBCryptHash(storedPassword)) {
+                        if (PasswordUtil.checkPassword(motDePasse, storedPassword)) {
+                            return u;
+                        }
+                    } else {
+                        if (storedPassword != null && storedPassword.equals(motDePasse)) {
+                            updateMotDePasse(u.getId(), motDePasse);
+                            return u;
+                        }
+                    }
+                }
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Erreur login : " + e.getMessage());
+        }
+
+        return null;
+    }
+
     public boolean emailExiste(String email) {
         String req = "SELECT COUNT(*) FROM utilisateur WHERE LOWER(email)=LOWER(?)";
 
@@ -266,8 +241,6 @@ public class UtilisateurService implements IService<Utilisateur> {
         return null;
     }
 
-=======
->>>>>>> origin/GestionNour
     public Utilisateur getById(int idUtilisateur) {
         String req = "SELECT * FROM utilisateur WHERE id_utilisateur=?";
 
@@ -287,8 +260,6 @@ public class UtilisateurService implements IService<Utilisateur> {
         return null;
     }
 
-<<<<<<< HEAD
-=======
     public void desactiverCompte(int idUtilisateur) {
         String req = "UPDATE utilisateur SET est_actif=0 WHERE id_utilisateur=?";
 
@@ -315,7 +286,6 @@ public class UtilisateurService implements IService<Utilisateur> {
         }
     }
 
->>>>>>> origin/GestionNour
     private Utilisateur mapRow(ResultSet rs) throws SQLException {
         Utilisateur u = new Utilisateur();
 
@@ -328,11 +298,25 @@ public class UtilisateurService implements IService<Utilisateur> {
         u.setPhotoProfil(rs.getString("photo_profil"));
         u.setEstActif(rs.getBoolean("est_actif"));
 
-<<<<<<< HEAD
-        u.setFiliere(rs.getString("filiere"));
-        u.setAnnee(rs.getString("annee"));
-        u.setUniversite(rs.getString("universite"));
-        u.setNumeroEtudiant(rs.getString("numero_etudiant"));
+        try {
+            u.setFiliere(rs.getString("filiere"));
+        } catch (SQLException ignored) {
+        }
+
+        try {
+            u.setAnnee(rs.getString("annee"));
+        } catch (SQLException ignored) {
+        }
+
+        try {
+            u.setUniversite(rs.getString("universite"));
+        } catch (SQLException ignored) {
+        }
+
+        try {
+            u.setNumeroEtudiant(rs.getString("numero_etudiant"));
+        } catch (SQLException ignored) {
+        }
 
         try {
             Timestamp date = rs.getTimestamp("date_inscription");
@@ -340,11 +324,6 @@ public class UtilisateurService implements IService<Utilisateur> {
                 u.setDateInscription(date.toLocalDateTime());
             }
         } catch (SQLException ignored) {
-=======
-        Timestamp dateInscription = rs.getTimestamp("date_inscription");
-        if (dateInscription != null) {
-            u.setDateInscription(dateInscription.toLocalDateTime());
->>>>>>> origin/GestionNour
         }
 
         return u;

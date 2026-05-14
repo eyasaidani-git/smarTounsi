@@ -1,13 +1,12 @@
 package models;
+
 import java.time.LocalDateTime;
 
 public class Module {
+
     private int id;
-<<<<<<< HEAD
-    private String nom,description;
-=======
-    private String nomModule,description;
->>>>>>> origin/GestionNour
+    private String nomModule;
+    private String description;
     private Integer idCreateur;
     private LocalDateTime dateCreation;
 
@@ -15,13 +14,17 @@ public class Module {
     }
 
     public Module(String nomModule, String description, Integer idCreateur) {
-<<<<<<< HEAD
-        this.nom = nomModule;
-=======
         this.nomModule = nomModule;
->>>>>>> origin/GestionNour
         this.description = description;
         this.idCreateur = idCreateur;
+    }
+
+    public Module(int id, String nomModule, String description, Integer idCreateur, LocalDateTime dateCreation) {
+        this.id = id;
+        this.nomModule = nomModule;
+        this.description = description;
+        this.idCreateur = idCreateur;
+        this.dateCreation = dateCreation;
     }
 
     public int getId() {
@@ -32,18 +35,27 @@ public class Module {
         this.id = id;
     }
 
+
     public String getNomModule() {
         return nomModule;
     }
 
-<<<<<<< HEAD
-    public void setNom(String nomModule) {
-        this.nom = nomModule;
-=======
     public void setNomModule(String nomModule) {
         this.nomModule = nomModule;
->>>>>>> origin/GestionNour
     }
+
+    /*
+     * Méthodes alias pour compatibilité avec les anciens services/controllers.
+     * Si un ancien code utilise getNom() ou setNom(), il ne sera pas cassé.
+     */
+    public String getNom() {
+        return nomModule;
+    }
+
+    public void setNom(String nom) {
+        this.nomModule = nom;
+    }
+
 
     public String getDescription() {
         return description;
@@ -53,6 +65,7 @@ public class Module {
         this.description = description;
     }
 
+
     public Integer getIdCreateur() {
         return idCreateur;
     }
@@ -60,6 +73,7 @@ public class Module {
     public void setIdCreateur(Integer idCreateur) {
         this.idCreateur = idCreateur;
     }
+
 
     public LocalDateTime getDateCreation() {
         return dateCreation;
@@ -69,15 +83,12 @@ public class Module {
         this.dateCreation = dateCreation;
     }
 
+
     @Override
     public String toString() {
         return "Module{" +
                 "id=" + id +
-<<<<<<< HEAD
-                ", nomModule='" + nom + '\'' +
-=======
                 ", nomModule='" + nomModule + '\'' +
->>>>>>> origin/GestionNour
                 ", description='" + description + '\'' +
                 ", idCreateur=" + idCreateur +
                 ", dateCreation=" + dateCreation +

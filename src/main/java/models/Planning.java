@@ -78,8 +78,4 @@ public class Planning {
                 ", dateCreation=" + dateCreation +
                 '}';
     }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> origin/GestionNour

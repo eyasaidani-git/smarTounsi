@@ -54,8 +54,5 @@ public class Favori {
                 ", dateAjout=" + dateAjout +
                 '}';
     }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> origin/GestionNour
+
