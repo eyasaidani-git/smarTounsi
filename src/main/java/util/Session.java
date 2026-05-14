@@ -1,41 +1,24 @@
 package util;
+
 import models.Utilisateur;
+
 public class Session {
-    private static Utilisateur utilisateurConnecte;
-    public static Utilisateur getUtilisateurConnecte() {
-        return utilisateurConnecte;
+
+    private static Utilisateur currentUser;
+
+    public static Utilisateur getCurrentUser() {
+        return currentUser;
     }
 
-    public static void setUtilisateurConnecte(Utilisateur utilisateur) {
-        utilisateurConnecte = utilisateur;
+    public static void setCurrentUser(Utilisateur user) {
+        currentUser = user;
     }
 
-    public static int getIdUtilisateurConnecte() {
-        if (utilisateurConnecte != null) {
-            return utilisateurConnecte.getId();
-        }
-        return -1;
+    public static void clear() {
+        currentUser = null;
     }
 
-    public static String getRoleUtilisateurConnecte() {
-        if (utilisateurConnecte != null) {
-            return utilisateurConnecte.getRole();
-        }
-        return null;
-    }
-
-    public static boolean estEtudiant() {
-        return utilisateurConnecte != null &&
-                utilisateurConnecte.getRole().equalsIgnoreCase("etudiant");
-    }
-
-    public static boolean estAdmin() {
-        return utilisateurConnecte != null &&
-                utilisateurConnecte.getRole().equalsIgnoreCase("admin");
-    }
-
-    public static boolean estEnseignant() {
-        return utilisateurConnecte != null &&
-                utilisateurConnecte.getRole().equalsIgnoreCase("enseignant");
+    public static boolean isLoggedIn() {
+        return currentUser != null;
     }
 }

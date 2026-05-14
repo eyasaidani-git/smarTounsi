@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public class Evenement {
-    private int id;
+    private int idEvenement;
     private String titre;
     private String description;
     private EvenementType typeEvenement;
@@ -17,12 +17,14 @@ public class Evenement {
     private String imageEvenement;
     private LocalDateTime dateCreation;
     private boolean organiseParSite;
+    private String statut;
+    private int capacity;
     public Evenement() {
     }
 
     public Evenement(String titre, String description, EvenementType typeEvenement, String lieu,
                      LocalDateTime dateDebut, LocalDateTime dateFin, BigDecimal tarif,
-                     int idCreateur, String imageEvenement) {
+                     int idCreateur, String imageEvenement,String statut,int capacity) {
         this.titre = titre;
         this.description = description;
         this.typeEvenement = typeEvenement;
@@ -32,14 +34,16 @@ public class Evenement {
         this.tarif = tarif;
         this.idCreateur = idCreateur;
         this.imageEvenement = imageEvenement;
+        this.statut=statut;
+        this.capacity=capacity;
     }
 
     public int getId() {
-        return id;
+        return idEvenement;
     }
 
     public void setId(int id) {
-        this.id = id;
+        this.idEvenement = id;
     }
 
 
@@ -139,11 +143,26 @@ public class Evenement {
         this.organiseParSite = organiseParSite;
     }
 
+    public String getStatut() {
+        return statut;
+    }
+
+    public void setStatut(String statut) {
+        this.statut = statut;
+    }
+
+    public int getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
 
     @Override
     public String toString() {
         return "Evenement{" +
-                "id=" + id +
+                "id=" + idEvenement +
                 ", titre='" + titre + '\'' +
                 ", description='" + description + '\'' +
                 ", typeEvenement=" + typeEvenement +
@@ -153,7 +172,7 @@ public class Evenement {
                 ", tarif=" + tarif +
                 ", idCreateur=" + idCreateur +
                 ", imageEvenement='" + imageEvenement + '\'' +
-                ", dateCreation=" + dateCreation +
-                '}';
+                ", dateCreation=" + dateCreation + ", status=" + statut +
+                ",capacité=" + capacity + '}';
     }
 }

@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.ProfilController"
+            stylesheets="@styles/profil.css"
+            styleClass="app-root">
+
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="15.0" styleClass="topbar">
+            <children>
+                <Label text="🧠" styleClass="top-logo-icon"/>
+                <Label text="SmarTounsi.com" styleClass="top-logo-text"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Label fx:id="roleHeaderLabel" text="🎓 Étudiant" styleClass="role-header"/>
+            </children>
+        </HBox>
+    </top>
+
+    <left>
+        <VBox styleClass="sidebar" spacing="8.0">
+            <children>
+                <Label text="PRINCIPAL" styleClass="sidebar-title"/>
+                <Button text="🏠  Dashboard" styleClass="sidebar-button"/>
+                <Button text="📁  Modules" styleClass="sidebar-button"/>
+                <Button text="📚  Bibliothèque" styleClass="sidebar-button"/>
+
+                <Label text="OUTILS" styleClass="sidebar-title"/>
+                <Button text="⬆️  Upload" styleClass="sidebar-button"/>
+                <Button text="🗓️  Calendrier" styleClass="sidebar-button"/>
+                <Button text="⭐  Favoris" styleClass="sidebar-button"/>
+                <Button text="🧩  Quiz" styleClass="sidebar-button"/>
+                <Button text="💼  Projets" styleClass="sidebar-button"/>
+                <Button text="🎉  Événements" styleClass="sidebar-button"/>
+
+                <Label text="AUTRE" styleClass="sidebar-title"/>
+                <Button text="👤  Profil" styleClass="sidebar-button-active"/>
+                <Button text="🔔  Notifications" styleClass="sidebar-button"/>
+                <Button text="🚪  Déconnexion" onAction="#deconnexion" styleClass="sidebar-button"/>
+            </children>
+        </VBox>
+    </left>
+
+    <center>
+        <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED">
+            <content>
+                <VBox spacing="25.0" styleClass="content">
+                    <children>
+
+                        <HBox alignment="CENTER_LEFT" spacing="20.0" styleClass="profile-header-card">
+                            <children>
+                                <Label fx:id="avatarLabel" text="A" styleClass="avatar"/>
+
+                                <VBox spacing="8.0">
+                                    <children>
+                                        <Label fx:id="nomHeaderLabel" text="Ahmed Benali" styleClass="profile-name"/>
+                                        <Label fx:id="infoHeaderLabel" text="🎓 Étudiant — 3ème année · email" styleClass="profile-subtitle"/>
+                                    </children>
+                                </VBox>
+
+                                <Region HBox.hgrow="ALWAYS"/>
+
+                                <Button text="✏️" onAction="#activerModification" styleClass="edit-button"/>
+                            </children>
+                        </HBox>
+
+                        <VBox spacing="22.0" styleClass="main-card">
+                            <children>
+                                <Label text="Informations personnelles:" styleClass="card-title"/>
+
+                                <GridPane hgap="18.0" vgap="15.0">
+                                    <children>
+                                        <VBox spacing="7.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                            <children>
+                                                <Label text="Nom complet:" styleClass="field-label"/>
+                                                <TextField fx:id="nomCompletField" styleClass="profile-field"/>
+                                            </children>
+                                        </VBox>
+
+                                        <VBox spacing="7.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                                            <children>
+                                                <Label text="Email" styleClass="field-label"/>
+                                                <TextField fx:id="emailField" styleClass="profile-field"/>
+                                            </children>
+                                        </VBox>
+
+                                        <VBox spacing="7.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                                            <children>
+                                                <Label text="Filière:" styleClass="field-label"/>
+                                                <TextField fx:id="filiereField" styleClass="profile-field"/>
+                                            </children>
+                                        </VBox>
+
+                                        <VBox fx:id="anneeBox" spacing="7.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                            <children>
+                                                <Label text="Année:" styleClass="field-label"/>
+                                                <TextField fx:id="anneeField" styleClass="profile-field"/>
+                                            </children>
+                                        </VBox>
+
+                                        <VBox spacing="7.0" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                                            <children>
+                                                <Label text="Université:" styleClass="field-label"/>
+                                                <TextField fx:id="universiteField" styleClass="profile-field"/>
+                                            </children>
+                                        </VBox>
+
+                                        <VBox fx:id="numeroBox" spacing="7.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                            <children>
+                                                <Label text="Numéro étudiant:" styleClass="field-label"/>
+                                                <TextField fx:id="numeroEtudiantField" styleClass="profile-field"/>
+                                            </children>
+                                        </VBox>
+                                    </children>
+                                </GridPane>
+
+                                <Label text="Statistiques" styleClass="stats-title"/>
+
+                                <HBox spacing="18.0">
+                                    <children>
+                                        <VBox alignment="CENTER" spacing="8.0" styleClass="stat-card">
+                                            <children>
+                                                <Label text="6" styleClass="stat-blue"/>
+                                                <Label text="Modules" styleClass="stat-text"/>
+                                            </children>
+                                        </VBox>
+
+                                        <VBox alignment="CENTER" spacing="8.0" styleClass="stat-card">
+                                            <children>
+                                                <Label text="24" styleClass="stat-yellow"/>
+                                                <Label text="Documents" styleClass="stat-text"/>
+                                            </children>
+                                        </VBox>
+
+                                        <VBox alignment="CENTER" spacing="8.0" styleClass="stat-card">
+                                            <children>
+                                                <Label text="0" styleClass="stat-red"/>
+                                                <Label text="favoris" styleClass="stat-text"/>
+                                            </children>
+                                        </VBox>
+
+                                        <VBox alignment="CENTER" spacing="8.0" styleClass="stat-card">
+                                            <children>
+                                                <Label text="13" styleClass="stat-green"/>
+                                                <Label text="téléchargement" styleClass="stat-text"/>
+                                            </children>
+                                        </VBox>
+                                    </children>
+                                </HBox>
+
+                                <Button text="Sauvegarder"
+                                        onAction="#sauvegarder"
+                                        styleClass="save-button"/>
+                            </children>
+                        </VBox>
+
+                    </children>
+                </VBox>
+            </content>
+        </ScrollPane>
+    </center>
+</BorderPane>

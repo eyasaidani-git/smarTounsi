@@ -6,10 +6,15 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
 
 <ScrollPane fx:id="mainScroll"
             fitToWidth="true"
@@ -23,50 +28,76 @@
     <content>
         <VBox styleClass="page-root">
 
-            <!-- ================= HEADER ================= -->
-            <AnchorPane styleClass="header" prefHeight="85.0">
-                <children>
+            <BorderPane styleClass="header" prefHeight="85.0">
+                <padding>
+                    <Insets top="15.0" right="50.0" bottom="15.0" left="45.0"/>
+                </padding>
+
+                <left>
                     <Label text="SmarTounsi.com"
                            styleClass="logo-text"
-                           AnchorPane.leftAnchor="45.0"
-                           AnchorPane.topAnchor="25.0"/>
+                           BorderPane.alignment="CENTER_LEFT"/>
+                </left>
 
-                    <HBox spacing="45.0"
-                          AnchorPane.topAnchor="28.0"
-                          AnchorPane.leftAnchor="690.0">
+                <center>
+                    <HBox alignment="CENTER" spacing="45.0" BorderPane.alignment="CENTER">
                         <children>
-                            <Button text="A propos" onAction="#goToApropos" styleClass="nav-button"/>
-                            <Button text="Fonctionnalités" onAction="#goToFonctionnalites" styleClass="nav-button"/>
-                            <Button text="Contact" onAction="#goToContact" styleClass="nav-button"/>
+                            <Button text="A propos"
+                                    onAction="#goToApropos"
+                                    styleClass="nav-button"/>
+
+                            <Button text="Fonctionnalités"
+                                    onAction="#goToFonctionnalites"
+                                    styleClass="nav-button"/>
+
+                            <Button text="Contact"
+                                    onAction="#goToContact"
+                                    styleClass="nav-button"/>
                         </children>
                     </HBox>
+                </center>
 
-                    <HBox spacing="15.0"
-                          AnchorPane.topAnchor="15.0"
-                          AnchorPane.rightAnchor="50.0">
+                <right>
+                    <HBox alignment="CENTER_RIGHT" spacing="15.0" BorderPane.alignment="CENTER_RIGHT">
                         <children>
-                            <Button text="Connexion" onAction="#ouvrirConnexion" styleClass="btn-outline"/>
-                            <Button text="S'inscrire" onAction="#ouvrirInscription" styleClass="btn-primary-small"/>
+                            <Button text="Connexion"
+                                    onAction="#ouvrirConnexion"
+                                    styleClass="btn-outline"/>
+
+                            <Button text="S'inscrire"
+                                    onAction="#ouvrirInscription"
+                                    styleClass="btn-primary-small"/>
                         </children>
                     </HBox>
-                </children>
-            </AnchorPane>
+                </right>
+            </BorderPane>
 
-            <!-- ================= HERO ================= -->
             <AnchorPane styleClass="hero-section" prefHeight="500.0">
                 <children>
-                    <AnchorPane styleClass="brain-circle"
-                                prefWidth="250.0"
-                                prefHeight="250.0"
-                                AnchorPane.leftAnchor="95.0"
-                                AnchorPane.topAnchor="115.0">
+
+                    <StackPane styleClass="brain-circle"
+                               prefWidth="250.0"
+                               prefHeight="250.0"
+                               AnchorPane.leftAnchor="95.0"
+                               AnchorPane.topAnchor="115.0">
+
                         <children>
-                            <Label text="🧠"
-                                   styleClass="brain-icon"
-                                   AnchorPane.leftAnchor="65.0"
-                                   AnchorPane.topAnchor="65.0"/>
+                            <ImageView fitWidth="180.0"
+                                       fitHeight="180.0"
+                                       preserveRatio="true"
+                                       pickOnBounds="true"
+                                       styleClass="brain-image">
+
+                                <image>
+                                    <Image url="@images/logo.png"/>
+                                </image>
+
+                                <clip>
+                                    <Circle centerX="90.0" centerY="90.0" radius="90.0"/>
+                                </clip>
+                            </ImageView>
                         </children>
-                    </AnchorPane>
+                    </StackPane>
 
                     <VBox spacing="24.0"
                           AnchorPane.leftAnchor="420.0"
@@ -90,10 +121,10 @@
                             </HBox>
                         </children>
                     </VBox>
+
                 </children>
             </AnchorPane>
 
-            <!-- ================= A PROPOS ================= -->
             <VBox fx:id="aproposSection"
                   alignment="CENTER"
                   spacing="35.0"
@@ -118,7 +149,6 @@
                 </children>
             </VBox>
 
-            <!-- ================= FONCTIONNALITES ================= -->
             <VBox fx:id="fonctionnalitesSection"
                   alignment="CENTER"
                   spacing="35.0"
@@ -231,7 +261,6 @@
                 </children>
             </VBox>
 
-            <!-- ================= CONTACT FORM ================= -->
             <VBox fx:id="contactSection"
                   alignment="CENTER"
                   spacing="18.0"
@@ -267,7 +296,6 @@
                 </children>
             </VBox>
 
-            <!-- ================= SOCIAL CONTACT ================= -->
             <VBox alignment="CENTER"
                   spacing="45.0"
                   styleClass="social-section"

@@ -3,7 +3,7 @@ import java.time.LocalDateTime;
 
 public class Module {
     private int id;
-    private String nomModule,description;
+    private String nom,description;
     private Integer idCreateur;
     private LocalDateTime dateCreation;
 
@@ -11,7 +11,7 @@ public class Module {
     }
 
     public Module(String nomModule, String description, Integer idCreateur) {
-        this.nomModule = nomModule;
+        this.nom = nomModule;
         this.description = description;
         this.idCreateur = idCreateur;
     }
@@ -24,12 +24,12 @@ public class Module {
         this.id = id;
     }
 
-    public String getNomModule() {
-        return nomModule;
+    public String getNom() {
+        return nom;
     }
 
-    public void setNomModule(String nomModule) {
-        this.nomModule = nomModule;
+    public void setNom(String nomModule) {
+        this.nom = nomModule;
     }
 
     public String getDescription() {
@@ -60,7 +60,7 @@ public class Module {
     public String toString() {
         return "Module{" +
                 "id=" + id +
-                ", nomModule='" + nomModule + '\'' +
+                ", nomModule='" + nom + '\'' +
                 ", description='" + description + '\'' +
                 ", idCreateur=" + idCreateur +
                 ", dateCreation=" + dateCreation +

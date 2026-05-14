@@ -2,6 +2,7 @@ package services;
 
 import models.Utilisateur;
 import util.DBConnection;
+import util.PasswordUtil;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -18,46 +19,86 @@ public class UtilisateurService implements IService<Utilisateur> {
     @Override
     public void add(Utilisateur u) {
         String req = "INSERT INTO utilisateur " +
-                "(nom, prenom, email, mot_de_passe, role, photo_profil, est_actif) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?)";
+                "(nom, prenom, email, mot_de_passe, role, photo_profil, est_actif, filiere, annee, universite, numero_etudiant) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        try (PreparedStatement ps = conn.prepareStatement(req)) {
+        try (PreparedStatement ps = conn.prepareStatement(req, Statement.RETURN_GENERATED_KEYS)) {
+
             ps.setString(1, u.getNom());
             ps.setString(2, u.getPrenom());
             ps.setString(3, u.getEmail());
-            ps.setString(4, u.getMotDePasse());
+
+            String hashedPassword = PasswordUtil.hashPassword(u.getMotDePasse());
+            ps.setString(4, hashedPassword);
+
             ps.setString(5, u.getRole());
             ps.setString(6, u.getPhotoProfil());
-            ps.setBoolean(7, u.isEstActif());
+            ps.setBoolean(7, true);
+            ps.setString(8, u.getFiliere());
+            ps.setString(9, u.getAnnee());
+            ps.setString(10, u.getUniversite());
+            ps.setString(11, u.getNumeroEtudiant());
 
-            ps.executeUpdate();
-            System.out.println("Utilisateur ajouté avec succès.");
+            int rows = ps.executeUpdate();
+
+            if (rows == 0) {
+                throw new SQLException("Aucune ligne insérée.");
+            }
+
+            try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    u.setId(generatedKeys.getInt(1));
+                }
+            }
+
+            System.out.println("Utilisateur ajouté avec succès. ID = " + u.getId());
 
         } catch (SQLException e) {
-            System.out.println("Erreur add utilisateur : " + e.getMessage());
+            throw new RuntimeException("Erreur add utilisateur : " + e.getMessage());
         }
     }
 
     @Override
     public void update(Utilisateur u) {
-        String req = "UPDATE utilisateur SET nom=?, prenom=?, email=?, mot_de_passe=?, role=?, photo_profil=?, est_actif=? " +
-                "WHERE id_utilisateur=?";
+        String req = "UPDATE utilisateur SET nom=?, prenom=?, email=?, role=?, photo_profil=?, est_actif=?, " +
+                "filiere=?, annee=?, universite=?, numero_etudiant=? WHERE id_utilisateur=?";
 
         try (PreparedStatement ps = conn.prepareStatement(req)) {
+
             ps.setString(1, u.getNom());
             ps.setString(2, u.getPrenom());
             ps.setString(3, u.getEmail());
-            ps.setString(4, u.getMotDePasse());
-            ps.setString(5, u.getRole());
-            ps.setString(6, u.getPhotoProfil());
-            ps.setBoolean(7, u.isEstActif());
-            ps.setInt(8, u.getId());
+            ps.setString(4, u.getRole());
+            ps.setString(5, u.getPhotoProfil());
+            ps.setBoolean(6, u.isEstActif());
+            ps.setString(7, u.getFiliere());
+            ps.setString(8, u.getAnnee());
+            ps.setString(9, u.getUniversite());
+            ps.setString(10, u.getNumeroEtudiant());
+            ps.setInt(11, u.getId());
 
             ps.executeUpdate();
-            System.out.println("Utilisateur modifié avec succès.");
 
         } catch (SQLException e) {
-            System.out.println("Erreur update utilisateur : " + e.getMessage());
+            throw new RuntimeException("Erreur update utilisateur : " + e.getMessage());
+        }
+    }
+
+    public void updateMotDePasse(int idUtilisateur, String nouveauMotDePasse) {
+        if (!PasswordUtil.isStrongPassword(nouveauMotDePasse)) {
+            throw new RuntimeException(PasswordUtil.getPasswordRulesMessage());
+        }
+
+        String req = "UPDATE utilisateur SET mot_de_passe=? WHERE id_utilisateur=?";
+
+        try (PreparedStatement ps = conn.prepareStatement(req)) {
+            ps.setString(1, PasswordUtil.hashPassword(nouveauMotDePasse));
+            ps.setInt(2, idUtilisateur);
+
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Erreur update mot de passe : " + e.getMessage());
         }
     }
 
@@ -68,7 +109,6 @@ public class UtilisateurService implements IService<Utilisateur> {
         try (PreparedStatement ps = conn.prepareStatement(req)) {
             ps.setInt(1, u.getId());
             ps.executeUpdate();
-            System.out.println("Utilisateur supprimé avec succès.");
 
         } catch (SQLException e) {
             System.out.println("Erreur delete utilisateur : " + e.getMessage());
@@ -94,12 +134,64 @@ public class UtilisateurService implements IService<Utilisateur> {
         return list;
     }
 
-    public Utilisateur login(String email, String motDePasse) {
-        String req = "SELECT * FROM utilisateur WHERE email=? AND mot_de_passe=? AND est_actif=1";
+    public Utilisateur login(String email, String motDePasse, String role) {
+        String req = "SELECT * FROM utilisateur WHERE LOWER(email)=LOWER(?) AND LOWER(role)=LOWER(?) AND est_actif=1";
 
         try (PreparedStatement ps = conn.prepareStatement(req)) {
-            ps.setString(1, email);
-            ps.setString(2, motDePasse);
+
+            ps.setString(1, email.trim());
+            ps.setString(2, role.trim());
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    Utilisateur u = mapRow(rs);
+                    String storedPassword = rs.getString("mot_de_passe");
+
+                    if (PasswordUtil.isBCryptHash(storedPassword)) {
+                        if (PasswordUtil.checkPassword(motDePasse, storedPassword)) {
+                            return u;
+                        }
+                    } else {
+                        // Pour les anciens comptes stockés en clair
+                        if (storedPassword.equals(motDePasse)) {
+                            updateMotDePasse(u.getId(), motDePasse);
+                            return u;
+                        }
+                    }
+                }
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Erreur login : " + e.getMessage());
+        }
+
+        return null;
+    }
+
+    public boolean emailExiste(String email) {
+        String req = "SELECT COUNT(*) FROM utilisateur WHERE LOWER(email)=LOWER(?)";
+
+        try (PreparedStatement ps = conn.prepareStatement(req)) {
+            ps.setString(1, email.trim());
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Erreur emailExiste : " + e.getMessage());
+        }
+
+        return false;
+    }
+
+    public Utilisateur getByEmail(String email) {
+        String req = "SELECT * FROM utilisateur WHERE LOWER(email)=LOWER(?)";
+
+        try (PreparedStatement ps = conn.prepareStatement(req)) {
+            ps.setString(1, email.trim());
 
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
@@ -108,7 +200,7 @@ public class UtilisateurService implements IService<Utilisateur> {
             }
 
         } catch (SQLException e) {
-            System.out.println("Erreur login : " + e.getMessage());
+            System.out.println("Erreur getByEmail utilisateur : " + e.getMessage());
         }
 
         return null;
@@ -133,32 +225,6 @@ public class UtilisateurService implements IService<Utilisateur> {
         return null;
     }
 
-    public void desactiverCompte(int idUtilisateur) {
-        String req = "UPDATE utilisateur SET est_actif=0 WHERE id_utilisateur=?";
-
-        try (PreparedStatement ps = conn.prepareStatement(req)) {
-            ps.setInt(1, idUtilisateur);
-            ps.executeUpdate();
-            System.out.println("Compte désactivé avec succès.");
-
-        } catch (SQLException e) {
-            System.out.println("Erreur désactivation utilisateur : " + e.getMessage());
-        }
-    }
-
-    public void activerCompte(int idUtilisateur) {
-        String req = "UPDATE utilisateur SET est_actif=1 WHERE id_utilisateur=?";
-
-        try (PreparedStatement ps = conn.prepareStatement(req)) {
-            ps.setInt(1, idUtilisateur);
-            ps.executeUpdate();
-            System.out.println("Compte activé avec succès.");
-
-        } catch (SQLException e) {
-            System.out.println("Erreur activation utilisateur : " + e.getMessage());
-        }
-    }
-
     private Utilisateur mapRow(ResultSet rs) throws SQLException {
         Utilisateur u = new Utilisateur();
 
@@ -171,9 +237,17 @@ public class UtilisateurService implements IService<Utilisateur> {
         u.setPhotoProfil(rs.getString("photo_profil"));
         u.setEstActif(rs.getBoolean("est_actif"));
 
-        Timestamp dateInscription = rs.getTimestamp("date_inscription");
-        if (dateInscription != null) {
-            u.setDateInscription(dateInscription.toLocalDateTime());
+        u.setFiliere(rs.getString("filiere"));
+        u.setAnnee(rs.getString("annee"));
+        u.setUniversite(rs.getString("universite"));
+        u.setNumeroEtudiant(rs.getString("numero_etudiant"));
+
+        try {
+            Timestamp date = rs.getTimestamp("date_inscription");
+            if (date != null) {
+                u.setDateInscription(date.toLocalDateTime());
+            }
+        } catch (SQLException ignored) {
         }
 
         return u;

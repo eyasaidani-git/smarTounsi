@@ -1,24 +1,49 @@
 package models;
-import enums.UtilisateurRole;
+
 import java.time.LocalDateTime;
 
 public class Utilisateur {
+
     private int id;
-    private String nom, prenom, email, motDePasse, role, photoProfil;
+    private String nom;
+    private String prenom;
+    private String email;
+    private String motDePasse;
+    private String role;
+    private String photoProfil;
     private LocalDateTime dateInscription;
     private boolean estActif;
 
-    public Utilisateur() {}
+    private String filiere;
+    private String annee;
+    private String universite;
+    private String numeroEtudiant;
 
-    public Utilisateur(String nom, String prenom, String email,
-                       String motDePasse, String role) {
+    public Utilisateur() {
+    }
+
+    public Utilisateur(String nom, String prenom, String email, String motDePasse, String role) {
         this.nom = nom;
         this.prenom = prenom;
         this.email = email;
         this.motDePasse = motDePasse;
         this.role = role;
         this.estActif = true;
-}
+    }
+
+    public Utilisateur(String nom, String prenom, String email, String motDePasse, String role,
+                       String filiere, String annee, String universite, String numeroEtudiant) {
+        this.nom = nom;
+        this.prenom = prenom;
+        this.email = email;
+        this.motDePasse = motDePasse;
+        this.role = role;
+        this.filiere = filiere;
+        this.annee = annee;
+        this.universite = universite;
+        this.numeroEtudiant = numeroEtudiant;
+        this.estActif = true;
+    }
 
     public int getId() {
         return id;
@@ -42,6 +67,30 @@ public class Utilisateur {
 
     public void setPrenom(String prenom) {
         this.prenom = prenom;
+    }
+
+    public String getNomComplet() {
+        String p = prenom == null ? "" : prenom;
+        String n = nom == null ? "" : nom;
+        return (p + " " + n).trim();
+    }
+
+    public void setNomComplet(String nomComplet) {
+        if (nomComplet == null || nomComplet.isBlank()) {
+            this.prenom = "";
+            this.nom = "";
+            return;
+        }
+
+        String[] parts = nomComplet.trim().split("\\s+", 2);
+
+        if (parts.length == 1) {
+            this.prenom = parts[0];
+            this.nom = "";
+        } else {
+            this.prenom = parts[0];
+            this.nom = parts[1];
+        }
     }
 
     public String getEmail() {
@@ -100,6 +149,38 @@ public class Utilisateur {
         this.estActif = actif;
     }
 
+    public String getFiliere() {
+        return filiere;
+    }
+
+    public void setFiliere(String filiere) {
+        this.filiere = filiere;
+    }
+
+    public String getAnnee() {
+        return annee;
+    }
+
+    public void setAnnee(String annee) {
+        this.annee = annee;
+    }
+
+    public String getUniversite() {
+        return universite;
+    }
+
+    public void setUniversite(String universite) {
+        this.universite = universite;
+    }
+
+    public String getNumeroEtudiant() {
+        return numeroEtudiant;
+    }
+
+    public void setNumeroEtudiant(String numeroEtudiant) {
+        this.numeroEtudiant = numeroEtudiant;
+    }
+
     @Override
     public String toString() {
         return "Utilisateur{" +
@@ -107,12 +188,12 @@ public class Utilisateur {
                 ", nom='" + nom + '\'' +
                 ", prenom='" + prenom + '\'' +
                 ", email='" + email + '\'' +
-                ", motDePasse='" + motDePasse + '\'' +
                 ", role='" + role + '\'' +
-                ", photoProfil='" + photoProfil + '\'' +
-                ", dateInscription=" + dateInscription +
-                ", actif=" + estActif +
+                ", filiere='" + filiere + '\'' +
+                ", annee='" + annee + '\'' +
+                ", universite='" + universite + '\'' +
+                ", numeroEtudiant='" + numeroEtudiant + '\'' +
+                ", estActif=" + estActif +
                 '}';
     }
 }
-

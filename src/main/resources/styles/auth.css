@@ -1,0 +1,110 @@
+.root {
+    -fx-font-family: "Segoe UI", "Arial";
+}
+
+.auth-root {
+    -fx-background-color: #EEF4FA;
+}
+
+.auth-card {
+    -fx-background-color: white;
+    -fx-background-radius: 24px;
+    -fx-effect: dropshadow(gaussian, rgba(15, 34, 57, 0.12), 35, 0, 0, 8);
+}
+
+.auth-logo {
+    -fx-font-size: 38px;
+}
+
+.auth-title {
+    -fx-text-fill: #061F39;
+    -fx-font-size: 24px;
+    -fx-font-weight: 900;
+}
+
+.form-label-yellow {
+    -fx-text-fill: #F4B400;
+    -fx-font-size: 16px;
+    -fx-font-weight: 900;
+}
+
+.form-label {
+    -fx-text-fill: #061F39;
+    -fx-font-size: 15px;
+    -fx-font-weight: 700;
+}
+
+.auth-field {
+    -fx-pref-height: 50px;
+    -fx-pref-width: 405px;
+    -fx-background-color: white;
+    -fx-border-color: #C9D9EA;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-font-size: 16px;
+    -fx-padding: 0 15px;
+}
+
+.role-button {
+    -fx-background-color: white;
+    -fx-border-color: #C9D9EA;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-text-fill: #061F39;
+    -fx-font-size: 16px;
+    -fx-font-weight: 900;
+    -fx-padding: 15px 20px;
+    -fx-cursor: hand;
+}
+
+.role-button-selected {
+    -fx-background-color: #0B2239;
+    -fx-border-color: #0B2239;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: 900;
+    -fx-padding: 15px 20px;
+    -fx-cursor: hand;
+}
+
+.main-auth-button {
+    -fx-background-color: #F4B400;
+    -fx-text-fill: black;
+    -fx-font-size: 18px;
+    -fx-font-weight: 900;
+    -fx-background-radius: 10px;
+    -fx-padding: 16px;
+    -fx-cursor: hand;
+}
+
+.main-auth-button:hover {
+    -fx-background-color: #DFA300;
+}
+
+.link-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #F4B400;
+    -fx-font-size: 15px;
+    -fx-font-weight: 800;
+    -fx-cursor: hand;
+}
+
+.muted-text {
+    -fx-text-fill: #6B7D90;
+    -fx-font-size: 15px;
+}
+.password-rules {
+    -fx-text-fill: #6B7D90;
+    -fx-font-size: 12px;
+    -fx-font-weight: 600;
+    -fx-wrap-text: true;
+}
+
+.password-rules-warning {
+    -fx-text-fill: #E05252;
+    -fx-font-size: 12px;
+    -fx-font-weight: 700;
+    -fx-wrap-text: true;
+}

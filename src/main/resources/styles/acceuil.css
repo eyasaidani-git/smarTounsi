@@ -6,7 +6,6 @@
     -fx-background-color: #EEF4FA;
 }
 
-/* ================= HEADER ================= */
 
 .header {
     -fx-background-color: #0B2239;
@@ -61,8 +60,6 @@
     -fx-background-color: #DFA300;
 }
 
-/* ================= HERO ================= */
-
 .hero-section {
     -fx-background-color: #0B2239;
 }
@@ -77,6 +74,10 @@
 
 .brain-icon {
     -fx-font-size: 82px;
+}
+
+.brain-image {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.18), 10, 0, 0, 2);
 }
 
 .hero-title {
@@ -114,8 +115,6 @@
     -fx-cursor: hand;
 }
 
-/* ================= A PROPOS ================= */
-
 .apropos-section {
     -fx-background-color: #142E4F;
     -fx-padding: 70px 0 50px 0;
@@ -141,8 +140,6 @@
     -fx-font-weight: 800;
     -fx-padding: 18px 32px;
 }
-
-/* ================= FEATURES ================= */
 
 .features-section {
     -fx-background-color: #EEF4FA;
@@ -187,8 +184,6 @@
     -fx-line-spacing: 6px;
 }
 
-/* ================= CONTACT ================= */
-
 .contact-section {
     -fx-background-color: white;
     -fx-padding: 50px 0 50px 0;
@@ -229,8 +224,6 @@
     -fx-padding: 16px 38px;
     -fx-cursor: hand;
 }
-
-/* ================= SOCIAL ================= */
 
 .social-section {
     -fx-background-color: #142E4F;

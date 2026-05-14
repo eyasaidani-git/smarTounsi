@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.InscriptionController"
+            stylesheets="@styles/auth.css"
+            styleClass="auth-root">
+
+    <center>
+        <VBox alignment="CENTER" styleClass="auth-card" spacing="18.0" maxWidth="500.0">
+            <padding>
+                <Insets top="45" right="55" bottom="45" left="55"/>
+            </padding>
+
+            <children>
+                <Label text="🧠" styleClass="auth-logo"/>
+                <Label text="Accéder à SmarTounsi" styleClass="auth-title"/>
+
+                <VBox spacing="10.0">
+                    <children>
+                        <Label text="Choisissez votre rôle:" styleClass="form-label-yellow"/>
+
+                        <HBox spacing="14.0">
+                            <children>
+                                <Button fx:id="btnEtudiant"
+                                        text="🎓  Etudiant"
+                                        onAction="#choisirEtudiant"
+                                        styleClass="role-button-selected"
+                                        prefWidth="195"/>
+
+                                <Button fx:id="btnProf"
+                                        text="👨‍🏫  Professeur"
+                                        onAction="#choisirProf"
+                                        styleClass="role-button"
+                                        prefWidth="195"/>
+                            </children>
+                        </HBox>
+                    </children>
+                </VBox>
+
+                <VBox spacing="7.0">
+                    <children>
+                        <Label text="Email" styleClass="form-label"/>
+                        <TextField fx:id="emailField" styleClass="auth-field"/>
+                    </children>
+                </VBox>
+                <VBox spacing="7.0">
+                    <children>
+                        <Button text="Envoyer un code de vérification"
+                                onAction="#envoyerCodeEmail"
+                                styleClass="main-auth-button"
+                                maxWidth="Infinity"/>
+
+                        <TextField fx:id="emailCodeField"
+                                   promptText="Code reçu par email"
+                                   styleClass="auth-field"/>
+                    </children>
+                </VBox>
+                <VBox spacing="7.0">
+                    <children>
+                        <Label text="Nom complet" styleClass="form-label"/>
+                        <TextField fx:id="nomCompletField" styleClass="auth-field"/>
+                    </children>
+                </VBox>
+
+                <VBox spacing="7.0">
+                    <children>
+                        <Label text="Mot de passe" styleClass="form-label"/>
+                        <PasswordField fx:id="passwordField" styleClass="auth-field"/>
+                    </children>
+                </VBox>
+
+                <VBox spacing="7.0">
+                    <children>
+                        <Label text="Filière" styleClass="form-label"/>
+                        <TextField fx:id="filiereField" promptText="ex: Informatique" styleClass="auth-field"/>
+                    </children>
+                </VBox>
+                <VBox spacing="7.0">
+                    <children>
+                        <Label text="Captcha" styleClass="form-label"/>
+                        <Label fx:id="captchaLabel" text="1 + 1 = ?" styleClass="form-label-yellow"/>
+                        <TextField fx:id="captchaField" promptText="Réponse captcha" styleClass="auth-field"/>
+                    </children>
+                </VBox>
+                <Button text="S'inscrire"
+                        onAction="#inscrire"
+                        styleClass="main-auth-button"
+                        maxWidth="Infinity"/>
+
+                <HBox alignment="CENTER" spacing="5.0">
+                    <children>
+                        <Label text="Déjà un compte ?" styleClass="muted-text"/>
+                        <Button text="Se connecter" onAction="#goConnexion" styleClass="link-button"/>
+                    </children>
+                </HBox>
+
+                <Button text="← Retour à l'accueil" onAction="#goAccueil" styleClass="link-button"/>
+            </children>
+        </VBox>
+    </center>
+</BorderPane>

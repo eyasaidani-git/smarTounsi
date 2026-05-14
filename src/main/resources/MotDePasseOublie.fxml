@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.MotDePasseOublieController"
+            stylesheets="@styles/auth.css"
+            styleClass="auth-root">
+
+    <center>
+        <VBox alignment="CENTER" styleClass="auth-card" spacing="16.0" maxWidth="520.0">
+            <padding>
+                <Insets top="45" right="55" bottom="45" left="55"/>
+            </padding>
+
+            <children>
+                <Label text="🔐" styleClass="auth-logo"/>
+                <Label text="Mot de passe oublié" styleClass="auth-title"/>
+
+                <VBox spacing="7.0">
+                    <children>
+                        <Label text="Email" styleClass="form-label"/>
+                        <TextField fx:id="emailField" styleClass="auth-field"/>
+                    </children>
+                </VBox>
+
+                <Button text="Envoyer le code"
+                        onAction="#envoyerCode"
+                        styleClass="main-auth-button"
+                        maxWidth="Infinity"/>
+
+                <VBox spacing="7.0">
+                    <children>
+                        <Label text="Code reçu par email" styleClass="form-label"/>
+                        <TextField fx:id="codeField" styleClass="auth-field"/>
+                    </children>
+                </VBox>
+
+                <VBox spacing="7.0">
+                    <children>
+                        <Label text="Nouveau mot de passe" styleClass="form-label"/>
+
+                        <PasswordField fx:id="newPasswordField"
+                                       promptText="Nouveau mot de passe"
+                                       styleClass="auth-field"/>
+
+                        <Label text="Le mot de passe doit contenir au minimum 8 caractères, une majuscule, une minuscule et un chiffre."
+                               styleClass="password-rules"
+                               wrapText="true"
+                               maxWidth="405.0"/>
+                    </children>
+                </VBox>
+                <VBox spacing="7.0">
+                    <children>
+                        <Label text="Confirmer le mot de passe" styleClass="form-label"/>
+                        <PasswordField fx:id="confirmPasswordField" styleClass="auth-field"/>
+                    </children>
+                </VBox>
+
+                <VBox spacing="7.0">
+                    <children>
+                        <Label text="Captcha" styleClass="form-label"/>
+                        <Label fx:id="captchaLabel" text="1 + 1 = ?" styleClass="form-label-yellow"/>
+                        <TextField fx:id="captchaField" promptText="Réponse captcha" styleClass="auth-field"/>
+                    </children>
+                </VBox>
+
+                <Button text="Réinitialiser le mot de passe"
+                        onAction="#reinitialiser"
+                        styleClass="main-auth-button"
+                        maxWidth="Infinity"/>
+
+                <Button text="← Retour connexion"
+                        onAction="#goConnexion"
+                        styleClass="link-button"/>
+            </children>
+        </VBox>
+    </center>
+</BorderPane>
