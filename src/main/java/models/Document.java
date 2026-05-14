@@ -1,21 +1,26 @@
 package models;
+import enums.DocumentStatut;
+import enums.DocumentType;
 import java.time.LocalDateTime;
-
 public class Document {
-    private int id, idModule, idUtilisateur;
-    private String titre, type, contenu;
-    private LocalDateTime dateAjout;
-    private boolean approuve;
-    public Document() {}
+    private int id,idModule,idUploadeur;
+    private String titre , description ,fichierUrl;
+    private DocumentType typeDocument;
+    private DocumentStatut statut;
+    private LocalDateTime dateUpload, dateApprobation;
+    private Integer idApprobateur;
 
-    public Document(String titre, String type, String contenu, int idModule, int idUtilisateur) {
+    public Document() {
+    }
+
+    public Document(String titre, String description, DocumentType typeDocument, String fichierUrl, int idModule, int idUploadeur) {
         this.titre = titre;
-        this.type = type;
-        this.contenu = contenu;
+        this.description = description;
+        this.typeDocument = typeDocument;
+        this.fichierUrl = fichierUrl;
         this.idModule = idModule;
-        this.idUtilisateur = idUtilisateur;
-        this.approuve = false;
-
+        this.idUploadeur = idUploadeur;
+        this.statut = DocumentStatut.EN_ATTENTE;
     }
 
     public int getId() {
@@ -26,22 +31,6 @@ public class Document {
         this.id = id;
     }
 
-    public int getIdModule() {
-        return idModule;
-    }
-
-    public void setIdModule(int idModule) {
-        this.idModule = idModule;
-    }
-
-    public int getIdUtilisateur() {
-        return idUtilisateur;
-    }
-
-    public void setIdUtilisateur(int idUtilisateur) {
-        this.idUtilisateur = idUtilisateur;
-    }
-
     public String getTitre() {
         return titre;
     }
@@ -50,49 +39,92 @@ public class Document {
         this.titre = titre;
     }
 
-    public String getType() {
-        return type;
+    public String getDescription() {
+        return description;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public String getContenu() {
-        return contenu;
+    public DocumentType getTypeDocument() {
+        return typeDocument;
     }
 
-    public void setContenu(String contenu) {
-        this.contenu = contenu;
+    public void setTypeDocument(DocumentType typeDocument) {
+        this.typeDocument = typeDocument;
     }
 
-    public LocalDateTime getDateAjout() {
-        return dateAjout;
+    public String getFichierUrl() {
+        return fichierUrl;
     }
 
-    public void setDateAjout(LocalDateTime dateAjout) {
-        this.dateAjout = dateAjout;
+    public void setFichierUrl(String fichierUrl) {
+        this.fichierUrl = fichierUrl;
     }
 
-    public boolean isApprouve() {
-        return approuve;
+    public int getIdModule() {
+        return idModule;
     }
 
-    public void setApprouve(boolean approuve) {
-        this.approuve = approuve;
+    public void setIdModule(int idModule) {
+        this.idModule = idModule;
+    }
+
+    public int getIdUploadeur() {
+        return idUploadeur;
+    }
+
+    public void setIdUploadeur(int idUploadeur) {
+        this.idUploadeur = idUploadeur;
+    }
+
+    public DocumentStatut getStatut() {
+        return statut;
+    }
+
+    public void setStatut(DocumentStatut statut) {
+        this.statut = statut;
+    }
+
+    public LocalDateTime getDateUpload() {
+        return dateUpload;
+    }
+
+    public void setDateUpload(LocalDateTime dateUpload) {
+        this.dateUpload = dateUpload;
+    }
+
+    public LocalDateTime getDateApprobation() {
+        return dateApprobation;
+    }
+
+    public void setDateApprobation(LocalDateTime dateApprobation) {
+        this.dateApprobation = dateApprobation;
+    }
+
+    public Integer getIdApprobateur() {
+        return idApprobateur;
+    }
+
+    public void setIdApprobateur(Integer idApprobateur) {
+        this.idApprobateur = idApprobateur;
     }
 
     @Override
     public String toString() {
         return "Document{" +
                 "id=" + id +
-                ", idModule=" + idModule +
-                ", idUtilisateur=" + idUtilisateur +
                 ", titre='" + titre + '\'' +
-                ", type='" + type + '\'' +
-                ", contenu='" + contenu + '\'' +
-                ", dateAjout=" + dateAjout +
-                ", approuve=" + approuve +
+                ", description='" + description + '\'' +
+                ", typeDocument=" + typeDocument +
+                ", fichierUrl='" + fichierUrl + '\'' +
+                ", idModule=" + idModule +
+                ", idUploadeur=" + idUploadeur +
+                ", statut=" + statut +
+                ", dateUpload=" + dateUpload +
+                ", dateApprobation=" + dateApprobation +
+                ", idApprobateur=" + idApprobateur +
                 '}';
     }
 }

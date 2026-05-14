@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="Controllers.Documentcontroller"
+            style="-fx-background-color: #F0F8FC;">
+
+    <!-- ═══════════════════════ SIDEBAR ═══════════════════════ -->
+    <left>
+        <VBox prefWidth="210"
+              style="-fx-background-color: #023047;
+                     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.35), 12, 0, 3, 0);">
+
+            <!-- Logo -->
+            <VBox alignment="CENTER"
+                  style="-fx-background-color: #FEB707;
+                         -fx-padding: 18 12 18 12;">
+                <Label text="📚 smarTounsi"
+                       style="-fx-font-size: 20px;
+                              -fx-font-weight: bold;
+                              -fx-text-fill: #023047;" />
+            </VBox>
+
+            <!-- Menu -->
+            <VBox spacing="4"
+                  VBox.vgrow="ALWAYS"
+                  style="-fx-padding: 20 10 10 10;">
+
+                <Label text="PRINCIPALE"
+                       style="-fx-text-fill: #8ECBE6;
+                              -fx-font-size: 10px;
+                              -fx-font-weight: bold;
+                              -fx-padding: 8 6 4 6;" />
+
+                <Button text="🏠 Dashboard"
+                        onAction="#handleDashboard"
+                        maxWidth="Infinity"
+                        style="-fx-background-color: transparent;
+                               -fx-text-fill: white;
+                               -fx-font-size: 13px;
+                               -fx-alignment: CENTER-LEFT;
+                               -fx-padding: 8 12;
+                               -fx-cursor: hand;
+                               -fx-background-radius: 6;" />
+
+                <Button text="📦 Modules"
+                        onAction="#handleModules"
+                        maxWidth="Infinity"
+                        style="-fx-background-color: transparent;
+                               -fx-text-fill: white;
+                               -fx-font-size: 13px;
+                               -fx-alignment: CENTER-LEFT;
+                               -fx-padding: 8 12;
+                               -fx-cursor: hand;
+                               -fx-background-radius: 6;" />
+
+                <Button text="📄 Documents"
+                        onAction="#handleDocuments"
+                        maxWidth="Infinity"
+                        style="-fx-background-color: #229DBC;
+                               -fx-text-fill: white;
+                               -fx-font-size: 13px;
+                               -fx-font-weight: bold;
+                               -fx-alignment: CENTER-LEFT;
+                               -fx-padding: 8 12;
+                               -fx-cursor: hand;
+                               -fx-background-radius: 6;" />
+
+                <Label text="OUTILS"
+                       style="-fx-text-fill: #8ECBE6;
+                              -fx-font-size: 10px;
+                              -fx-font-weight: bold;
+                              -fx-padding: 14 6 4 6;" />
+
+                <Button text="🧩 Quiz"
+                        onAction="#handleQuiz"
+                        maxWidth="Infinity"
+                        style="-fx-background-color: transparent;
+                               -fx-text-fill: white;
+                               -fx-font-size: 13px;
+                               -fx-alignment: CENTER-LEFT;
+                               -fx-padding: 8 12;
+                               -fx-cursor: hand;
+                               -fx-background-radius: 6;" />
+
+                <Button text="📅 Planning"
+                        onAction="#handlePlanning"
+                        maxWidth="Infinity"
+                        style="-fx-background-color: transparent;
+                               -fx-text-fill: white;
+                               -fx-font-size: 13px;
+                               -fx-alignment: CENTER-LEFT;
+                               -fx-padding: 8 12;
+                               -fx-cursor: hand;
+                               -fx-background-radius: 6;" />
+
+                <Button text="🔧 Jira"
+                        onAction="#handleJira"
+                        maxWidth="Infinity"
+                        style="-fx-background-color: transparent;
+                               -fx-text-fill: white;
+                               -fx-font-size: 13px;
+                               -fx-alignment: CENTER-LEFT;
+                               -fx-padding: 8 12;
+                               -fx-cursor: hand;
+                               -fx-background-radius: 6;" />
+
+                <Button text="⬆ Upload"
+                        onAction="#handleUpload"
+                        maxWidth="Infinity"
+                        style="-fx-background-color: transparent;
+                               -fx-text-fill: white;
+                               -fx-font-size: 13px;
+                               -fx-alignment: CENTER-LEFT;
+                               -fx-padding: 8 12;
+                               -fx-cursor: hand;
+                               -fx-background-radius: 6;" />
+
+                <Button text="⭐ Favoris"
+                        onAction="#handleFavoris"
+                        maxWidth="Infinity"
+                        style="-fx-background-color: transparent;
+                               -fx-text-fill: white;
+                               -fx-font-size: 13px;
+                               -fx-alignment: CENTER-LEFT;
+                               -fx-padding: 8 12;
+                               -fx-cursor: hand;
+                               -fx-background-radius: 6;" />
+
+                <Label text="AUTRE"
+                       style="-fx-text-fill: #8ECBE6;
+                              -fx-font-size: 10px;
+                              -fx-font-weight: bold;
+                              -fx-padding: 14 6 4 6;" />
+
+                <Button text="👤 Profil"
+                        onAction="#handleProfil"
+                        maxWidth="Infinity"
+                        style="-fx-background-color: transparent;
+                               -fx-text-fill: white;
+                               -fx-font-size: 13px;
+                               -fx-alignment: CENTER-LEFT;
+                               -fx-padding: 8 12;
+                               -fx-cursor: hand;
+                               -fx-background-radius: 6;" />
+
+                <Button text="🔔 Notification"
+                        onAction="#handleNotification"
+                        maxWidth="Infinity"
+                        style="-fx-background-color: transparent;
+                               -fx-text-fill: white;
+                               -fx-font-size: 13px;
+                               -fx-alignment: CENTER-LEFT;
+                               -fx-padding: 8 12;
+                               -fx-cursor: hand;
+                               -fx-background-radius: 6;" />
+
+            </VBox>
+
+            <!-- Déconnexion -->
+            <VBox style="-fx-padding: 10 10 16 10;">
+                <Button text="🚪 Déconnexion"
+                        onAction="#handleDeconnexion"
+                        maxWidth="Infinity"
+                        style="-fx-background-color: #FB8402;
+                               -fx-text-fill: white;
+                               -fx-font-size: 13px;
+                               -fx-font-weight: bold;
+                               -fx-alignment: CENTER-LEFT;
+                               -fx-padding: 9 12;
+                               -fx-cursor: hand;
+                               -fx-background-radius: 6;" />
+            </VBox>
+
+        </VBox>
+    </left>
+
+    <!-- ═══════════════════════ CONTENU ═══════════════════════ -->
+    <center>
+
+        <VBox spacing="0"
+              style="-fx-background-color: #F0F8FC;">
+
+            <!-- HEADER -->
+            <VBox spacing="10"
+                  style="-fx-background-color: white;
+                         -fx-padding: 25 30 20 30;
+                         -fx-effect: dropshadow(gaussian, rgba(2,48,71,0.10), 8, 0, 0, 3);">
+
+                <Button text="← Retour aux modules"
+                        onAction="#handleRetour"
+                        style="-fx-background-color: transparent;
+                               -fx-text-fill: #229DBC;
+                               -fx-font-size: 13px;
+                               -fx-cursor: hand;" />
+
+                <Label fx:id="labelNomModule"
+                       style="-fx-font-size: 28px;
+                              -fx-font-weight: bold;
+                              -fx-text-fill: #FEB707;" />
+
+                <Label text="Choisissez un document pour le consulter."
+                       style="-fx-text-fill: #229DBC;
+                              -fx-font-size: 13px;" />
+
+                <!-- Recherche -->
+                <HBox spacing="10"
+                      alignment="CENTER_LEFT">
+
+                    <TextField fx:id="tfRecherche"
+                               promptText="Rechercher dans ce module..."
+                               prefWidth="320"
+                               onAction="#handleRechercher"
+                               style="-fx-background-color: #F0F8FC;
+                                      -fx-border-color: #8ECBE6;
+                                      -fx-border-radius: 8;
+                                      -fx-background-radius: 8;
+                                      -fx-padding: 8 12;" />
+
+                    <ComboBox fx:id="cbFiltreType"
+                              prefWidth="140"
+                              onAction="#handleRechercher"
+                              promptText="Type"
+                              style="-fx-background-color: #F0F8FC;
+                                     -fx-border-color: #8ECBE6;
+                                     -fx-border-radius: 8;
+                                     -fx-background-radius: 8;" />
+
+                    <ComboBox fx:id="cbFiltreChapitre"
+                              prefWidth="150"
+                              onAction="#handleRechercher"
+                              promptText="Chapitre"
+                              style="-fx-background-color: #F0F8FC;
+                                     -fx-border-color: #8ECBE6;
+                                     -fx-border-radius: 8;
+                                     -fx-background-radius: 8;" />
+
+                    <Button text="🔍 Rechercher"
+                            onAction="#handleRechercher"
+                            style="-fx-background-color: #229DBC;
+                                   -fx-text-fill: white;
+                                   -fx-font-weight: bold;
+                                   -fx-background-radius: 8;
+                                   -fx-cursor: hand;
+                                   -fx-padding: 8 16;" />
+
+                </HBox>
+
+            </VBox>
+
+            <!-- LISTE DOCUMENTS -->
+            <ScrollPane fitToWidth="true"
+                        VBox.vgrow="ALWAYS"
+                        style="-fx-background-color: transparent;
+                               -fx-background: transparent;
+                               -fx-border-color: transparent;">
+
+                <VBox spacing="20">
+
+                    <padding>
+                        <Insets top="25"
+                                right="30"
+                                bottom="25"
+                                left="30" />
+                    </padding>
+
+                    <HBox spacing="12"
+                          alignment="CENTER_LEFT">
+
+                        <Label text="Documents et chapitres"
+                               style="-fx-font-size: 20px;
+                                      -fx-font-weight: bold;
+                                      -fx-text-fill: #023047;" />
+
+                        <Label fx:id="labelCompteur"
+                               text="0 document(s)"
+                               style="-fx-background-color: #229DBC;
+                                      -fx-text-fill: white;
+                                      -fx-font-size: 11px;
+                                      -fx-font-weight: bold;
+                                      -fx-padding: 3 10;
+                                      -fx-background-radius: 12;" />
+
+                    </HBox>
+
+                    <FlowPane fx:id="flowDocuments"
+                              hgap="20"
+                              vgap="20"
+                              prefWrapLength="900" />
+
+                </VBox>
+
+            </ScrollPane>
+
+        </VBox>
+
+    </center>
+
+</BorderPane>
