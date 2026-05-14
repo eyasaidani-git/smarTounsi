@@ -5,7 +5,11 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public class Evenement {
+<<<<<<< HEAD
     private int idEvenement;
+=======
+    private int id;
+>>>>>>> origin/GestionNour
     private String titre;
     private String description;
     private EvenementType typeEvenement;
@@ -16,15 +20,23 @@ public class Evenement {
     private int idCreateur;
     private String imageEvenement;
     private LocalDateTime dateCreation;
+<<<<<<< HEAD
     private boolean organiseParSite;
     private String statut;
     private int capacity;
+=======
+
+>>>>>>> origin/GestionNour
     public Evenement() {
     }
 
     public Evenement(String titre, String description, EvenementType typeEvenement, String lieu,
                      LocalDateTime dateDebut, LocalDateTime dateFin, BigDecimal tarif,
+<<<<<<< HEAD
                      int idCreateur, String imageEvenement,String statut,int capacity) {
+=======
+                     int idCreateur, String imageEvenement) {
+>>>>>>> origin/GestionNour
         this.titre = titre;
         this.description = description;
         this.typeEvenement = typeEvenement;
@@ -34,8 +46,11 @@ public class Evenement {
         this.tarif = tarif;
         this.idCreateur = idCreateur;
         this.imageEvenement = imageEvenement;
+<<<<<<< HEAD
         this.statut=statut;
         this.capacity=capacity;
+=======
+>>>>>>> origin/GestionNour
     }
 
     public int getId() {
@@ -127,12 +142,17 @@ public class Evenement {
         this.imageEvenement = imageEvenement;
     }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/GestionNour
     public LocalDateTime getDateCreation() {
         return dateCreation;
     }
 
     public void setDateCreation(LocalDateTime dateCreation) {
         this.dateCreation = dateCreation;
+<<<<<<< HEAD
     }
 
     public boolean isOrganiseParSite() {
@@ -157,12 +177,18 @@ public class Evenement {
 
     public void setCapacity(int capacity) {
         this.capacity = capacity;
+=======
+>>>>>>> origin/GestionNour
     }
 
     @Override
     public String toString() {
         return "Evenement{" +
+<<<<<<< HEAD
                 "id=" + idEvenement +
+=======
+                "id=" + id +
+>>>>>>> origin/GestionNour
                 ", titre='" + titre + '\'' +
                 ", description='" + description + '\'' +
                 ", typeEvenement=" + typeEvenement +
@@ -172,7 +198,12 @@ public class Evenement {
                 ", tarif=" + tarif +
                 ", idCreateur=" + idCreateur +
                 ", imageEvenement='" + imageEvenement + '\'' +
+<<<<<<< HEAD
                 ", dateCreation=" + dateCreation + ", status=" + statut +
                 ",capacité=" + capacity + '}';
+=======
+                ", dateCreation=" + dateCreation +
+                '}';
+>>>>>>> origin/GestionNour
     }
 }

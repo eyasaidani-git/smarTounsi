@@ -154,4 +154,8 @@ public class MessagePriveService implements IService<MessagePrive> {
         m.setDateLecture(dateLecture == null ? null : dateLecture.toLocalDateTime());
         return m;
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> origin/GestionNour

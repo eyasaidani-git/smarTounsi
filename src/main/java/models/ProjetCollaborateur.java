@@ -52,4 +52,8 @@ public class ProjetCollaborateur {
     public void setDateAjout(LocalDateTime dateAjout) {
         this.dateAjout = dateAjout;
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> origin/GestionNour

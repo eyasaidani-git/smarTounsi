@@ -153,4 +153,8 @@ public class ToDoItemService implements IService<ToDoItem> {
             ps.setInt(index, value);
         }
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> origin/GestionNour

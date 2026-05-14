@@ -9,6 +9,10 @@ import java.util.List;
 
 public class ResultatQuizService implements IService<ResultatQuiz> {
     private final Connection conn;
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/GestionNour
     public ResultatQuizService() {
         this.conn = DBConnection.getInstance().getConn();
     }
@@ -148,4 +152,8 @@ public class ResultatQuizService implements IService<ResultatQuiz> {
             ps.setInt(index, value);
         }
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> origin/GestionNour

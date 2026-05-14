@@ -1,16 +1,22 @@
 package models;
+import enums.UtilisateurRole;
+import java.time.LocalDateTime;
 
 import java.time.LocalDateTime;
 
 public class Utilisateur {
 
     private int id;
+<<<<<<< HEAD
     private String nom;
     private String prenom;
     private String email;
     private String motDePasse;
     private String role;
     private String photoProfil;
+=======
+    private String nom, prenom, email, motDePasse, role, photoProfil;
+>>>>>>> origin/GestionNour
     private LocalDateTime dateInscription;
     private boolean estActif;
 
@@ -30,6 +36,7 @@ public class Utilisateur {
         this.role = role;
         this.estActif = true;
     }
+<<<<<<< HEAD
 
     public Utilisateur(String nom, String prenom, String email, String motDePasse, String role,
                        String filiere, String annee, String universite, String numeroEtudiant) {
@@ -44,6 +51,8 @@ public class Utilisateur {
         this.numeroEtudiant = numeroEtudiant;
         this.estActif = true;
     }
+=======
+>>>>>>> origin/GestionNour
 
     public int getId() {
         return id;
@@ -147,6 +156,7 @@ public class Utilisateur {
 
     public void setActif(boolean actif) {
         this.estActif = actif;
+<<<<<<< HEAD
     }
 
     public String getFiliere() {
@@ -179,6 +189,8 @@ public class Utilisateur {
 
     public void setNumeroEtudiant(String numeroEtudiant) {
         this.numeroEtudiant = numeroEtudiant;
+=======
+>>>>>>> origin/GestionNour
     }
 
     @Override
@@ -189,11 +201,17 @@ public class Utilisateur {
                 ", prenom='" + prenom + '\'' +
                 ", email='" + email + '\'' +
                 ", role='" + role + '\'' +
+<<<<<<< HEAD
                 ", filiere='" + filiere + '\'' +
                 ", annee='" + annee + '\'' +
                 ", universite='" + universite + '\'' +
                 ", numeroEtudiant='" + numeroEtudiant + '\'' +
                 ", estActif=" + estActif +
+=======
+                ", photoProfil='" + photoProfil + '\'' +
+                ", dateInscription=" + dateInscription +
+                ", actif=" + estActif +
+>>>>>>> origin/GestionNour
                 '}';
     }
 }

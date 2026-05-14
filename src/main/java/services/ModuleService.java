@@ -19,7 +19,11 @@ public class ModuleService implements IService<Module> {
         String sql = "INSERT INTO modules (nom_module, description, id_createur) VALUES (?, ?, ?)";
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
+<<<<<<< HEAD
             ps.setString(1, m.getNom());
+=======
+            ps.setString(1, m.getNomModule());
+>>>>>>> origin/GestionNour
             ps.setString(2, m.getDescription());
             setNullableInt(ps, 3, m.getIdCreateur());
             ps.executeUpdate();
@@ -34,7 +38,11 @@ public class ModuleService implements IService<Module> {
         String sql = "UPDATE modules SET nom_module=?, description=?, id_createur=? WHERE id_module=?";
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
+<<<<<<< HEAD
             ps.setString(1, m.getNom());
+=======
+            ps.setString(1, m.getNomModule());
+>>>>>>> origin/GestionNour
             ps.setString(2, m.getDescription());
             setNullableInt(ps, 3, m.getIdCreateur());
             ps.setInt(4, m.getId());
@@ -110,7 +118,11 @@ public class ModuleService implements IService<Module> {
     private Module mapRow(ResultSet rs) throws SQLException {
         Module m = new Module();
         m.setId(rs.getInt("id_module"));
+<<<<<<< HEAD
         m.setNom(rs.getString("nom_module"));
+=======
+        m.setNomModule(rs.getString("nom_module"));
+>>>>>>> origin/GestionNour
         m.setDescription(rs.getString("description"));
         int idCreateur = rs.getInt("id_createur");
         m.setIdCreateur(rs.wasNull() ? null : idCreateur);
@@ -126,4 +138,8 @@ public class ModuleService implements IService<Module> {
             ps.setInt(index, value);
         }
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> origin/GestionNour

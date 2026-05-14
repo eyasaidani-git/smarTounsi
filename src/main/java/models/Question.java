@@ -66,6 +66,10 @@ public class Question {
         this.typeQuestion = typeQuestion;
     }
 
+<<<<<<< HEAD
+=======
+    // Méthodes de compatibilité si tes services utilisent getType() / setType()
+>>>>>>> origin/GestionNour
     public String getType() {
         return typeQuestion == null ? null : typeQuestion.name();
     }
@@ -74,7 +78,11 @@ public class Question {
         if (type == null) {
             this.typeQuestion = null;
         } else {
+<<<<<<< HEAD
             this.typeQuestion = QuestionType.valueOf(type.toUpperCase());
+=======
+            this.typeQuestion = QuestionType.valueOf(type);
+>>>>>>> origin/GestionNour
         }
     }
 

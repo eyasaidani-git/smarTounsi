@@ -1,0 +1,426 @@
+/* ══════════════════════════════════════════════════
+   planning.css — Palette smarTounsi
+   Bleu clair   #8ECBE6
+   Bleu turquoise #229DBC
+   Bleu nuit    #023047
+   Jaune        #FEB707
+   Orange       #FB8402
+══════════════════════════════════════════════════ */
+
+/* ── Root ── */
+.root {
+    -fx-background-color: #F0F5F8;
+    -fx-font-family: "Segoe UI", Arial, sans-serif;
+}
+
+/* ══════════════════
+   SIDEBAR
+══════════════════ */
+.sidebar {
+    -fx-background-color: #023047;
+    -fx-min-width: 155px;
+    -fx-pref-width: 155px;
+}
+
+.logo-text {
+    -fx-text-fill: #FEB707;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+}
+
+.section-label {
+    -fx-text-fill: #8ECBE6;
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+    -fx-padding: 6 0 2 4;
+    -fx-opacity: 0.85;
+}
+
+.nav-btn {
+    -fx-background-color: transparent;
+    -fx-text-fill: #d0e8f0;
+    -fx-font-size: 12px;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 7 10;
+    -fx-background-radius: 8px;
+    -fx-cursor: hand;
+    -fx-border-color: transparent;
+}
+
+.nav-btn:hover {
+    -fx-background-color: #8ECBE622;
+    -fx-text-fill: #ffffff;
+}
+
+.nav-active {
+    -fx-background-color: #229DBC33;
+    -fx-text-fill: #8ECBE6;
+    -fx-font-weight: bold;
+    -fx-border-color: #229DBC;
+    -fx-border-width: 0 0 0 3;
+    -fx-border-radius: 0;
+}
+
+.nav-danger {
+    -fx-text-fill: #FB8402;
+}
+.nav-danger:hover {
+    -fx-background-color: #FB840222;
+    -fx-text-fill: #FEB707;
+}
+
+/* ══════════════════
+   TITRE PAGE
+══════════════════ */
+.page-title {
+    -fx-text-fill: #023047;
+    -fx-font-size: 36px;
+    -fx-font-weight: bold;
+}
+
+/* ══════════════════
+   CARDS
+══════════════════ */
+.card {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 14px;
+    -fx-effect: dropshadow(gaussian, #02304720, 10, 0, 0, 3);
+}
+
+/* ══════════════════
+   CALENDRIER
+══════════════════ */
+.month-nav {
+    -fx-alignment: CENTER;
+}
+
+.month-label {
+    -fx-text-fill: #023047;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-min-width: 150px;
+    -fx-alignment: CENTER;
+}
+
+.nav-arrow {
+    -fx-background-color: #F0F5F8;
+    -fx-text-fill: #229DBC;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 20px;
+    -fx-min-width: 32px;
+    -fx-min-height: 32px;
+    -fx-cursor: hand;
+    -fx-padding: 0 8;
+}
+
+.nav-arrow:hover {
+    -fx-background-color: #229DBC;
+    -fx-text-fill: #ffffff;
+}
+
+.calendar-grid {
+    /* handled via GridPane children */
+}
+
+/* En-têtes de jours */
+.day-header {
+    -fx-text-fill: #229DBC;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-alignment: CENTER;
+    -fx-padding: 4 0;
+}
+
+/* Bouton jour normal */
+.day-btn {
+    -fx-background-color: #F7FAFC;
+    -fx-text-fill: #023047;
+    -fx-font-size: 12px;
+    -fx-alignment: TOP_LEFT;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-border-color: transparent;
+    -fx-cursor: hand;
+    -fx-min-height: 62px;
+    -fx-pref-height: 68px;
+    -fx-padding: 6 8;
+}
+
+.day-btn:hover {
+    -fx-background-color: #8ECBE630;
+    -fx-border-color: #8ECBE6;
+}
+
+/* Jour sélectionné */
+.day-btn-selected {
+    -fx-background-color: #229DBC18;
+    -fx-border-color: #229DBC;
+    -fx-border-width: 2px;
+    -fx-border-radius: 8px;
+}
+
+/* Jour aujourd'hui */
+.day-btn-today {
+    -fx-background-color: #FEB70720;
+    -fx-border-color: #FEB707;
+    -fx-border-width: 2px;
+}
+
+/* Jour hors mois */
+.day-btn-outside {
+    -fx-text-fill: #aab8c2;
+    -fx-background-color: #F0F5F8;
+}
+
+/* Badge todo sur un jour */
+.todo-badge {
+    -fx-background-color: #8ECBE6;
+    -fx-text-fill: #023047;
+    -fx-font-size: 9px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 4px;
+    -fx-padding: 1 4;
+}
+
+.todo-badge-exam {
+    -fx-background-color: #FB8402;
+    -fx-text-fill: #ffffff;
+}
+
+.todo-badge-ds {
+    -fx-background-color: #229DBC;
+    -fx-text-fill: #ffffff;
+}
+
+.todo-badge-revision {
+    -fx-background-color: #FEB707;
+    -fx-text-fill: #023047;
+}
+
+/* ══════════════════
+   TODO PANEL
+══════════════════ */
+.todo-panel {
+    -fx-min-width: 310px;
+    -fx-pref-width: 310px;
+}
+
+.todo-title {
+    -fx-text-fill: #023047;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+}
+
+.badge-date {
+    -fx-background-color: #229DBC;
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 20px;
+    -fx-padding: 3 10;
+}
+
+.todo-sep {
+    -fx-border-color: #e0eaf0;
+    -fx-opacity: 0.7;
+}
+
+/* ── Champs ── */
+.field-label {
+    -fx-text-fill: #023047;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+.field-input {
+    -fx-background-color: #F7FAFC;
+    -fx-border-color: #cde3ef;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-padding: 7 10;
+    -fx-font-size: 12px;
+    -fx-text-fill: #023047;
+    -fx-prompt-text-fill: #a0b8c8;
+}
+
+.field-input:focused {
+    -fx-border-color: #229DBC;
+    -fx-background-color: #ffffff;
+}
+
+.field-combo {
+    -fx-background-color: #F7FAFC;
+    -fx-border-color: #cde3ef;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-font-size: 12px;
+    -fx-text-fill: #023047;
+}
+
+.field-combo:focused, .field-combo:showing {
+    -fx-border-color: #229DBC;
+}
+
+.field-textarea {
+    -fx-background-color: #F7FAFC;
+    -fx-border-color: #cde3ef;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-padding: 7 10;
+    -fx-font-size: 12px;
+    -fx-text-fill: #023047;
+    -fx-prompt-text-fill: #a0b8c8;
+}
+
+.field-textarea:focused {
+    -fx-border-color: #229DBC;
+    -fx-background-color: #ffffff;
+}
+
+/* ── Drop Zone ── */
+.drop-zone {
+    -fx-background-color: #F0F8FC;
+    -fx-border-color: #8ECBE6;
+    -fx-border-style: dashed;
+    -fx-border-width: 2px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-padding: 10;
+}
+
+.drop-zone-active {
+    -fx-background-color: #229DBC15;
+    -fx-border-color: #229DBC;
+}
+
+.drop-hint {
+    -fx-text-fill: #229DBC;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+.drop-sub {
+    -fx-text-fill: #a0b8c8;
+    -fx-font-size: 10px;
+}
+
+.btn-parcourir {
+    -fx-background-color: transparent;
+    -fx-border-color: #229DBC;
+    -fx-border-radius: 6px;
+    -fx-text-fill: #229DBC;
+    -fx-font-size: 11px;
+    -fx-padding: 4 12;
+    -fx-cursor: hand;
+}
+
+.btn-parcourir:hover {
+    -fx-background-color: #229DBC;
+    -fx-text-fill: #ffffff;
+}
+
+/* ── Liste fichiers ── */
+.files-list {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-font-size: 11px;
+}
+
+.files-list .list-cell {
+    -fx-background-color: #F0F8FC;
+    -fx-text-fill: #023047;
+    -fx-background-radius: 6px;
+    -fx-padding: 4 8;
+    -fx-font-size: 11px;
+}
+
+.files-list .list-cell:selected {
+    -fx-background-color: #229DBC22;
+}
+
+/* ── Bouton Ajouter ── */
+.btn-add {
+    -fx-background-color: #023047;
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 10px;
+    -fx-padding: 11 0;
+    -fx-cursor: hand;
+}
+
+.btn-add:hover {
+    -fx-background-color: #229DBC;
+}
+
+/* ── Aperçu todos ── */
+.preview-label {
+    -fx-text-fill: #a0b8c8;
+    -fx-font-size: 11px;
+}
+
+.preview-count {
+    -fx-text-fill: #229DBC;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+}
+
+.scroll-todos {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+    -fx-border-color: transparent;
+}
+
+.scroll-todos > .viewport {
+    -fx-background-color: transparent;
+}
+
+.todos-container {
+    -fx-background-color: transparent;
+}
+
+/* Carte todo individuelle */
+.todo-card {
+    -fx-background-color: #F0F8FC;
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-border-color: #8ECBE6;
+    -fx-border-width: 0 0 0 4;
+    -fx-padding: 6 10;
+    -fx-spacing: 2;
+}
+
+.todo-card-title {
+    -fx-text-fill: #023047;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+.todo-card-meta {
+    -fx-text-fill: #229DBC;
+    -fx-font-size: 10px;
+}
+
+.todo-card-type-cours   { -fx-border-color: #8ECBE6; }
+.todo-card-type-td      { -fx-border-color: #FEB707; }
+.todo-card-type-examen  { -fx-border-color: #FB8402; }
+.todo-card-type-ds      { -fx-border-color: #229DBC; }
+
+/* ── Toast notification ── */
+.toast {
+    -fx-background-color: #023047;
+    -fx-text-fill: #FEB707;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 24px;
+    -fx-padding: 10 24;
+    -fx-effect: dropshadow(gaussian, #02304760, 12, 0, 0, 4);
+}
+
+/* ── Empty state ── */
+.empty-label {
+    -fx-text-fill: #FB8402;
+    -fx-font-size: 11px;
+    -fx-font-style: italic;
+}

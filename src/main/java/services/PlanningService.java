@@ -126,6 +126,22 @@ public class PlanningService implements IService<Planning> {
         }
 
         return list;
+<<<<<<< HEAD
+    }
+
+    private Planning mapRow(ResultSet rs) throws SQLException {
+        Planning p = new Planning();
+        p.setId(rs.getInt("id_planning"));
+        p.setIdUtilisateur(rs.getInt("id_utilisateur"));
+        p.setTitre(rs.getString("titre"));
+        Timestamp dateRevision = rs.getTimestamp("date_revision");
+        p.setDateRevision(dateRevision == null ? null : dateRevision.toLocalDateTime());
+        p.setTypeActivite(PlanningType.valueOf(rs.getString("type_activite")));
+        Timestamp dateCreation = rs.getTimestamp("date_creation");
+        p.setDateCreation(dateCreation == null ? null : dateCreation.toLocalDateTime());
+        return p;
+=======
+>>>>>>> origin/GestionNour
     }
 
     private Planning mapRow(ResultSet rs) throws SQLException {
