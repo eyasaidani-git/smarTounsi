@@ -1,9 +1,12 @@
 package models;
+import enums.UtilisateurRole;
+import java.time.LocalDateTime;
 
 public class Utilisateur {
     private int id;
     private String nom, prenom, email, motDePasse, role, photoProfil;
-    private boolean actif;
+    private LocalDateTime dateInscription;
+    private boolean estActif;
 
     public Utilisateur() {}
 
@@ -14,8 +17,8 @@ public class Utilisateur {
         this.email = email;
         this.motDePasse = motDePasse;
         this.role = role;
-        this.actif = true;
-}
+        this.estActif = true;
+    }
 
     public int getId() {
         return id;
@@ -73,12 +76,28 @@ public class Utilisateur {
         this.photoProfil = photoProfil;
     }
 
+    public LocalDateTime getDateInscription() {
+        return dateInscription;
+    }
+
+    public void setDateInscription(LocalDateTime dateInscription) {
+        this.dateInscription = dateInscription;
+    }
+
+    public boolean isEstActif() {
+        return estActif;
+    }
+
+    public void setEstActif(boolean estActif) {
+        this.estActif = estActif;
+    }
+
     public boolean isActif() {
-        return actif;
+        return estActif;
     }
 
     public void setActif(boolean actif) {
-        this.actif = actif;
+        this.estActif = actif;
     }
 
     @Override
@@ -91,8 +110,8 @@ public class Utilisateur {
                 ", motDePasse='" + motDePasse + '\'' +
                 ", role='" + role + '\'' +
                 ", photoProfil='" + photoProfil + '\'' +
-                ", actif=" + actif +
+                ", dateInscription=" + dateInscription +
+                ", actif=" + estActif +
                 '}';
     }
 }
-
