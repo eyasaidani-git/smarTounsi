@@ -37,6 +37,11 @@
             <artifactId>javafx-controls</artifactId>
             <version>17.0.12</version>
         </dependency>
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>javax.mail</artifactId>
+            <version>1.6.2</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -107,5 +112,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>
