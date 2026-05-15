@@ -8,7 +8,7 @@
 <BorderPane xmlns="http://javafx.com/javafx/17"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="controllers.PlanningController"
-            stylesheets="@planning.css"
+            stylesheets="@styles/planning.css"
             prefWidth="1280" prefHeight="750">
 
     <!-- ═══════════════════════════════════════════

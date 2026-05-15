@@ -10,7 +10,8 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane xmlns="http://javafx.com/javafx/17"
+<BorderPane fx:id="rootPane"
+            xmlns="http://javafx.com/javafx/17"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="controllers.ProfilController"
             stylesheets="@styles/profil.css"
@@ -31,26 +32,61 @@
         <VBox styleClass="sidebar" spacing="8.0">
             <children>
                 <Label text="PRINCIPAL" styleClass="sidebar-title"/>
-                <Button text="🏠  Dashboard" styleClass="sidebar-button"/>
-                <Button text="📁  Modules" styleClass="sidebar-button"/>
-                <Button text="📚  Bibliothèque" styleClass="sidebar-button"/>
+
+                <Button text="🏠  Dashboard"
+                        onAction="#goDashboard"
+                        styleClass="sidebar-button"/>
+
+                <Button text="📁  Modules"
+                        onAction="#goModules"
+                        styleClass="sidebar-button"/>
+
+                <Button text="📚  Bibliothèque"
+                        onAction="#goBibliotheque"
+                        styleClass="sidebar-button"/>
 
                 <Label text="OUTILS" styleClass="sidebar-title"/>
-                <Button text="⬆️  Upload" styleClass="sidebar-button"/>
-                <Button text="🗓️  Calendrier" styleClass="sidebar-button"/>
-                <Button text="⭐  Favoris" styleClass="sidebar-button"/>
-                <Button text="🧩  Quiz" styleClass="sidebar-button"/>
-                <Button text="💼  Projets" styleClass="sidebar-button"/>
-                <Button text="🎉  Événements" styleClass="sidebar-button"/>
+
+                <Button text="⬆️  Upload"
+                        onAction="#goUpload"
+                        styleClass="sidebar-button"/>
+
+                <Button text="🗓️  Calendrier"
+                        onAction="#goCalendrier"
+                        styleClass="sidebar-button"/>
+
+                <Button text="⭐  Favoris"
+                        onAction="#goFavoris"
+                        styleClass="sidebar-button"/>
+
+                <Button text="🧩  Quiz"
+                        onAction="#goQuiz"
+                        styleClass="sidebar-button"/>
+
+                <Button text="💼  Projets"
+                        onAction="#goProjets"
+                        styleClass="sidebar-button"/>
+
+                <Button text="🎉  Événements"
+                        onAction="#goEvenements"
+                        styleClass="sidebar-button"/>
 
                 <Label text="AUTRE" styleClass="sidebar-title"/>
-                <Button text="👤  Profil" styleClass="sidebar-button-active"/>
-                <Button text="🔔  Notifications" styleClass="sidebar-button"/>
-                <Button text="🚪  Déconnexion" onAction="#deconnexion" styleClass="sidebar-button"/>
+
+                <Button text="👤  Profil"
+                        onAction="#goProfil"
+                        styleClass="sidebar-button-active"/>
+
+                <Button text="🔔  Notifications"
+                        onAction="#goNotifications"
+                        styleClass="sidebar-button"/>
+
+                <Button text="🚪  Déconnexion"
+                        onAction="#deconnexion"
+                        styleClass="sidebar-button"/>
             </children>
         </VBox>
     </left>
-
     <center>
         <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED">
             <content>

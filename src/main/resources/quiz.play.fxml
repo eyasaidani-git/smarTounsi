@@ -6,7 +6,7 @@
 
 <BorderPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="controllers.PlayQuizController"
-            stylesheets="@/style/quiz.css">
+            stylesheets="@/styles/quiz.css">
 
     <!-- ===== TOPBAR ===== -->
     <top>

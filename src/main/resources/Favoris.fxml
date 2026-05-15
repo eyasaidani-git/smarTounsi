@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane fx:id="rootPane"
+            xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.FavorisController"
+            stylesheets="@styles/profil.css"
+            styleClass="app-root">
+
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="15.0" styleClass="topbar">
+            <children>
+                <Label text="🧠" styleClass="top-logo-icon"/>
+                <Label text="SmarTounsi.com" styleClass="top-logo-text"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Label text="⭐ Favoris" styleClass="role-header"/>
+            </children>
+        </HBox>
+    </top>
+
+    <left>
+        <VBox styleClass="sidebar" spacing="8.0">
+            <children>
+                <Label text="PRINCIPAL" styleClass="sidebar-title"/>
+                <Button text="🏠  Dashboard" onAction="#goDashboard" styleClass="sidebar-button"/>
+                <Button text="📁  Modules" onAction="#goModules" styleClass="sidebar-button"/>
+                <Button text="📚  Bibliothèque" onAction="#goBibliotheque" styleClass="sidebar-button"/>
+
+                <Label text="OUTILS" styleClass="sidebar-title"/>
+                <Button text="⬆️  Upload" onAction="#goUpload" styleClass="sidebar-button"/>
+                <Button text="🗓️  Calendrier" onAction="#goCalendrier" styleClass="sidebar-button"/>
+                <Button text="⭐  Favoris" onAction="#goFavoris" styleClass="sidebar-button-active"/>
+                <Button text="🧩  Quiz" onAction="#goQuiz" styleClass="sidebar-button"/>
+                <Button text="💼  Projets" onAction="#goProjets" styleClass="sidebar-button"/>
+                <Button text="🎉  Événements" onAction="#goEvenements" styleClass="sidebar-button"/>
+
+                <Label text="AUTRE" styleClass="sidebar-title"/>
+                <Button text="👤  Profil" onAction="#goProfil" styleClass="sidebar-button"/>
+                <Button text="🔔  Notifications" onAction="#goNotifications" styleClass="sidebar-button"/>
+                <Button text="🚪  Déconnexion" onAction="#deconnexion" styleClass="sidebar-button"/>
+            </children>
+        </VBox>
+    </left>
+
+    <center>
+        <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED">
+            <content>
+                <VBox spacing="20.0" styleClass="content">
+                    <children>
+                        <Label text="Mes favoris" styleClass="profile-name"/>
+                        <VBox fx:id="listBox" spacing="14"/>
+                    </children>
+                </VBox>
+            </content>
+        </ScrollPane>
+    </center>
+</BorderPane>
