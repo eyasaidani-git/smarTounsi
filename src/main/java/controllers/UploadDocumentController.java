@@ -169,7 +169,7 @@ public class UploadDocumentController {
     // ─────────────────── NAVIGATION SIDEBAR ──────────────────────────
 
     @FXML public void handleDashboard(ActionEvent event) {
-        Navigator.go((Node) event.getSource(), "/Acceuil.fxml", "Dashboard - SmarTounsi");
+        Navigator.goDashboard((Node) event.getSource());
     }
     @FXML public void handleModules(ActionEvent event) {
         Navigator.go((Node) event.getSource(), "/Modules.fxml", "Modules - SmarTounsi");
@@ -244,6 +244,7 @@ public class UploadDocumentController {
             Parent root = loader.load();
             Documentcontroller controller = loader.getController();
             controller.setModuleNom(Session.getModuleNom());
+            Navigator.applySessionRoleLabels(root);
             Stage stage = (Stage) cbModule.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();
@@ -266,6 +267,7 @@ public class UploadDocumentController {
                 Documentcontroller controller = loader.getController();
                 controller.setModuleNom(Session.getModuleNom());
             }
+            Navigator.applySessionRoleLabels(root);
             Stage stage = (Stage) cbModule.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();

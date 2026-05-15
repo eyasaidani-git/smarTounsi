@@ -18,6 +18,7 @@ import models.Utilisateur;
 import services.QuestionService;
 import services.QuizService;
 import services.ReponseService;
+import util.Navigator;
 import util.DBConnection;
 import util.Session;
 
@@ -479,6 +480,7 @@ public class CreateQuizController implements Initializable {
     @FXML
     void retourQuiz(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/quiz.fxml"));
+        Navigator.applySessionRoleLabels(root);
         Scene scene = new Scene(root);
         scene.getStylesheets().add(
                 getClass().getResource("/styles/quiz.css").toExternalForm());

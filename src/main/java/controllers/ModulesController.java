@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import util.Navigator;
 import util.Session;
 
 import java.io.IOException;
@@ -59,6 +60,7 @@ public class ModulesController {
 
         Documentcontroller controller = loader.getController();
         controller.setModuleNom(moduleNom);
+        Navigator.applySessionRoleLabels(root);
 
         Stage stage = (Stage) source.getScene().getWindow();
         stage.setScene(new Scene(root));
@@ -74,6 +76,7 @@ public class ModulesController {
             }
             FXMLLoader loader = new FXMLLoader(url);
             Parent root = loader.load();
+            Navigator.applySessionRoleLabels(root);
             Stage stage = (Stage) source.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();
@@ -86,7 +89,7 @@ public class ModulesController {
 
     @FXML
     public void handleDashboard(MouseEvent event) {
-        naviguerVers("Acceuil.fxml", (Node) event.getSource());
+        Navigator.goDashboard((Node) event.getSource());
     }
 
     @FXML
@@ -102,6 +105,7 @@ public class ModulesController {
                 Parent root = loader.load();
                 Documentcontroller ctrl = loader.getController();
                 ctrl.setModuleNom(Session.getModuleNom());
+                Navigator.applySessionRoleLabels(root);
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 stage.setScene(new Scene(root));
                 stage.show();

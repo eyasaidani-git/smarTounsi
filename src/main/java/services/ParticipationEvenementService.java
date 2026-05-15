@@ -180,6 +180,26 @@ public class ParticipationEvenementService implements IService<ParticipationEven
         }
     }
 
+    public ParticipationEvenement getByUtilisateurAndEvenement(int idUtilisateur, int idEvenement) {
+        String sql = baseSelect() + " WHERE p.id_utilisateur=? AND p.id_evenement=? LIMIT 1";
+
+        try (PreparedStatement ps = getConn().prepareStatement(sql)) {
+            ps.setInt(1, idUtilisateur);
+            ps.setInt(2, idEvenement);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return mapRow(rs);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Erreur lecture participation : " + e.getMessage());
+        }
+
+        return null;
+    }
+
     public void participer(int idUtilisateur, int idEvenement) {
         if (estDejaInscrit(idUtilisateur, idEvenement)) {
             throw new RuntimeException("Vous avez déjà une participation ou un intérêt pour cet événement.");

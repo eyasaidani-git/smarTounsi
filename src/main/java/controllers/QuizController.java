@@ -135,6 +135,7 @@ public class QuizController implements Initializable {
             FXMLLoader loader = new FXMLLoader(
                     getClass().getResource("/quiz.play.fxml"));
             Parent root = loader.load();
+            Navigator.applySessionRoleLabels(root);
 
             PlayQuizController ctrl = loader.getController();
             ctrl.initialiserQuiz(quiz);    // ← passer le quiz sélectionné
@@ -164,8 +165,9 @@ public class QuizController implements Initializable {
     @FXML
     void creerQuiz(ActionEvent event) {
         try {
-            Parent root = FXMLLoader.load(
-                    getClass().getResource("/quiz_create.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/quiz_create.fxml"));
+            Parent root = loader.load();
+            Navigator.applySessionRoleLabels(root);
             Scene scene = new Scene(root);
             scene.getStylesheets().add(
                     getClass().getResource("/styles/quiz.css").toExternalForm());
@@ -179,7 +181,7 @@ public class QuizController implements Initializable {
     }
 
     @FXML void handleDashboard(ActionEvent event) {
-        Navigator.go((javafx.scene.Node) event.getSource(), "/Acceuil.fxml", "Dashboard - SmarTounsi");
+        Navigator.goDashboard((javafx.scene.Node) event.getSource());
     }
 
     @FXML void handleModules(ActionEvent event) {

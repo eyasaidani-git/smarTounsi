@@ -22,6 +22,7 @@ import services.QuestionService;
 import services.ReponseService;
 import services.ResultatQuizService;
 import services.UtilisateurService;
+import util.Navigator;
 import util.Session;
 
 import java.io.UnsupportedEncodingException;
@@ -448,6 +449,7 @@ public class PlayQuizController implements Initializable {
             FXMLLoader loader = new FXMLLoader(
                     getClass().getResource("/quiz.fxml"));
             Parent root = loader.load();
+            Navigator.applySessionRoleLabels(root);
 
             Scene scene = new Scene(root);
             scene.getStylesheets().add(

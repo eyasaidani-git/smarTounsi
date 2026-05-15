@@ -165,11 +165,7 @@ public class ProfilController {
 
     @FXML
     private void goDashboard() {
-        if (currentUser != null && "admin".equalsIgnoreCase(currentUser.getRole())) {
-            Navigator.go(rootPane, "/AdminDashboard.fxml", "Admin - SmarTounsi");
-        } else {
-            Navigator.go(rootPane, "/Acceuil.fxml", "Dashboard - SmarTounsi");
-        }
+        Navigator.goDashboard(rootPane);
     }
 
     @FXML

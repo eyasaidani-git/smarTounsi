@@ -96,7 +96,7 @@
         </VBox>
     </left>
     <center>
-        <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED">
+        <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="AS_NEEDED" pannable="true">
             <content>
                 <VBox spacing="25.0" styleClass="content">
                     <children>

@@ -24,6 +24,7 @@ public class Navigator {
             }
 
             Parent root = loader.load();
+            UiRoleUtil.applySessionRoleLabels(root);
 
             Stage stage = (Stage) source.getScene().getWindow();
             stage.setScene(new Scene(root, 1400, 850));
@@ -39,6 +40,19 @@ public class Navigator {
     public static void logout(Node source) {
         Session.clear();
         go(source, "/Connexion.fxml", "Connexion - SmarTounsi");
+    }
+
+    public static void goDashboard(Node source) {
+        if (Session.getCurrentUser() != null
+                && "admin".equalsIgnoreCase(Session.getCurrentUser().getRole())) {
+            go(source, "/AdminDashboard.fxml", "Admin - SmarTounsi");
+        } else {
+            go(source, "/Profil.fxml", "Dashboard - SmarTounsi");
+        }
+    }
+
+    public static void applySessionRoleLabels(Parent root) {
+        UiRoleUtil.applySessionRoleLabels(root);
     }
 
     private static void showError(String titre, String message) {

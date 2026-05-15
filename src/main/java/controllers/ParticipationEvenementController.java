@@ -137,7 +137,7 @@ public class ParticipationEvenementController {
     }
 
     @FXML private void retour() { Navigator.go(rootPane, "/Evenements.fxml", "Événements - SmarTounsi"); }
-    @FXML private void goDashboard() { Navigator.go(rootPane, "/Profil.fxml", "Dashboard - SmarTounsi"); }
+    @FXML private void goDashboard() { Navigator.goDashboard(rootPane); }
     @FXML private void goModules() { Navigator.go(rootPane, "/Modules.fxml", "Modules - SmarTounsi"); }
     @FXML private void goBibliotheque() { Navigator.go(rootPane, "/Document.fxml", "Bibliothèque - SmarTounsi"); }
     @FXML private void goUpload() { Navigator.go(rootPane, "/UploadDocument.fxml", "Upload - SmarTounsi"); }

@@ -6,10 +6,22 @@
   <component name="ChangeListManager">
     <list default="true" id="54dbdfd1-9d4c-4fc1-b340-9f85f3e08b28" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/controllers/PlayQuizController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controllers/PlayQuizController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/services/EmailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/services/EmailService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/services/MailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/services/MailService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controllers/DetailDocumentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controllers/DetailDocumentController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controllers/Documentcontroller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controllers/Documentcontroller.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controllers/EvenementsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controllers/EvenementsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controllers/FavorisController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controllers/FavorisController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controllers/ModulesController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controllers/ModulesController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controllers/NotificationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controllers/NotificationController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controllers/ParticipationEvenementController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controllers/ParticipationEvenementController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controllers/PlanningController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controllers/PlanningController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controllers/ProfilController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controllers/ProfilController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controllers/ProjetController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controllers/ProjetController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controllers/QuizController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controllers/QuizController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controllers/UploadDocumentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controllers/UploadDocumentController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/services/ParticipationEvenementService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/services/ParticipationEvenementService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/util/AppConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/util/AppConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/util/DBConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/util/DBConnection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/util/Navigator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/util/Navigator.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -130,7 +142,7 @@
       <updated>1778791697629</updated>
       <workItem from="1778791700887" duration="2959000" />
       <workItem from="1778797259869" duration="22967000" />
-      <workItem from="1778843964192" duration="6313000" />
+      <workItem from="1778843964192" duration="8134000" />
     </task>
     <servers />
   </component>

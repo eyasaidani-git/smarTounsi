@@ -45,6 +45,27 @@ public class DBConnection {
         widenColumnIfExists("utilisateur", "mot_de_passe", "VARCHAR(255) NOT NULL");
         widenColumnIfExists("password_reset_code", "code_hash", "VARCHAR(255) NOT NULL");
         widenColumnIfExists("email_verification_code", "code_hash", "VARCHAR(255) NOT NULL");
+        createAvisEvenementTableIfMissing();
+    }
+
+    private void createAvisEvenementTableIfMissing() {
+        String sql = """
+                CREATE TABLE IF NOT EXISTS avis_evenement (
+                    id_avis INT AUTO_INCREMENT PRIMARY KEY,
+                    id_evenement INT NOT NULL,
+                    id_utilisateur INT NOT NULL,
+                    note INT NOT NULL,
+                    commentaire TEXT NULL,
+                    date_avis TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    UNIQUE KEY uk_avis_evenement_user (id_evenement, id_utilisateur)
+                )
+                """;
+
+        try (Statement st = conn.createStatement()) {
+            st.execute(sql);
+        } catch (SQLException e) {
+            System.err.println("Migration ignoree pour avis_evenement : " + e.getMessage());
+        }
     }
 
     private void widenColumnIfExists(String tableName, String columnName, String definition) {

@@ -57,9 +57,9 @@ public final class AppConfig {
 
     public static String getCleanGmailAppPassword(String key) {
         ConfigValue[] values = {
-                new ConfigValue("variable d'environnement", System.getenv(key)),
+                new ConfigValue("fichier .env", readFromDotEnv(key)),
                 new ConfigValue("propriété Java", System.getProperty(key)),
-                new ConfigValue("fichier .env", readFromDotEnv(key))
+                new ConfigValue("variable d'environnement", System.getenv(key))
         };
 
         ConfigValue firstInvalid = null;
@@ -111,8 +111,8 @@ public final class AppConfig {
     }
 
     private static String readFromDotEnv(String key) {
-        Path envPath = Path.of(System.getProperty("user.dir"), ".env");
-        if (!Files.isRegularFile(envPath)) {
+        Path envPath = findDotEnv();
+        if (envPath == null) {
             return null;
         }
 
@@ -139,6 +139,21 @@ public final class AppConfig {
             }
         } catch (IOException e) {
             throw new RuntimeException("Impossible de lire le fichier .env : " + e.getMessage(), e);
+        }
+
+        return null;
+    }
+
+    private static Path findDotEnv() {
+        Path current = Path.of(System.getProperty("user.dir")).toAbsolutePath().normalize();
+
+        while (current != null) {
+            Path envPath = current.resolve(".env");
+            if (Files.isRegularFile(envPath)) {
+                return envPath;
+            }
+
+            current = current.getParent();
         }
 
         return null;

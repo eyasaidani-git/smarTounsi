@@ -13,6 +13,7 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 import util.DBConnection;
+import util.Navigator;
 import util.Session;
 
 import java.io.File;
@@ -314,6 +315,7 @@ public class Documentcontroller {
             Parent root = loader.load();
             DetailDocumentController ctrl = loader.getController();
             ctrl.initData(docId, docNom);
+            Navigator.applySessionRoleLabels(root);
             Stage stage = (Stage) source.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();
@@ -333,7 +335,7 @@ public class Documentcontroller {
     }
 
     @FXML public void handleRetour(ActionEvent e)       { naviguerVers("Modules.fxml", e); }
-    @FXML public void handleDashboard(ActionEvent e)     { naviguerVers("Acceuil.fxml", e); }
+    @FXML public void handleDashboard(ActionEvent e)     { Navigator.goDashboard((Node) e.getSource()); }
     @FXML public void handleModules(ActionEvent e)       { naviguerVers("Modules.fxml", e); }
     @FXML public void handleDocuments(ActionEvent e)     { }
     @FXML public void handleUpload(ActionEvent e)        { naviguerVers("UploadDocument.fxml", e); }
@@ -352,6 +354,7 @@ public class Documentcontroller {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/" + fxml));
             Parent root = loader.load();
+            Navigator.applySessionRoleLabels(root);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();

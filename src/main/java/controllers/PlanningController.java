@@ -448,7 +448,7 @@ public class PlanningController implements Initializable {
     }
 
     @FXML private void handleDashboard(ActionEvent event) {
-        Navigator.go((Node) event.getSource(), "/Acceuil.fxml", "Dashboard - SmarTounsi");
+        Navigator.goDashboard((Node) event.getSource());
     }
 
     @FXML private void handleModules(ActionEvent event) {
