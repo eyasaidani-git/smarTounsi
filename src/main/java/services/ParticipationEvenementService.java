@@ -1,5 +1,6 @@
 package services;
 
+import models.Evenement;
 import models.ParticipationEvenement;
 import util.DBConnection;
 
@@ -11,10 +12,13 @@ import java.util.List;
 
 public class ParticipationEvenementService implements IService<ParticipationEvenement> {
 
-    private final Connection conn;
+    private final EvenementService evenementService = new EvenementService();
 
     public ParticipationEvenementService() {
-        this.conn = DBConnection.getInstance().getConn();
+    }
+
+    private Connection getConn() {
+        return DBConnection.getInstance().getConn();
     }
 
     @Override
@@ -23,29 +27,29 @@ public class ParticipationEvenementService implements IService<ParticipationEven
                 "(id_utilisateur, id_evenement, type_participation, statut, montant_paye, mode_paiement, reference_paiement, date_paiement, checkin_time) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (PreparedStatement ps = getConn().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setInt(1, p.getIdUtilisateur());
             ps.setInt(2, p.getIdEvenement());
-            ps.setString(3, p.getTypeParticipation());
-            ps.setString(4, p.getStatut());
-
-            if (p.getMontantPaye() == null) {
-                ps.setBigDecimal(5, BigDecimal.ZERO);
-            } else {
-                ps.setBigDecimal(5, p.getMontantPaye());
-            }
-
+            ps.setString(3, normalizeTypeParticipation(p.getTypeParticipation()));
+            ps.setString(4, normalizeStatut(p.getStatut()));
+            ps.setBigDecimal(5, p.getMontantPaye() == null ? BigDecimal.ZERO : p.getMontantPaye());
             ps.setString(6, p.getModePaiement());
             ps.setString(7, p.getReferencePaiement());
-
             setDateTime(ps, 8, p.getDatePaiement());
             setDateTime(ps, 9, p.getCheckinTime());
 
             ps.executeUpdate();
-            System.out.println("Participation ajoutée avec succès.");
 
+            try (ResultSet keys = ps.getGeneratedKeys()) {
+                if (keys.next()) {
+                    p.setId(keys.getInt(1));
+                }
+            }
+
+            System.out.println("Participation ajoutée avec succès. ID = " + p.getId());
         } catch (SQLException e) {
-            System.out.println("Erreur add participation : " + e.getMessage());
+            e.printStackTrace();
+            throw new RuntimeException("Erreur add participation : " + e.getMessage());
         }
     }
 
@@ -55,29 +59,21 @@ public class ParticipationEvenementService implements IService<ParticipationEven
                 "type_participation=?, statut=?, montant_paye=?, mode_paiement=?, reference_paiement=?, date_paiement=?, checkin_time=? " +
                 "WHERE id_participation=?";
 
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, p.getTypeParticipation());
-            ps.setString(2, p.getStatut());
-
-            if (p.getMontantPaye() == null) {
-                ps.setBigDecimal(3, BigDecimal.ZERO);
-            } else {
-                ps.setBigDecimal(3, p.getMontantPaye());
-            }
-
+        try (PreparedStatement ps = getConn().prepareStatement(sql)) {
+            ps.setString(1, normalizeTypeParticipation(p.getTypeParticipation()));
+            ps.setString(2, normalizeStatut(p.getStatut()));
+            ps.setBigDecimal(3, p.getMontantPaye() == null ? BigDecimal.ZERO : p.getMontantPaye());
             ps.setString(4, p.getModePaiement());
             ps.setString(5, p.getReferencePaiement());
-
             setDateTime(ps, 6, p.getDatePaiement());
             setDateTime(ps, 7, p.getCheckinTime());
-
             ps.setInt(8, p.getId());
 
             ps.executeUpdate();
             System.out.println("Participation modifiée avec succès.");
-
         } catch (SQLException e) {
-            System.out.println("Erreur update participation : " + e.getMessage());
+            e.printStackTrace();
+            throw new RuntimeException("Erreur update participation : " + e.getMessage());
         }
     }
 
@@ -85,26 +81,26 @@ public class ParticipationEvenementService implements IService<ParticipationEven
     public void delete(ParticipationEvenement p) {
         String sql = "DELETE FROM participation_evenement WHERE id_participation=?";
 
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (PreparedStatement ps = getConn().prepareStatement(sql)) {
             ps.setInt(1, p.getId());
             ps.executeUpdate();
             System.out.println("Participation supprimée avec succès.");
-
         } catch (SQLException e) {
-            System.out.println("Erreur delete participation : " + e.getMessage());
+            e.printStackTrace();
+            throw new RuntimeException("Erreur delete participation : " + e.getMessage());
         }
     }
 
     @Override
     public List<ParticipationEvenement> getAll() {
         String sql = baseSelect() + " ORDER BY p.date_participation DESC";
-        return getParticipations(sql);
+        return executeList(sql);
     }
 
     public ParticipationEvenement getById(int idParticipation) {
         String sql = baseSelect() + " WHERE p.id_participation=?";
 
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (PreparedStatement ps = getConn().prepareStatement(sql)) {
             ps.setInt(1, idParticipation);
 
             try (ResultSet rs = ps.executeQuery()) {
@@ -112,9 +108,9 @@ public class ParticipationEvenementService implements IService<ParticipationEven
                     return mapRow(rs);
                 }
             }
-
         } catch (SQLException e) {
-            System.out.println("Erreur getById participation : " + e.getMessage());
+            e.printStackTrace();
+            throw new RuntimeException("Erreur getById participation : " + e.getMessage());
         }
 
         return null;
@@ -122,11 +118,9 @@ public class ParticipationEvenementService implements IService<ParticipationEven
 
     public List<ParticipationEvenement> getByUtilisateur(int idUtilisateur) {
         List<ParticipationEvenement> list = new ArrayList<>();
+        String sql = baseSelect() + " WHERE p.id_utilisateur=? ORDER BY p.date_participation DESC";
 
-        String sql = baseSelect() +
-                " WHERE p.id_utilisateur=? ORDER BY p.date_participation DESC";
-
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (PreparedStatement ps = getConn().prepareStatement(sql)) {
             ps.setInt(1, idUtilisateur);
 
             try (ResultSet rs = ps.executeQuery()) {
@@ -134,9 +128,9 @@ public class ParticipationEvenementService implements IService<ParticipationEven
                     list.add(mapRow(rs));
                 }
             }
-
         } catch (SQLException e) {
-            System.out.println("Erreur getByUtilisateur participation : " + e.getMessage());
+            e.printStackTrace();
+            throw new RuntimeException("Erreur getByUtilisateur participation : " + e.getMessage());
         }
 
         return list;
@@ -144,11 +138,9 @@ public class ParticipationEvenementService implements IService<ParticipationEven
 
     public List<ParticipationEvenement> getByEvenement(int idEvenement) {
         List<ParticipationEvenement> list = new ArrayList<>();
+        String sql = baseSelect() + " WHERE p.id_evenement=? ORDER BY p.date_participation DESC";
 
-        String sql = baseSelect() +
-                " WHERE p.id_evenement=? ORDER BY p.date_participation DESC";
-
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (PreparedStatement ps = getConn().prepareStatement(sql)) {
             ps.setInt(1, idEvenement);
 
             try (ResultSet rs = ps.executeQuery()) {
@@ -156,171 +148,202 @@ public class ParticipationEvenementService implements IService<ParticipationEven
                     list.add(mapRow(rs));
                 }
             }
-
         } catch (SQLException e) {
-            System.out.println("Erreur getByEvenement participation : " + e.getMessage());
+            e.printStackTrace();
+            throw new RuntimeException("Erreur getByEvenement participation : " + e.getMessage());
         }
 
         return list;
     }
 
+    public List<ParticipationEvenement> getParticipants(int idEvenement) {
+        return getByEvenementAndType(idEvenement, "participation");
+    }
+
+    public List<ParticipationEvenement> getInteresses(int idEvenement) {
+        return getByEvenementAndType(idEvenement, "interesse");
+    }
+
     public boolean estDejaInscrit(int idUtilisateur, int idEvenement) {
         String sql = "SELECT COUNT(*) FROM participation_evenement WHERE id_utilisateur=? AND id_evenement=?";
 
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (PreparedStatement ps = getConn().prepareStatement(sql)) {
             ps.setInt(1, idUtilisateur);
             ps.setInt(2, idEvenement);
 
             try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    return rs.getInt(1) > 0;
-                }
+                return rs.next() && rs.getInt(1) > 0;
             }
-
         } catch (SQLException e) {
-            System.out.println("Erreur estDejaInscrit : " + e.getMessage());
+            e.printStackTrace();
+            throw new RuntimeException("Erreur vérification participation : " + e.getMessage());
         }
-
-        return false;
     }
 
-    public void participerEvenementSite(int idUtilisateur, int idEvenement , int capacity) {
+    public void participer(int idUtilisateur, int idEvenement) {
         if (estDejaInscrit(idUtilisateur, idEvenement)) {
-            System.out.println("Utilisateur déjà inscrit ou intéressé à cet événement.");
-            return;
-        }
-        String sql = "SELECT organise_par_site, tarif, capacity FROM evenement WHERE id_evenement=?";
-        EvenementInfo info = getEvenementInfo(idEvenement);
-
-        if (info == null) {
-            System.out.println("Événement introuvable.");
-            return;
+            throw new RuntimeException("Vous avez déjà une participation ou un intérêt pour cet événement.");
         }
 
-        if (!info.organiseParSite) {
-            interesserEvenementExterne(idUtilisateur, idEvenement);
+        Evenement evenement = evenementService.getById(idEvenement);
+        if (evenement == null) {
+            throw new RuntimeException("Événement introuvable.");
+        }
+
+        if (!evenement.isOrganiseParSite()) {
+            interesser(idUtilisateur, idEvenement);
             return;
         }
 
         String statut;
-        BigDecimal montantPaye = BigDecimal.ZERO;
-
-        if (info.tarif.compareTo(BigDecimal.ZERO) > 0) {
+        if (evenementService.estComplet(evenement)) {
+            statut = "waitlist";
+        } else if (evenement.getTarif() != null && evenement.getTarif().compareTo(BigDecimal.ZERO) > 0) {
             statut = "en_attente_paiement";
         } else {
             statut = "confirmee";
         }
 
-        ParticipationEvenement p = new ParticipationEvenement(
-                idUtilisateur,
-                idEvenement,
-                "participation",
-                statut,
-                montantPaye
-        );
-
+        ParticipationEvenement p = new ParticipationEvenement(idUtilisateur, idEvenement, "participation", statut);
+        p.setMontantPaye(BigDecimal.ZERO);
         add(p);
     }
 
-    public void interesserEvenementExterne(int idUtilisateur, int idEvenement) {
+    public void interesser(int idUtilisateur, int idEvenement) {
         if (estDejaInscrit(idUtilisateur, idEvenement)) {
-            System.out.println("Utilisateur déjà intéressé à cet événement.");
-            return;
+            throw new RuntimeException("Vous avez déjà marqué cet événement.");
         }
 
-        ParticipationEvenement p = new ParticipationEvenement(
-                idUtilisateur,
-                idEvenement,
-                "interesse",
-                "interesse",
-                BigDecimal.ZERO
-        );
-
+        ParticipationEvenement p = new ParticipationEvenement(idUtilisateur, idEvenement, "interesse", "interesse");
+        p.setMontantPaye(BigDecimal.ZERO);
         add(p);
     }
 
-    public void confirmerPaiement(int idParticipation, BigDecimal montantPaye, String modePaiement, String referencePaiement) {
-        String sql = "UPDATE participation_evenement SET statut='confirmee', montant_paye=?, mode_paiement=?, reference_paiement=?, date_paiement=? " +
-                "WHERE id_participation=?";
+    public void confirmerPaiement(int idParticipation, String modePaiement, String referencePaiement) {
+        ParticipationEvenement p = getById(idParticipation);
+        if (p == null) {
+            throw new RuntimeException("Participation introuvable.");
+        }
 
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setBigDecimal(1, montantPaye);
+        Evenement e = evenementService.getById(p.getIdEvenement());
+        BigDecimal montant = e == null || e.getTarif() == null ? BigDecimal.ZERO : e.getTarif();
+
+        String sql = "UPDATE participation_evenement SET statut='confirmee', montant_paye=?, mode_paiement=?, reference_paiement=?, date_paiement=? WHERE id_participation=?";
+
+        try (PreparedStatement ps = getConn().prepareStatement(sql)) {
+            ps.setBigDecimal(1, montant);
             ps.setString(2, modePaiement);
             ps.setString(3, referencePaiement);
             ps.setTimestamp(4, Timestamp.valueOf(LocalDateTime.now()));
             ps.setInt(5, idParticipation);
-
             ps.executeUpdate();
-            System.out.println("Paiement confirmé avec succès.");
-
-        } catch (SQLException e) {
-            System.out.println("Erreur confirmerPaiement : " + e.getMessage());
-        }
-    }
-
-    public void annulerParticipation(int idParticipation) {
-        String sql = "UPDATE participation_evenement SET statut='annulee' WHERE id_participation=?";
-
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, idParticipation);
-            ps.executeUpdate();
-            System.out.println("Participation annulée.");
-
-        } catch (SQLException e) {
-            System.out.println("Erreur annulerParticipation : " + e.getMessage());
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            throw new RuntimeException("Erreur confirmation paiement : " + ex.getMessage());
         }
     }
 
     public void marquerPresent(int idParticipation) {
         String sql = "UPDATE participation_evenement SET statut='present', checkin_time=? WHERE id_participation=?";
 
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (PreparedStatement ps = getConn().prepareStatement(sql)) {
             ps.setTimestamp(1, Timestamp.valueOf(LocalDateTime.now()));
             ps.setInt(2, idParticipation);
-
             ps.executeUpdate();
-            System.out.println("Participant marqué présent.");
-
-        } catch (SQLException e) {
-            System.out.println("Erreur marquerPresent : " + e.getMessage());
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            throw new RuntimeException("Erreur check-in : " + ex.getMessage());
         }
     }
 
     public void marquerAbsent(int idParticipation) {
-        String sql = "UPDATE participation_evenement SET statut='absent' WHERE id_participation=?";
+        changerStatut(idParticipation, "absent");
+    }
 
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, idParticipation);
+    public void annuler(int idParticipation) {
+        changerStatut(idParticipation, "annulee");
+    }
+
+    public void changerStatut(int idParticipation, String statut) {
+        String sql = "UPDATE participation_evenement SET statut=? WHERE id_participation=?";
+
+        try (PreparedStatement ps = getConn().prepareStatement(sql)) {
+            ps.setString(1, normalizeStatut(statut));
+            ps.setInt(2, idParticipation);
             ps.executeUpdate();
-            System.out.println("Participant marqué absent.");
-
-        } catch (SQLException e) {
-            System.out.println("Erreur marquerAbsent : " + e.getMessage());
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            throw new RuntimeException("Erreur changement statut : " + ex.getMessage());
         }
     }
 
-    private List<ParticipationEvenement> getParticipations(String sql) {
+    public int compterParticipantsConfirmes(int idEvenement) {
+        String sql = "SELECT COUNT(*) FROM participation_evenement " +
+                "WHERE id_evenement=? AND type_participation='participation' AND statut IN ('confirmee', 'present')";
+
+        return countByEvent(sql, idEvenement);
+    }
+
+    public int compterInteresses(int idEvenement) {
+        String sql = "SELECT COUNT(*) FROM participation_evenement WHERE id_evenement=? AND type_participation='interesse'";
+        return countByEvent(sql, idEvenement);
+    }
+
+    private int countByEvent(String sql, int idEvenement) {
+        try (PreparedStatement ps = getConn().prepareStatement(sql)) {
+            ps.setInt(1, idEvenement);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next() ? rs.getInt(1) : 0;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            throw new RuntimeException("Erreur count participation : " + ex.getMessage());
+        }
+    }
+
+    private List<ParticipationEvenement> getByEvenementAndType(int idEvenement, String type) {
+        List<ParticipationEvenement> list = new ArrayList<>();
+        String sql = baseSelect() + " WHERE p.id_evenement=? AND p.type_participation=? ORDER BY p.date_participation DESC";
+
+        try (PreparedStatement ps = getConn().prepareStatement(sql)) {
+            ps.setInt(1, idEvenement);
+            ps.setString(2, type);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    list.add(mapRow(rs));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Erreur getByEvenementAndType : " + e.getMessage());
+        }
+
+        return list;
+    }
+
+    private List<ParticipationEvenement> executeList(String sql) {
         List<ParticipationEvenement> list = new ArrayList<>();
 
-        try (Statement st = conn.createStatement();
+        try (Statement st = getConn().createStatement();
              ResultSet rs = st.executeQuery(sql)) {
-
             while (rs.next()) {
                 list.add(mapRow(rs));
             }
-
         } catch (SQLException e) {
-            System.out.println("Erreur getParticipations : " + e.getMessage());
+            e.printStackTrace();
+            throw new RuntimeException("Erreur liste participation : " + e.getMessage());
         }
 
         return list;
     }
 
     private String baseSelect() {
-        return "SELECT p.*, CONCAT(u.nom, ' ', u.prenom) AS nom_utilisateur, e.titre AS titre_evenement " +
+        return "SELECT p.*, CONCAT(COALESCE(u.prenom,''), ' ', COALESCE(u.nom,'')) AS nom_utilisateur, e.titre AS titre_evenement " +
                 "FROM participation_evenement p " +
-                "JOIN utilisateur u ON p.id_utilisateur = u.id_utilisateur " +
-                "JOIN evenement e ON p.id_evenement = e.id_evenement";
+                "LEFT JOIN utilisateur u ON p.id_utilisateur = u.id_utilisateur " +
+                "LEFT JOIN evenement e ON p.id_evenement = e.id_evenement";
     }
 
     private ParticipationEvenement mapRow(ResultSet rs) throws SQLException {
@@ -335,23 +358,30 @@ public class ParticipationEvenementService implements IService<ParticipationEven
         p.setModePaiement(rs.getString("mode_paiement"));
         p.setReferencePaiement(rs.getString("reference_paiement"));
 
-        Timestamp dateParticipation = rs.getTimestamp("date_participation");
-        if (dateParticipation != null) {
-            p.setDateParticipation(dateParticipation.toLocalDateTime());
-        }
-
         Timestamp datePaiement = rs.getTimestamp("date_paiement");
         if (datePaiement != null) {
             p.setDatePaiement(datePaiement.toLocalDateTime());
         }
 
-        Timestamp checkinTime = rs.getTimestamp("checkin_time");
-        if (checkinTime != null) {
-            p.setCheckinTime(checkinTime.toLocalDateTime());
+        Timestamp dateParticipation = rs.getTimestamp("date_participation");
+        if (dateParticipation != null) {
+            p.setDateParticipation(dateParticipation.toLocalDateTime());
         }
 
-        p.setNomUtilisateur(rs.getString("nom_utilisateur"));
-        p.setTitreEvenement(rs.getString("titre_evenement"));
+        Timestamp checkin = rs.getTimestamp("checkin_time");
+        if (checkin != null) {
+            p.setCheckinTime(checkin.toLocalDateTime());
+        }
+
+        try {
+            p.setNomUtilisateur(rs.getString("nom_utilisateur"));
+        } catch (SQLException ignored) {
+        }
+
+        try {
+            p.setTitreEvenement(rs.getString("titre_evenement"));
+        } catch (SQLException ignored) {
+        }
 
         return p;
     }
@@ -364,99 +394,24 @@ public class ParticipationEvenementService implements IService<ParticipationEven
         }
     }
 
-    private EvenementInfo getEvenementInfo(int idEvenement) {
-        String sql = "SELECT organise_par_site, tarif FROM evenement WHERE id_evenement=?";
-
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, idEvenement);
-
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    EvenementInfo info = new EvenementInfo();
-                    info.organiseParSite = rs.getBoolean("organise_par_site");
-                    info.tarif = rs.getBigDecimal("tarif");
-
-                    if (info.tarif == null) {
-                        info.tarif = BigDecimal.ZERO;
-                    }
-
-                    return info;
-                }
-            }
-
-        } catch (SQLException e) {
-            System.out.println("Erreur getEvenementInfo : " + e.getMessage());
+    private String normalizeTypeParticipation(String type) {
+        if (type == null || type.isBlank()) {
+            return "participation";
         }
 
-        return null;
+        String value = type.trim().toLowerCase();
+        return "interesse".equals(value) ? "interesse" : "participation";
     }
 
-    private static class EvenementInfo {
-        boolean organiseParSite;
-        BigDecimal tarif;
-    }
-    public List<ParticipationEvenement> getParticipantsByEvenement(int idEvenement) {
-        List<ParticipationEvenement> list = new ArrayList<>();
-
-        String sql = baseSelect() +
-                " WHERE p.id_evenement=? AND p.type_participation='participation' " +
-                " ORDER BY p.date_participation DESC";
-
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, idEvenement);
-
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    list.add(mapRow(rs));
-                }
-            }
-
-        } catch (SQLException e) {
-            System.out.println("Erreur getParticipantsByEvenement : " + e.getMessage());
+    private String normalizeStatut(String statut) {
+        if (statut == null || statut.isBlank()) {
+            return "confirmee";
         }
 
-        return list;
-    }
-    public List<ParticipationEvenement> getInteressesByEvenement(int idEvenement) {
-        List<ParticipationEvenement> list = new ArrayList<>();
-
-        String sql = baseSelect() +
-                " WHERE p.id_evenement=? AND p.type_participation='interesse' " +
-                " ORDER BY p.date_participation DESC";
-
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, idEvenement);
-
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    list.add(mapRow(rs));
-                }
-            }
-
-        } catch (SQLException e) {
-            System.out.println("Erreur getInteressesByEvenement : " + e.getMessage());
-        }
-
-        return list;
-    }
-    public int compterParticipantsConfirmes(int idEvenement) {
-        String sql = "SELECT COUNT(*) FROM participation_evenement " +
-                "WHERE id_evenement=? AND type_participation='participation' " +
-                "AND statut IN ('confirmee', 'present')";
-
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, idEvenement);
-
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    return rs.getInt(1);
-                }
-            }
-
-        } catch (SQLException e) {
-            System.out.println("Erreur compterParticipantsConfirmes : " + e.getMessage());
-        }
-
-        return 0;
+        String value = statut.trim().toLowerCase();
+        return switch (value) {
+            case "interesse", "en_attente_paiement", "confirmee", "waitlist", "present", "absent", "annulee" -> value;
+            default -> "confirmee";
+        };
     }
 }

@@ -23,6 +23,9 @@ public class ConnexionController {
     private Button btnProf;
 
     @FXML
+    private Button btnAdmin;
+
+    @FXML
     private TextField emailField;
 
     @FXML
@@ -36,7 +39,7 @@ public class ConnexionController {
 
     private String selectedRole = "etudiant";
 
-    private final UtilisateurService utilisateurService = new UtilisateurService();
+    private UtilisateurService utilisateurService;
     private final CaptchaUtil captchaUtil = new CaptchaUtil();
 
     @FXML
@@ -58,6 +61,11 @@ public class ConnexionController {
 
             btnProf.getStyleClass().removeAll("role-button", "role-button-selected");
             btnProf.getStyleClass().add("role-button");
+
+            if (btnAdmin != null) {
+                btnAdmin.getStyleClass().removeAll("role-button", "role-button-selected");
+                btnAdmin.getStyleClass().add("role-button");
+            }
         }
     }
 
@@ -77,6 +85,27 @@ public class ConnexionController {
 
             btnEtudiant.getStyleClass().removeAll("role-button", "role-button-selected");
             btnEtudiant.getStyleClass().add("role-button");
+
+            if (btnAdmin != null) {
+                btnAdmin.getStyleClass().removeAll("role-button", "role-button-selected");
+                btnAdmin.getStyleClass().add("role-button");
+            }
+        }
+    }
+
+    @FXML
+    private void choisirAdmin() {
+        selectedRole = "admin";
+
+        if (btnEtudiant != null && btnProf != null && btnAdmin != null) {
+            btnAdmin.getStyleClass().removeAll("role-button", "role-button-selected");
+            btnAdmin.getStyleClass().add("role-button-selected");
+
+            btnEtudiant.getStyleClass().removeAll("role-button", "role-button-selected");
+            btnEtudiant.getStyleClass().add("role-button");
+
+            btnProf.getStyleClass().removeAll("role-button", "role-button-selected");
+            btnProf.getStyleClass().add("role-button");
         }
     }
 
@@ -97,7 +126,18 @@ public class ConnexionController {
             return;
         }
 
-        Utilisateur u = utilisateurService.login(email, password, selectedRole);
+        Utilisateur u;
+        try {
+            u = getUtilisateurService().login(email, password, selectedRole);
+
+            if (u == null) {
+                u = getUtilisateurService().login(email, password);
+            }
+        } catch (RuntimeException e) {
+            afficherAlerte(Alert.AlertType.ERROR, "Erreur base de données", e.getMessage());
+            renouvelerCaptcha();
+            return;
+        }
 
         if (u == null) {
             afficherAlerte(Alert.AlertType.ERROR, "Connexion échouée", "Email, mot de passe ou rôle incorrect.");
@@ -106,7 +146,12 @@ public class ConnexionController {
         }
 
         Session.setCurrentUser(u);
-        ouvrirPage("/Profil.fxml", "Profil - SmarTounsi");
+
+        if ("admin".equalsIgnoreCase(u.getRole())) {
+            ouvrirPage("/AdminDashboard.fxml", "Admin - SmarTounsi");
+        } else {
+            ouvrirPage("/Profil.fxml", "Profil - SmarTounsi");
+        }
     }
 
     @FXML
@@ -134,6 +179,14 @@ public class ConnexionController {
         if (captchaField != null) {
             captchaField.clear();
         }
+    }
+
+    private UtilisateurService getUtilisateurService() {
+        if (utilisateurService == null) {
+            utilisateurService = new UtilisateurService();
+        }
+
+        return utilisateurService;
     }
 
     private void ouvrirPage(String path, String title) {

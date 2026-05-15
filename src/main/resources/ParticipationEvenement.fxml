@@ -1,23 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
 <BorderPane fx:id="rootPane"
             xmlns="http://javafx.com/javafx/17"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="controllers.EvenementsController"
+            fx:controller="controllers.ParticipationEvenementController"
             stylesheets="@styles/profil.css"
             styleClass="app-root">
 
     <top>
         <HBox alignment="CENTER_LEFT" spacing="15.0" styleClass="topbar">
             <children>
-                <Label text="🧠" styleClass="top-logo-icon"/>
-                <Label text="SmarTounsi.com" styleClass="top-logo-text"/>
+                <Button text="← Retour événements"
+                        onAction="#retour"
+                        styleClass="save-button"/>
+
+                <Label fx:id="titleLabel"
+                       text="Participants / Intéressés"
+                       styleClass="top-logo-text"/>
+
                 <Region HBox.hgrow="ALWAYS"/>
-                <Label text="🎉 Événements" styleClass="role-header"/>
+
+                <Label text="🎟 Participations" styleClass="role-header"/>
             </children>
         </HBox>
     </top>
@@ -83,57 +89,68 @@
     </left>
 
     <center>
-        <VBox spacing="18.0" styleClass="content">
+        <VBox spacing="18" styleClass="content">
             <children>
 
-                <HBox alignment="CENTER_LEFT" spacing="12">
+                <HBox spacing="10" alignment="CENTER_RIGHT">
                     <children>
-                        <Label text="Gestion des événements" styleClass="profile-name"/>
-
-                        <Region HBox.hgrow="ALWAYS"/>
-
-                        <Label fx:id="countLabel"
-                               text="0 événement(s)"
-                               style="-fx-text-fill: #64748b; -fx-font-size: 15px;"/>
-
-                        <Button text="+ Créer événement"
-                                onAction="#ouvrirAjout"
-                                styleClass="save-button"/>
-                    </children>
-                </HBox>
-
-                <HBox alignment="CENTER_LEFT" spacing="12" styleClass="main-card">
-                    <children>
-                        <TextField fx:id="searchField"
-                                   promptText="Rechercher par titre, description ou lieu"
-                                   HBox.hgrow="ALWAYS"/>
-
-                        <ComboBox fx:id="typeFilter" prefWidth="170"/>
-                        <ComboBox fx:id="statutFilter" prefWidth="150"/>
-                        <ComboBox fx:id="organiseFilter" prefWidth="140"/>
-
-                        <Button text="Rechercher"
-                                onAction="#chargerEvenements"
+                        <Button text="Rafraîchir"
+                                onAction="#charger"
                                 styleClass="edit-button"/>
-                    </children>
 
-                    <padding>
-                        <Insets top="14" right="14" bottom="14" left="14"/>
-                    </padding>
+                        <Button text="Confirmer paiement"
+                                onAction="#confirmerPaiement"
+                                styleClass="save-button"/>
+
+                        <Button text="Présent"
+                                onAction="#marquerPresent"
+                                styleClass="edit-button"/>
+
+                        <Button text="Absent"
+                                onAction="#marquerAbsent"
+                                styleClass="sidebar-button"/>
+
+                        <Button text="Annuler"
+                                onAction="#annuler"
+                                styleClass="sidebar-button"/>
+
+                        <Button text="Supprimer"
+                                onAction="#supprimer"
+                                style="-fx-background-color: #ef4444; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 10;"/>
+                    </children>
                 </HBox>
 
-                <ScrollPane fitToWidth="true"
-                            hbarPolicy="NEVER"
-                            vbarPolicy="AS_NEEDED"
-                            VBox.vgrow="ALWAYS">
-                    <content>
-                        <FlowPane fx:id="eventsGrid" hgap="18" vgap="18">
-                            <padding>
-                                <Insets top="10" right="10" bottom="30" left="10"/>
-                            </padding>
-                        </FlowPane>
-                    </content>
-                </ScrollPane>
+                <TableView fx:id="participationTable" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="idColumn"
+                                     text="ID"
+                                     prefWidth="60"/>
+
+                        <TableColumn fx:id="utilisateurColumn"
+                                     text="Utilisateur"
+                                     prefWidth="190"/>
+
+                        <TableColumn fx:id="evenementColumn"
+                                     text="Événement"
+                                     prefWidth="220"/>
+
+                        <TableColumn fx:id="typeColumn"
+                                     text="Type"
+                                     prefWidth="130"/>
+
+                        <TableColumn fx:id="statutColumn"
+                                     text="Statut"
+                                     prefWidth="160"/>
+
+                        <TableColumn fx:id="montantColumn"
+                                     text="Montant"
+                                     prefWidth="100"/>
+
+                        <TableColumn fx:id="dateColumn"
+                                     text="Date participation"
+                                     prefWidth="200"/>
+                    </columns>
+                </TableView>
 
             </children>
         </VBox>

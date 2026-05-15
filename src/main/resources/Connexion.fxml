@@ -35,13 +35,19 @@
                                         text="🎓  Etudiant"
                                         onAction="#choisirEtudiant"
                                         styleClass="role-button-selected"
-                                        prefWidth="205"/>
+                                        prefWidth="132"/>
 
                                 <Button fx:id="btnProf"
                                         text="👨‍🏫  Professeur"
                                         onAction="#choisirProf"
                                         styleClass="role-button"
-                                        prefWidth="205"/>
+                                        prefWidth="132"/>
+
+                                <Button fx:id="btnAdmin"
+                                        text="Admin"
+                                        onAction="#choisirAdmin"
+                                        styleClass="role-button"
+                                        prefWidth="132"/>
                             </children>
                         </HBox>
                     </children>

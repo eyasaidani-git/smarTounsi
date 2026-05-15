@@ -5,11 +5,31 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="54dbdfd1-9d4c-4fc1-b340-9f85f3e08b28" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/controllers/EvenementFormController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/controllers/ParticipationEvenementController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/EvenementForm.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/ParticipationEvenement.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controllers/AccueilController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controllers/AccueilController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/controllers/ConnexionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controllers/ConnexionController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/services/EmailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/services/EmailService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controllers/EvenementsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controllers/EvenementsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controllers/PlanningController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controllers/PlanningController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controllers/ProfilController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controllers/ProfilController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/enums/EvenementType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/enums/EvenementType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/Evenement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/Evenement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/models/ParticipationEvenement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/models/ParticipationEvenement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/services/AvisEvenementService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/services/DocumentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/services/DocumentService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/services/EvenementService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/services/EvenementService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/services/MailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/services/MailService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/services/MessagePriveService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/services/MessagePriveService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/services/ParticipationEvenementService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/services/ParticipationEvenementService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/util/DBConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/util/DBConnection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Acceuil.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Acceuil.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Connexion.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Connexion.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Evenements.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Evenements.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Profil.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Profil.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/styles/acceuil.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/styles/acceuil.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,7 +37,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="104" />
+    <option name="cachedIndexableFilesCount" value="121" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -58,48 +78,53 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.smartounsi.executor": "Run",
-    "Maven.smartounsi [clean].executor": "Run",
-    "Maven.smartounsi [compile].executor": "Run",
-    "Maven.smartounsi [org.apache.maven.plugins:maven-clean-plugin:3.2.0:clean].executor": "Run",
-    "Maven.smartounsi [org.apache.maven.plugins:maven-compiler-plugin:3.11.0:compile].executor": "Run",
-    "Maven.smartounsi [org.openjfx:javafx-maven-plugin:0.0.8:run].executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.MCP Project settings loaded": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "git-widget-placeholder": "integration",
-    "junie.onboarding.icon.badge.shown": "true",
-    "kotlin-language-version-configured": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "ml.llm.agents.accounts",
-    "to.speed.mode.migration.done": "true",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.smartounsi.executor&quot;: &quot;Run&quot;,
+    &quot;Maven.smartounsi [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.smartounsi [compile].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.smartounsi [org.apache.maven.plugins:maven-clean-plugin:3.2.0:clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.smartounsi [org.apache.maven.plugins:maven-compiler-plugin:3.11.0:compile].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.smartounsi [org.openjfx:javafx-maven-plugin:0.0.8:run].executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;integration&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/eyasa/.jdks/jbr-17.0.14-2/bin/smarTounsi/src/main/resources/images&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;ml.llm.agents.accounts&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\eyasa\.jdks\jbr-17.0.14-2\bin\smarTounsi\src\main\resources\images" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\eyasa\.jdks\jbr-17.0.14-2\bin\smarTounsi\src\main\resources\styles" />
+      <recent name="C:\Users\eyasa\.jdks\jbr-17.0.14-2\bin\smarTounsi\uploads" />
       <recent name="C:\Users\eyasa\.jdks\jbr-17.0.14-2\bin\smarTounsi\src\main\resources" />
+      <recent name="C:\Users\eyasa\.jdks\jbr-17.0.14-2\bin\smarTounsi\src\main\resources\styles" />
     </key>
   </component>
   <component name="RunManager">
     <configuration name="smartounsi" type="Application" factoryName="Application">
       <envs>
-        <env name="SMARTOUNSI_MAIL_PASSWORD" value="mhus fnge ulou fkqr" />
+        <env name="SMARTOUNSI_MAIL_PASSWORD" value="mhusfngeuloufkqr" />
       </envs>
       <option name="MAIN_CLASS_NAME" value="tn.esprit.Main" />
       <module name="smartounsi" />
@@ -124,7 +149,8 @@
       <option name="presentableId" value="Default" />
       <updated>1778791697629</updated>
       <workItem from="1778791700887" duration="2959000" />
-      <workItem from="1778797259869" duration="19081000" />
+      <workItem from="1778797259869" duration="22967000" />
+      <workItem from="1778843964192" duration="4698000" />
     </task>
     <servers />
   </component>

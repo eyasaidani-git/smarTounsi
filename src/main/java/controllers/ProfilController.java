@@ -85,8 +85,18 @@ public class ProfilController {
 
         boolean isProf = "prof".equalsIgnoreCase(currentUser.getRole())
                 || "professeur".equalsIgnoreCase(currentUser.getRole());
+        boolean isAdmin = "admin".equalsIgnoreCase(currentUser.getRole());
 
-        if (isProf) {
+        if (isAdmin) {
+            roleHeaderLabel.setText("Administrateur");
+            infoHeaderLabel.setText("Administrateur · " + currentUser.getEmail());
+
+            anneeBox.setVisible(false);
+            anneeBox.setManaged(false);
+
+            numeroBox.setVisible(false);
+            numeroBox.setManaged(false);
+        } else if (isProf) {
             roleHeaderLabel.setText("👨‍🏫 Professeur");
             infoHeaderLabel.setText("👨‍🏫 Professeur · " + currentUser.getEmail());
 
@@ -135,8 +145,9 @@ public class ProfilController {
 
         boolean isProf = "prof".equalsIgnoreCase(currentUser.getRole())
                 || "professeur".equalsIgnoreCase(currentUser.getRole());
+        boolean isAdmin = "admin".equalsIgnoreCase(currentUser.getRole());
 
-        if (isProf) {
+        if (isProf || isAdmin) {
             currentUser.setAnnee(null);
             currentUser.setNumeroEtudiant(null);
         } else {
@@ -154,7 +165,11 @@ public class ProfilController {
 
     @FXML
     private void goDashboard() {
-        Navigator.go(rootPane, "/Acceuil.fxml", "Dashboard - SmarTounsi");
+        if (currentUser != null && "admin".equalsIgnoreCase(currentUser.getRole())) {
+            Navigator.go(rootPane, "/AdminDashboard.fxml", "Admin - SmarTounsi");
+        } else {
+            Navigator.go(rootPane, "/Acceuil.fxml", "Dashboard - SmarTounsi");
+        }
     }
 
     @FXML
@@ -205,6 +220,16 @@ public class ProfilController {
     @FXML
     private void goNotifications() {
         Navigator.go(rootPane, "/Notification.fxml", "Notifications - SmarTounsi");
+    }
+
+    @FXML
+    private void goMessages() {
+        Navigator.go(rootPane, "/Messages.fxml", "Messages privés - SmarTounsi");
+    }
+
+    @FXML
+    private void goReclamations() {
+        Navigator.go(rootPane, "/Reclamations.fxml", "Réclamations - SmarTounsi");
     }
 
     @FXML

@@ -1,0 +1,94 @@
+.root {
+    -fx-font-family: "Segoe UI", "Arial";
+}
+
+.admin-root {
+    -fx-background-color: #F3F6FA;
+}
+
+.admin-topbar {
+    -fx-background-color: #082238;
+    -fx-padding: 12 18 12 18;
+    -fx-min-height: 62px;
+}
+
+.admin-title {
+    -fx-text-fill: white;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+}
+
+.admin-user {
+    -fx-text-fill: #FEB707;
+    -fx-font-size: 12px;
+    -fx-padding: 4 10 4 10;
+    -fx-background-color: rgba(254,183,7,0.14);
+    -fx-background-radius: 14;
+}
+
+.admin-tabs {
+    -fx-background-color: #F3F6FA;
+}
+
+.tab-content {
+    -fx-padding: 14;
+    -fx-background-color: #F3F6FA;
+}
+
+.toolbar {
+    -fx-padding: 0 0 12 0;
+}
+
+.admin-table {
+    -fx-background-color: white;
+    -fx-border-color: #DCE4EE;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+}
+
+.side-form {
+    -fx-pref-width: 340px;
+    -fx-padding: 16;
+    -fx-background-color: white;
+    -fx-border-color: #DCE4EE;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+}
+
+.form-title {
+    -fx-text-fill: #082238;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+.primary-button,
+.secondary-button,
+.danger-button {
+    -fx-background-radius: 7;
+    -fx-border-radius: 7;
+    -fx-padding: 8 13 8 13;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.primary-button {
+    -fx-background-color: #FEB707;
+    -fx-text-fill: #082238;
+}
+
+.secondary-button {
+    -fx-background-color: #E7EEF6;
+    -fx-text-fill: #082238;
+}
+
+.danger-button {
+    -fx-background-color: #D94B4B;
+    -fx-text-fill: white;
+}
+
+.status-bar {
+    -fx-background-color: #E7EEF6;
+    -fx-text-fill: #40556B;
+    -fx-padding: 8 16 8 16;
+}

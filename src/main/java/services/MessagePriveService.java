@@ -13,6 +13,27 @@ public class MessagePriveService implements IService<MessagePrive> {
 
     public MessagePriveService() {
         this.conn = DBConnection.getInstance().getConn();
+        ensureTable();
+    }
+
+    private void ensureTable() {
+        String sql = "CREATE TABLE IF NOT EXISTS message_prive (" +
+                "id_message INT AUTO_INCREMENT PRIMARY KEY, " +
+                "id_expediteur INT NOT NULL, " +
+                "id_destinataire INT NOT NULL, " +
+                "contenu TEXT NOT NULL, " +
+                "date_envoi TIMESTAMP DEFAULT CURRENT_TIMESTAMP, " +
+                "est_lu TINYINT(1) DEFAULT 0, " +
+                "date_lecture TIMESTAMP NULL, " +
+                "INDEX idx_message_expediteur (id_expediteur), " +
+                "INDEX idx_message_destinataire (id_destinataire)" +
+                ")";
+
+        try (Statement st = conn.createStatement()) {
+            st.execute(sql);
+        } catch (SQLException e) {
+            throw new RuntimeException("Erreur création table message_prive : " + e.getMessage(), e);
+        }
     }
 
     @Override

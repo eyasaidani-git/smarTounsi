@@ -254,7 +254,11 @@ public class DocumentService implements IService<Document> {
 
         String typeDocument = rs.getString("type_document");
         if (typeDocument != null) {
-            d.setTypeDocument(DocumentType.valueOf(typeDocument));
+            try {
+                d.setTypeDocument(DocumentType.valueOf(typeDocument.trim().toUpperCase()));
+            } catch (IllegalArgumentException e) {
+                d.setTypeDocument(DocumentType.COURS);
+            }
         }
 
         d.setFichierUrl(rs.getString("fichier_url"));

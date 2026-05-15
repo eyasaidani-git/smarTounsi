@@ -1,18 +1,15 @@
 package controllers;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
-import javafx.scene.Scene;
+import util.Navigator;
 
-import java.io.IOException;
+import java.awt.Desktop;
+import java.net.URI;
 
 public class AccueilController {
 
@@ -94,26 +91,29 @@ public class AccueilController {
         messageArea.clear();
     }
 
+    @FXML
+    private void openFacebook() {
+        openExternalLink("https://www.facebook.com/profile.php?id=61581797906674&mibextid=wwXIfr");
+    }
+
+    @FXML
+    private void openInstagram() {
+        openExternalLink("https://www.instagram.com/smartounsi?igsh=MXN3cDB5aW93NW50NQ%3D%3D&utm_source=qr");
+    }
+
     private void scrollTo(double value) {
         mainScroll.setVvalue(value);
     }
 
     private void ouvrirPage(String fxmlPath, String title) {
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource(fxmlPath));
-
-            Stage stage = (Stage) mainScroll.getScene().getWindow();
-            Scene scene = new Scene(root);
-
-            stage.setTitle(title);
-            stage.setScene(scene);
-            stage.show();
-
-        } catch (IOException e) {
+        if (mainScroll == null || mainScroll.getScene() == null) {
             afficherAlerte(Alert.AlertType.ERROR,
-                    "Page introuvable",
-                    "La page " + fxmlPath + " n'existe pas encore.\nElle sera créée dans l'étape suivante.");
+                    "Erreur navigation",
+                    "Impossible d'ouvrir : " + fxmlPath);
+            return;
         }
+
+        Navigator.go(mainScroll, fxmlPath, title);
     }
 
     private void afficherAlerte(Alert.AlertType type, String titre, String contenu) {
@@ -122,5 +122,19 @@ public class AccueilController {
         alert.setHeaderText(null);
         alert.setContentText(contenu);
         alert.showAndWait();
+    }
+
+    private void openExternalLink(String url) {
+        try {
+            if (!Desktop.isDesktopSupported()) {
+                throw new IllegalStateException("Ouverture navigateur non supportée.");
+            }
+
+            Desktop.getDesktop().browse(new URI(url));
+        } catch (Exception e) {
+            afficherAlerte(Alert.AlertType.ERROR,
+                    "Lien indisponible",
+                    "Impossible d'ouvrir le lien :\n" + url);
+        }
     }
 }

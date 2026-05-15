@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane fx:id="rootPane"
+            xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.ReclamationsController"
+            stylesheets="@styles/admin.css"
+            styleClass="admin-root">
+
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="14.0" styleClass="admin-topbar">
+            <children>
+                <Label text="Réclamations" styleClass="admin-title"/>
+                <Label fx:id="userLabel" text="Utilisateur" styleClass="admin-user"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Button text="Retour" onAction="#goProfil" styleClass="secondary-button"/>
+                <Button text="Déconnexion" onAction="#logout" styleClass="danger-button"/>
+            </children>
+        </HBox>
+    </top>
+
+    <center>
+        <BorderPane styleClass="tab-content">
+            <center>
+                <TableView fx:id="reclamationsTable" styleClass="admin-table"/>
+            </center>
+            <right>
+                <VBox spacing="10.0" styleClass="side-form">
+                    <children>
+                        <Label text="Nouvelle réclamation" styleClass="form-title"/>
+                        <TextField fx:id="sujetField" promptText="Sujet"/>
+                        <TextArea fx:id="contenuArea" promptText="Décrivez votre réclamation" prefRowCount="10"/>
+                        <Button text="Envoyer" onAction="#envoyerReclamation" styleClass="primary-button"/>
+                        <Button text="Actualiser" onAction="#refreshReclamations" styleClass="secondary-button"/>
+                        <Label fx:id="statusLabel" text="Les réclamations avec mots interdits sont rejetées automatiquement." wrapText="true"/>
+                    </children>
+                </VBox>
+            </right>
+        </BorderPane>
+    </center>
+</BorderPane>

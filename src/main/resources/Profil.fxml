@@ -81,7 +81,15 @@
                         onAction="#goNotifications"
                         styleClass="sidebar-button"/>
 
-                <Button text="🚪  Déconnexion"
+                <Button text="Messages"
+                        onAction="#goMessages"
+                        styleClass="sidebar-button"/>
+
+                <Button text="Réclamations"
+                        onAction="#goReclamations"
+                        styleClass="sidebar-button"/>
+
+                <Button text="Déconnexion"
                         onAction="#deconnexion"
                         styleClass="sidebar-button"/>
             </children>

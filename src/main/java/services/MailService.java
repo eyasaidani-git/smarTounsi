@@ -111,7 +111,7 @@ public class MailService {
             sendReminderEmail(userEmail, revisionDate, items);
             sentReminderKeys.add(reminderKey);
 
-        } catch (MessagingException | UnsupportedEncodingException e) {
+        } catch (MessagingException | UnsupportedEncodingException | RuntimeException e) {
             System.err.println("[MailService] Erreur envoi email : " + e.getMessage());
         }
     }

@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane fx:id="rootPane"
+            xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.EvenementFormController"
+            stylesheets="@styles/profil.css"
+            styleClass="app-root">
+
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="15.0" styleClass="topbar">
+            <children>
+                <Button text="← Retour"
+                        onAction="#retour"
+                        styleClass="save-button"/>
+
+                <Label fx:id="pageTitle"
+                       text="Créer un événement"
+                       styleClass="top-logo-text"/>
+
+                <Region HBox.hgrow="ALWAYS"/>
+
+                <Label text="🎉 Événements" styleClass="role-header"/>
+            </children>
+        </HBox>
+    </top>
+
+    <center>
+        <ScrollPane fitToWidth="true"
+                    hbarPolicy="NEVER"
+                    vbarPolicy="AS_NEEDED">
+            <content>
+                <VBox spacing="20" styleClass="content">
+                    <children>
+
+                        <VBox spacing="18" styleClass="main-card">
+                            <children>
+
+                                <Label text="Informations de l'événement"
+                                       styleClass="card-title"/>
+
+                                <GridPane hgap="18" vgap="14">
+                                    <children>
+
+                                        <VBox spacing="7"
+                                              GridPane.rowIndex="0"
+                                              GridPane.columnIndex="0">
+                                            <children>
+                                                <Label text="Titre *" styleClass="field-label"/>
+                                                <TextField fx:id="titreField"
+                                                           promptText="Ex: Hackathon SmarTounsi"
+                                                           styleClass="profile-field"/>
+                                            </children>
+                                        </VBox>
+
+                                        <VBox spacing="7"
+                                              GridPane.rowIndex="0"
+                                              GridPane.columnIndex="1">
+                                            <children>
+                                                <Label text="Type *" styleClass="field-label"/>
+                                                <ComboBox fx:id="typeCombo"
+                                                          maxWidth="Infinity"
+                                                          styleClass="profile-field"/>
+                                            </children>
+                                        </VBox>
+
+                                        <VBox spacing="7"
+                                              GridPane.rowIndex="1"
+                                              GridPane.columnIndex="0">
+                                            <children>
+                                                <Label text="Lieu *" styleClass="field-label"/>
+                                                <TextField fx:id="lieuField"
+                                                           promptText="Ex: Salle C3"
+                                                           styleClass="profile-field"/>
+                                            </children>
+                                        </VBox>
+
+                                        <VBox spacing="7"
+                                              GridPane.rowIndex="1"
+                                              GridPane.columnIndex="1">
+                                            <children>
+                                                <Label text="Statut" styleClass="field-label"/>
+                                                <ComboBox fx:id="statutCombo"
+                                                          maxWidth="Infinity"
+                                                          styleClass="profile-field"/>
+                                            </children>
+                                        </VBox>
+
+                                        <VBox spacing="7"
+                                              GridPane.rowIndex="2"
+                                              GridPane.columnIndex="0">
+                                            <children>
+                                                <Label text="Date début *" styleClass="field-label"/>
+
+                                                <HBox spacing="10">
+                                                    <children>
+                                                        <DatePicker fx:id="dateDebutPicker"
+                                                                    HBox.hgrow="ALWAYS"/>
+
+                                                        <TextField fx:id="heureDebutField"
+                                                                   prefWidth="100"
+                                                                   promptText="09:00"/>
+                                                    </children>
+                                                </HBox>
+                                            </children>
+                                        </VBox>
+
+                                        <VBox spacing="7"
+                                              GridPane.rowIndex="2"
+                                              GridPane.columnIndex="1">
+                                            <children>
+                                                <Label text="Date fin *" styleClass="field-label"/>
+
+                                                <HBox spacing="10">
+                                                    <children>
+                                                        <DatePicker fx:id="dateFinPicker"
+                                                                    HBox.hgrow="ALWAYS"/>
+
+                                                        <TextField fx:id="heureFinField"
+                                                                   prefWidth="100"
+                                                                   promptText="12:00"/>
+                                                    </children>
+                                                </HBox>
+                                            </children>
+                                        </VBox>
+
+                                        <VBox spacing="7"
+                                              GridPane.rowIndex="3"
+                                              GridPane.columnIndex="0">
+                                            <children>
+                                                <Label text="Tarif" styleClass="field-label"/>
+                                                <TextField fx:id="tarifField"
+                                                           promptText="0.00"
+                                                           styleClass="profile-field"/>
+                                            </children>
+                                        </VBox>
+
+                                        <VBox spacing="7"
+                                              GridPane.rowIndex="3"
+                                              GridPane.columnIndex="1">
+                                            <children>
+                                                <Label text="Capacité" styleClass="field-label"/>
+                                                <TextField fx:id="capacityField"
+                                                           promptText="100"
+                                                           styleClass="profile-field"/>
+                                            </children>
+                                        </VBox>
+
+                                    </children>
+                                </GridPane>
+
+                                <CheckBox fx:id="organiseParSiteCheck"
+                                          text="Organisé par le site"/>
+
+                                <VBox spacing="7">
+                                    <children>
+                                        <Label text="Description" styleClass="field-label"/>
+
+                                        <TextArea fx:id="descriptionArea"
+                                                  prefHeight="110"
+                                                  promptText="Description de l'événement..."
+                                                  wrapText="true"/>
+                                    </children>
+                                </VBox>
+
+                                <VBox spacing="7">
+                                    <children>
+                                        <Label text="Image" styleClass="field-label"/>
+
+                                        <HBox spacing="10">
+                                            <children>
+                                                <TextField fx:id="imageField"
+                                                           promptText="Chemin ou URL image"
+                                                           HBox.hgrow="ALWAYS"/>
+
+                                                <Button text="Choisir"
+                                                        onAction="#choisirImage"
+                                                        styleClass="edit-button"/>
+                                            </children>
+                                        </HBox>
+                                    </children>
+                                </VBox>
+
+                                <Label fx:id="messageLabel" textFill="#ef4444"/>
+
+                                <HBox alignment="CENTER_RIGHT" spacing="12">
+                                    <children>
+                                        <Button text="Annuler"
+                                                onAction="#retour"
+                                                styleClass="sidebar-button"/>
+
+                                        <Button text="Enregistrer"
+                                                onAction="#enregistrer"
+                                                styleClass="save-button"/>
+                                    </children>
+                                </HBox>
+
+                            </children>
+                        </VBox>
+
+                    </children>
+                </VBox>
+            </content>
+        </ScrollPane>
+    </center>
+</BorderPane>

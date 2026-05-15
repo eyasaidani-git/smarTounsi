@@ -11,36 +11,23 @@ public class Evenement {
     private String titre;
     private String description;
     private EvenementType typeEvenement;
+    private boolean organiseParSite;
     private String lieu;
     private LocalDateTime dateDebut;
     private LocalDateTime dateFin;
     private BigDecimal tarif;
+    private int capacity;
+    private String statut;
     private int idCreateur;
     private String imageEvenement;
     private LocalDateTime dateCreation;
 
-    private boolean organiseParSite;
-    private String statut;
-    private int capacity;
-
     public Evenement() {
-    }
-
-    public Evenement(String titre, String description, EvenementType typeEvenement, String lieu,
-                     LocalDateTime dateDebut, LocalDateTime dateFin, BigDecimal tarif,
-                     int idCreateur, String imageEvenement) {
-        this.titre = titre;
-        this.description = description;
-        this.typeEvenement = typeEvenement;
-        this.lieu = lieu;
-        this.dateDebut = dateDebut;
-        this.dateFin = dateFin;
-        this.tarif = tarif;
-        this.idCreateur = idCreateur;
-        this.imageEvenement = imageEvenement;
+        this.typeEvenement = EvenementType.AUTRE;
         this.organiseParSite = true;
-        this.statut = "a_venir";
+        this.tarif = BigDecimal.ZERO;
         this.capacity = 0;
+        this.statut = "a_venir";
     }
 
     public Evenement(String titre, String description, EvenementType typeEvenement, String lieu,
@@ -49,15 +36,15 @@ public class Evenement {
                      String statut, int capacity) {
         this.titre = titre;
         this.description = description;
-        this.typeEvenement = typeEvenement;
+        this.typeEvenement = typeEvenement == null ? EvenementType.AUTRE : typeEvenement;
         this.lieu = lieu;
         this.dateDebut = dateDebut;
         this.dateFin = dateFin;
-        this.tarif = tarif;
+        this.tarif = tarif == null ? BigDecimal.ZERO : tarif;
         this.idCreateur = idCreateur;
         this.imageEvenement = imageEvenement;
         this.organiseParSite = organiseParSite;
-        this.statut = statut;
+        this.statut = statut == null || statut.isBlank() ? "a_venir" : statut;
         this.capacity = capacity;
     }
 
@@ -98,7 +85,15 @@ public class Evenement {
     }
 
     public void setTypeEvenement(EvenementType typeEvenement) {
-        this.typeEvenement = typeEvenement;
+        this.typeEvenement = typeEvenement == null ? EvenementType.AUTRE : typeEvenement;
+    }
+
+    public boolean isOrganiseParSite() {
+        return organiseParSite;
+    }
+
+    public void setOrganiseParSite(boolean organiseParSite) {
+        this.organiseParSite = organiseParSite;
     }
 
     public String getLieu() {
@@ -130,7 +125,32 @@ public class Evenement {
     }
 
     public void setTarif(BigDecimal tarif) {
-        this.tarif = tarif;
+        this.tarif = tarif == null ? BigDecimal.ZERO : tarif;
+    }
+
+    // Compatibilité avec l'ancien code DAO qui utilisait prix
+    public double getPrix() {
+        return tarif == null ? 0.0 : tarif.doubleValue();
+    }
+
+    public void setPrix(double prix) {
+        this.tarif = BigDecimal.valueOf(prix);
+    }
+
+    public int getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
+
+    public String getStatut() {
+        return statut;
+    }
+
+    public void setStatut(String statut) {
+        this.statut = statut == null || statut.isBlank() ? "a_venir" : statut;
     }
 
     public int getIdCreateur() {
@@ -149,36 +169,21 @@ public class Evenement {
         this.imageEvenement = imageEvenement;
     }
 
+    // Compatibilité avec l'ancien code DAO qui utilisait image
+    public String getImage() {
+        return imageEvenement;
+    }
+
+    public void setImage(String image) {
+        this.imageEvenement = image;
+    }
+
     public LocalDateTime getDateCreation() {
         return dateCreation;
     }
 
     public void setDateCreation(LocalDateTime dateCreation) {
         this.dateCreation = dateCreation;
-    }
-
-    public boolean isOrganiseParSite() {
-        return organiseParSite;
-    }
-
-    public void setOrganiseParSite(boolean organiseParSite) {
-        this.organiseParSite = organiseParSite;
-    }
-
-    public String getStatut() {
-        return statut;
-    }
-
-    public void setStatut(String statut) {
-        this.statut = statut;
-    }
-
-    public int getCapacity() {
-        return capacity;
-    }
-
-    public void setCapacity(int capacity) {
-        this.capacity = capacity;
     }
 
     @Override
@@ -188,16 +193,16 @@ public class Evenement {
                 ", titre='" + titre + '\'' +
                 ", description='" + description + '\'' +
                 ", typeEvenement=" + typeEvenement +
+                ", organiseParSite=" + organiseParSite +
                 ", lieu='" + lieu + '\'' +
                 ", dateDebut=" + dateDebut +
                 ", dateFin=" + dateFin +
                 ", tarif=" + tarif +
+                ", capacity=" + capacity +
+                ", statut='" + statut + '\'' +
                 ", idCreateur=" + idCreateur +
                 ", imageEvenement='" + imageEvenement + '\'' +
                 ", dateCreation=" + dateCreation +
-                ", organiseParSite=" + organiseParSite +
-                ", statut='" + statut + '\'' +
-                ", capacity=" + capacity +
                 '}';
     }
 }

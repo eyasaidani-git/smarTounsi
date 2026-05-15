@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane fx:id="rootPane"
+            xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.MessagesController"
+            stylesheets="@styles/admin.css"
+            styleClass="admin-root">
+
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="14.0" styleClass="admin-topbar">
+            <children>
+                <Label text="Messages privés" styleClass="admin-title"/>
+                <Label fx:id="userLabel" text="Utilisateur" styleClass="admin-user"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Button text="Retour" onAction="#goProfil" styleClass="secondary-button"/>
+                <Button text="Déconnexion" onAction="#logout" styleClass="danger-button"/>
+            </children>
+        </HBox>
+    </top>
+
+    <center>
+        <BorderPane styleClass="tab-content">
+            <top>
+                <HBox spacing="10.0" styleClass="toolbar">
+                    <children>
+                        <ComboBox fx:id="destinataireCombo"
+                                  promptText="Destinataire"
+                                  onAction="#loadConversation"
+                                  prefWidth="420"/>
+                        <Button text="Actualiser" onAction="#loadConversation" styleClass="secondary-button"/>
+                    </children>
+                </HBox>
+            </top>
+            <center>
+                <TableView fx:id="conversationTable" styleClass="admin-table"/>
+            </center>
+            <bottom>
+                <VBox spacing="10.0" styleClass="side-form">
+                    <children>
+                        <Label text="Nouveau message" styleClass="form-title"/>
+                        <TextArea fx:id="messageArea" promptText="Votre message" prefRowCount="4"/>
+                        <Button text="Envoyer" onAction="#sendMessage" styleClass="primary-button"/>
+                    </children>
+                </VBox>
+            </bottom>
+        </BorderPane>
+    </center>
+</BorderPane>

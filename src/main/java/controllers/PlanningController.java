@@ -33,6 +33,7 @@ import javafx.stage.FileChooser;
 import javafx.util.Duration;
 import services.MailService;
 import util.Navigator;
+import util.Session;
 
 import java.io.File;
 import java.net.URL;
@@ -64,7 +65,7 @@ public class PlanningController implements Initializable {
 
     private YearMonth currentMonth;
     private LocalDate selectedDate;
-    private String userEmail = "smartounsi7@gmail.com";
+    private String userEmail;
 
     private final Map<LocalDate, ObservableList<TodoItem>> todoMap = new HashMap<>();
     private final ObservableList<String> fichiersEnCours = FXCollections.observableArrayList();
@@ -77,6 +78,7 @@ public class PlanningController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         currentMonth = YearMonth.now();
         selectedDate = LocalDate.now();
+        userEmail = resolveCurrentUserEmail();
 
         if (comboType.getItems().isEmpty()) {
             comboType.setItems(FXCollections.observableArrayList("Cours", "TD", "Examen", "DS"));
@@ -339,6 +341,15 @@ public class PlanningController implements Initializable {
     public void setUserEmail(String userEmail) {
         this.userEmail = userEmail;
         refreshMailReminderScheduler();
+    }
+
+    private String resolveCurrentUserEmail() {
+        if (Session.getCurrentUser() == null) {
+            return "";
+        }
+
+        String email = Session.getCurrentUser().getEmail();
+        return email == null ? "" : email.trim();
     }
 
     private void refreshMailReminderScheduler() {
