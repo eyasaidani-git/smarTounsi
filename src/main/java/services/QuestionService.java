@@ -26,9 +26,9 @@ public class QuestionService implements IService<Question> {
             ps.setString(2, q.getEnonce());
 
             if (q.getTypeQuestion() == null) {
-                ps.setString(3, QuestionType.QCM.name());
+                ps.setString(3, QuestionType.QCM.name().toLowerCase());
             } else {
-                ps.setString(3, q.getTypeQuestion().name());
+                ps.setString(3, q.getTypeQuestion().name().toLowerCase());
             }
 
             ps.setInt(4, q.getPoints());

@@ -5,10 +5,12 @@ import javafx.animation.PauseTransition;
 import javafx.animation.TranslateTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ContentDisplay;
@@ -30,6 +32,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;
 import services.MailService;
+import util.Navigator;
 
 import java.io.File;
 import java.net.URL;
@@ -431,6 +434,54 @@ public class PlanningController implements Initializable {
         tt.setAutoReverse(true);
         tt.setOnFinished(e -> node.setTranslateX(0));
         tt.play();
+    }
+
+    @FXML private void handleDashboard(ActionEvent event) {
+        Navigator.go((Node) event.getSource(), "/Acceuil.fxml", "Dashboard - SmarTounsi");
+    }
+
+    @FXML private void handleModules(ActionEvent event) {
+        Navigator.go((Node) event.getSource(), "/Modules.fxml", "Modules - SmarTounsi");
+    }
+
+    @FXML private void handleDocuments(ActionEvent event) {
+        Navigator.go((Node) event.getSource(), "/Document.fxml", "Documents - SmarTounsi");
+    }
+
+    @FXML private void handleUpload(ActionEvent event) {
+        Navigator.go((Node) event.getSource(), "/UploadDocument.fxml", "Upload - SmarTounsi");
+    }
+
+    @FXML private void handlePlanning(ActionEvent event) {
+        Navigator.go((Node) event.getSource(), "/Planning.fxml", "Planning - SmarTounsi");
+    }
+
+    @FXML private void handleFavoris(ActionEvent event) {
+        Navigator.go((Node) event.getSource(), "/Favoris.fxml", "Favoris - SmarTounsi");
+    }
+
+    @FXML private void handleQuiz(ActionEvent event) {
+        Navigator.go((Node) event.getSource(), "/quiz.fxml", "Quiz - SmarTounsi");
+    }
+
+    @FXML private void handleProjets(ActionEvent event) {
+        Navigator.go((Node) event.getSource(), "/ProjectView.fxml", "Projets - SmarTounsi");
+    }
+
+    @FXML private void handleEvenements(ActionEvent event) {
+        Navigator.go((Node) event.getSource(), "/Evenements.fxml", "Evenements - SmarTounsi");
+    }
+
+    @FXML private void handleProfil(ActionEvent event) {
+        Navigator.go((Node) event.getSource(), "/Profil.fxml", "Profil - SmarTounsi");
+    }
+
+    @FXML private void handleNotifications(ActionEvent event) {
+        Navigator.go((Node) event.getSource(), "/Notification.fxml", "Notifications - SmarTounsi");
+    }
+
+    @FXML private void handleDeconnexion(ActionEvent event) {
+        Navigator.logout((Node) event.getSource());
     }
 
     public static class TodoItem {

@@ -1,13 +1,11 @@
 package controllers;
 
 import javafx.animation.KeyFrame;
-import javafx.animation.PauseTransition;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -378,12 +376,12 @@ public class PlayQuizController implements Initializable {
     private void fermerQuiz(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/view/quiz.fxml"));
+                    getClass().getResource("/quiz.fxml"));
             Parent root = loader.load();
 
             Scene scene = new Scene(root);
             scene.getStylesheets().add(
-                    getClass().getResource("/style/quiz.css").toExternalForm());
+                    getClass().getResource("/styles/quiz.css").toExternalForm());
 
             Stage stage;
             if (event != null) {

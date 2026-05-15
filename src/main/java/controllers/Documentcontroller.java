@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 import util.DBConnection;
 import util.Session;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.*;
 import javafx.scene.canvas.Canvas;
@@ -45,8 +46,12 @@ public class Documentcontroller {
             labelNomModule.setText(Session.getModuleNom());
 
         // Valeurs en minuscules comme dans la BD
-        cbFiltreType.getItems().addAll("Tous", "cours", "td", "ds", "examen", "image", "video");
+        cbFiltreType.getItems().addAll("Tous", "cours", "td", "examen_ds", "lien_utile", "image", "video");
         cbFiltreType.setValue("Tous");
+        cbFiltreChapitre.getItems().setAll("");
+        cbFiltreChapitre.setValue("");
+        cbFiltreChapitre.setDisable(true);
+        cbFiltreChapitre.setPromptText("Chapitre indisponible");
 
         // On charge sans filtre module au départ (sera rechargé par setModuleNom)
         chargerDocuments("", "Tous", "");
@@ -68,6 +73,8 @@ public class Documentcontroller {
 
     private void chargerDocuments(String recherche, String type, String chapitre) {
         flowDocuments.getChildren().clear();
+        recherche = recherche == null ? "" : recherche.trim();
+        type = type == null ? "Tous" : type;
 
         // Déterminer si on filtre par module_id ou pas
         int moduleId = Session.getModuleId();
@@ -96,12 +103,7 @@ public class Documentcontroller {
             hasWhere = true;
         }
 
-        if (!chapitre.isBlank()) {
-            sql.append(hasWhere ? " AND" : " WHERE");
-            sql.append(" chapitre = ?");
-        }
-
-        sql.append(" ORDER BY chapitre, titre");
+        sql.append(" ORDER BY date_upload DESC, titre");
 
         System.out.println("DEBUG SQL: " + sql);
         System.out.println("DEBUG moduleId: " + moduleId);
@@ -118,25 +120,21 @@ public class Documentcontroller {
                 ps.setString(idx++, like);
             }
             if (!type.equals("Tous")) ps.setString(idx++, type.toLowerCase());
-            if (!chapitre.isBlank()) ps.setString(idx++, chapitre);
-
             ResultSet rs = ps.executeQuery();
 
             cbFiltreChapitre.getItems().clear();
             cbFiltreChapitre.getItems().add("");
 
-            ResultSetMetaData meta = rs.getMetaData();
-            // Détecter le vrai nom de la colonne id
-            String colId = "id_document"; // valeur par défaut vue dans phpMyAdmin
 
             while (rs.next()) {
                 int    id       = rs.getInt("id_document");
                 String titre    = rs.getString("titre");
                 String desc     = rs.getString("description");
-                String chap     = rs.getString("chapitre");
+                String chap     = "";
                 String typeDoc  = rs.getString("type_document");
-                String fileType = rs.getString("fichier_type");
-                long   taille   = rs.getLong("taille_fichier");
+                String fileUrl  = rs.getString("fichier_url");
+                String fileType = getExtension(fileUrl);
+                long   taille   = getFileSize(fileUrl);
 
                 if (chap != null && !chap.isBlank() && !cbFiltreChapitre.getItems().contains(chap))
                     cbFiltreChapitre.getItems().add(chap);
@@ -271,10 +269,9 @@ public class Documentcontroller {
             ps0.close(); rs0.close();
             if (moduleId <= 0) return 0.0;
 
-            // Nombre total de chapitres distincts dans ce module
+            // La table documents actuelle n'a pas de colonne chapitre : progression par document.
             PreparedStatement ps1 = conn.prepareStatement(
-                    "SELECT COUNT(DISTINCT chapitre) FROM documents " +
-                            "WHERE id_module = ? AND chapitre IS NOT NULL AND chapitre != ''"
+                    "SELECT COUNT(*) FROM documents WHERE id_module = ?"
             );
             ps1.setInt(1, moduleId);
             ResultSet rs1 = ps1.executeQuery();
@@ -298,6 +295,17 @@ public class Documentcontroller {
             e.printStackTrace();
             return 0.0;
         }
+    }
+
+    private String getExtension(String path) {
+        if (path == null || path.isBlank() || !path.contains(".")) return "FILE";
+        return path.substring(path.lastIndexOf('.') + 1).toUpperCase();
+    }
+
+    private long getFileSize(String path) {
+        if (path == null || path.isBlank()) return 0;
+        File file = new File(path);
+        return file.exists() ? file.length() : 0;
     }
 
     private void ouvrirDetail(int docId, String docNom, Node source) {
@@ -325,17 +333,20 @@ public class Documentcontroller {
     }
 
     @FXML public void handleRetour(ActionEvent e)       { naviguerVers("Modules.fxml", e); }
-    @FXML public void handleDashboard(ActionEvent e)    { naviguerVers("Acceuil.fxml", e); }
-    @FXML public void handleModules(ActionEvent e)      { naviguerVers("Modules.fxml", e); }
-    @FXML public void handleDocuments(ActionEvent e)    { }
-    @FXML public void handleUpload(ActionEvent e)       { naviguerVers("UploadDocument.fxml", e); }
-    @FXML public void handleDeconnexion(ActionEvent e)  { Session.clear(); naviguerVers("Connexion.fxml", e); }
-    @FXML public void handleQuiz(ActionEvent e)         { naviguerVers("view/quiz.fxml", e); }
-    @FXML public void handlePlanning(ActionEvent e)     { }
-    @FXML public void handleJira(ActionEvent e)         { }
-    @FXML public void handleProfil(ActionEvent e)       { naviguerVers("Profil.fxml", e); }
-    @FXML public void handleFavoris(ActionEvent e)      { }
-    @FXML public void handleNotification(ActionEvent e) { }
+    @FXML public void handleDashboard(ActionEvent e)     { naviguerVers("Acceuil.fxml", e); }
+    @FXML public void handleModules(ActionEvent e)       { naviguerVers("Modules.fxml", e); }
+    @FXML public void handleDocuments(ActionEvent e)     { }
+    @FXML public void handleUpload(ActionEvent e)        { naviguerVers("UploadDocument.fxml", e); }
+    @FXML public void handleDeconnexion(ActionEvent e)   { Session.clear(); naviguerVers("Connexion.fxml", e); }
+    @FXML public void handleQuiz(ActionEvent e)          { naviguerVers("quiz.fxml", e); }
+    @FXML public void handlePlanning(ActionEvent e)      { naviguerVers("Planning.fxml", e); }
+    @FXML public void handleJira(ActionEvent e)          { }
+    @FXML public void handleFavoris(ActionEvent e)       { naviguerVers("Favoris.fxml", e); }
+    @FXML public void handleProjets(ActionEvent e)       { naviguerVers("ProjectView.fxml", e); }
+    @FXML public void handleEvenements(ActionEvent e)    { naviguerVers("Evenements.fxml", e); }
+    @FXML public void handleProfil(ActionEvent e)        { naviguerVers("Profil.fxml", e); }
+    @FXML public void handleNotification(ActionEvent e)  { naviguerVers("Notification.fxml", e); }
+    @FXML public void handleNotifications(ActionEvent e) { naviguerVers("Notification.fxml", e); }
 
     private void naviguerVers(String fxml, ActionEvent event) {
         try {

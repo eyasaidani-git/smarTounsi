@@ -1,91 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.geometry.*?>
+<?import javafx.scene.layout.*?>
 
 <BorderPane xmlns="http://javafx.com/javafx/17"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="controllers.PlanningController"
             stylesheets="@styles/planning.css"
-            prefWidth="1280" prefHeight="750">
+            prefWidth="1280"
+            prefHeight="750">
 
-    <!-- ═══════════════════════════════════════════
-         SIDEBAR GAUCHE
-    ═══════════════════════════════════════════ -->
     <left>
-        <VBox styleClass="sidebar" prefWidth="155" spacing="6">
-            <padding><Insets top="20" left="10" right="10" bottom="20"/></padding>
+        <VBox styleClass="sidebar" prefWidth="220" spacing="10">
+            <padding>
+                <Insets top="20" left="10" right="10" bottom="20"/>
+            </padding>
 
-            <!-- Logo -->
-            <HBox alignment="CENTER_LEFT" spacing="8" styleClass="sidebar-logo">
-                <Label text="📚" style="-fx-font-size:20px;"/>
-                <Label text="smarTounsi" styleClass="logo-text"/>
-            </HBox>
+            <Label text="SmarTounsi.com" styleClass="logo-text"/>
 
             <Region prefHeight="16"/>
 
-            <!-- PRINCIPAL -->
             <Label text="PRINCIPAL" styleClass="section-label"/>
-            <Button text="🏠  Dashboard"    styleClass="nav-btn" maxWidth="Infinity"/>
-            <Button text="📦  Modules"      styleClass="nav-btn" maxWidth="Infinity"/>
-            <Button text="📚  Bibliothèque" styleClass="nav-btn" maxWidth="Infinity"/>
+            <Button text="Dashboard" styleClass="nav-btn" maxWidth="Infinity" onAction="#handleDashboard"/>
+            <Button text="Modules" styleClass="nav-btn" maxWidth="Infinity" onAction="#handleModules"/>
+            <Button text="Bibliotheque" styleClass="nav-btn" maxWidth="Infinity" onAction="#handleDocuments"/>
 
             <Region prefHeight="10"/>
 
-            <!-- OUTILS -->
             <Label text="OUTILS" styleClass="section-label"/>
-            <Button text="⬆️  Upload"      styleClass="nav-btn"             maxWidth="Infinity"/>
-            <Button text="📅  Planning"  styleClass="nav-btn nav-active"  maxWidth="Infinity"/>
-            <Button text="⭐  Favoris"     styleClass="nav-btn"             maxWidth="Infinity"/>
-            <Button text="🧩  Quiz"        styleClass="nav-btn"             maxWidth="Infinity"/>
-            <Button text="📁  Projets"     styleClass="nav-btn"             maxWidth="Infinity"/>
-            <Button text="🎉  Événements"  styleClass="nav-btn"             maxWidth="Infinity"/>
+            <Button text="Upload" styleClass="nav-btn" maxWidth="Infinity" onAction="#handleUpload"/>
+            <Button text="Planning" styleClass="nav-btn nav-active" maxWidth="Infinity" onAction="#handlePlanning"/>
+            <Button text="Favoris" styleClass="nav-btn" maxWidth="Infinity" onAction="#handleFavoris"/>
+            <Button text="Quiz" styleClass="nav-btn" maxWidth="Infinity" onAction="#handleQuiz"/>
+            <Button text="Projets" styleClass="nav-btn" maxWidth="Infinity" onAction="#handleProjets"/>
+            <Button text="Evenements" styleClass="nav-btn" maxWidth="Infinity" onAction="#handleEvenements"/>
 
             <Region prefHeight="10"/>
 
-            <!-- AUTRE -->
             <Label text="AUTRE" styleClass="section-label"/>
-            <Button text="👤  Profil"         styleClass="nav-btn"        maxWidth="Infinity"/>
-            <Button text="🔔  Notifications"  styleClass="nav-btn"        maxWidth="Infinity"/>
-            <Button text="🚪  Déconnexion"    styleClass="nav-btn nav-danger" maxWidth="Infinity"/>
+            <Button text="Profil" styleClass="nav-btn" maxWidth="Infinity" onAction="#handleProfil"/>
+            <Button text="Notifications" styleClass="nav-btn" maxWidth="Infinity" onAction="#handleNotifications"/>
+            <Button text="Deconnexion" styleClass="nav-btn nav-danger" maxWidth="Infinity" onAction="#handleDeconnexion"/>
         </VBox>
     </left>
 
-    <!-- ═══════════════════════════════════════════
-         CONTENU PRINCIPAL
-    ═══════════════════════════════════════════ -->
     <center>
         <HBox spacing="16">
-            <padding><Insets top="24" left="24" right="24" bottom="24"/></padding>
+            <padding>
+                <Insets top="24" left="24" right="24" bottom="24"/>
+            </padding>
 
-            <!-- ════════════════════
-                 BLOC CALENDRIER
-            ════════════════════ -->
             <VBox spacing="14" HBox.hgrow="ALWAYS">
-
-                <!-- Titre page -->
                 <Label text="Planning" styleClass="page-title"/>
 
-                <!-- Card calendrier -->
                 <VBox styleClass="card" VBox.vgrow="ALWAYS">
-                    <padding><Insets top="20" left="20" right="20" bottom="20"/></padding>
+                    <padding>
+                        <Insets top="20" left="20" right="20" bottom="20"/>
+                    </padding>
 
-                    <!-- Navigation mois -->
                     <HBox alignment="CENTER" spacing="16" styleClass="month-nav">
-                        <Button fx:id="btnPrevMonth" text="‹" styleClass="nav-arrow"
-                                onAction="#prevMonth"/>
+                        <Button fx:id="btnPrevMonth" text="&lt;" styleClass="nav-arrow" onAction="#prevMonth"/>
                         <Label fx:id="lblMonthYear" text="Mai 2026" styleClass="month-label"/>
-                        <Button fx:id="btnNextMonth" text="›" styleClass="nav-arrow"
-                                onAction="#nextMonth"/>
+                        <Button fx:id="btnNextMonth" text="&gt;" styleClass="nav-arrow" onAction="#nextMonth"/>
                     </HBox>
 
                     <Region prefHeight="12"/>
 
-                    <!-- Grille calendrier (remplie dynamiquement par le controller) -->
-                    <GridPane fx:id="calendarGrid" hgap="6" vgap="6"
-                              styleClass="calendar-grid" VBox.vgrow="ALWAYS">
+                    <GridPane fx:id="calendarGrid"
+                              hgap="6"
+                              vgap="6"
+                              styleClass="calendar-grid"
+                              VBox.vgrow="ALWAYS">
                         <columnConstraints>
                             <ColumnConstraints hgrow="ALWAYS" percentWidth="14.28"/>
                             <ColumnConstraints hgrow="ALWAYS" percentWidth="14.28"/>
@@ -95,45 +81,38 @@
                             <ColumnConstraints hgrow="ALWAYS" percentWidth="14.28"/>
                             <ColumnConstraints hgrow="ALWAYS" percentWidth="14.28"/>
                         </columnConstraints>
-                        <!-- Les en-têtes Lun/Mar/… et les boutons-jours
-                             sont injectés dynamiquement par buildCalendar() -->
                     </GridPane>
-
                 </VBox>
             </VBox>
 
-            <!-- ════════════════════
-                 PANEL TO DO
-            ════════════════════ -->
-            <VBox fx:id="todoPanel" styleClass="card todo-panel"
-                  prefWidth="315" minWidth="315" spacing="14">
-                <padding><Insets top="20" left="18" right="18" bottom="20"/></padding>
+            <VBox fx:id="todoPanel"
+                  styleClass="card todo-panel"
+                  prefWidth="315"
+                  minWidth="315"
+                  spacing="14">
+                <padding>
+                    <Insets top="20" left="18" right="18" bottom="20"/>
+                </padding>
 
-                <!-- ── Header ── -->
                 <HBox alignment="CENTER_LEFT" spacing="10">
-                    <Label text="📅" style="-fx-font-size:20px;"/>
                     <Label text="To Do" styleClass="todo-title"/>
                     <Region HBox.hgrow="ALWAYS"/>
-                    <Label fx:id="lblSelectedDate" text="13 Mai 2026"
-                           styleClass="badge-date"/>
+                    <Label fx:id="lblSelectedDate" text="13 Mai 2026" styleClass="badge-date"/>
                 </HBox>
 
                 <Separator styleClass="todo-sep"/>
 
-                <!-- ── Titre / Document ── -->
                 <VBox spacing="5">
                     <Label text="Titre / Document" styleClass="field-label"/>
                     <TextField fx:id="fieldTitre"
-                               promptText="ex: Révision Réseaux"
+                               promptText="ex: Revision Reseaux"
                                styleClass="field-input"/>
                 </VBox>
 
-                <!-- ── Type + Heure ── -->
                 <HBox spacing="10">
                     <VBox spacing="5" HBox.hgrow="ALWAYS">
                         <Label text="Type :" styleClass="field-label"/>
-                        <ComboBox fx:id="comboType" styleClass="field-combo"
-                                  maxWidth="Infinity"/>
+                        <ComboBox fx:id="comboType" styleClass="field-combo" maxWidth="Infinity"/>
                     </VBox>
                     <VBox spacing="5" HBox.hgrow="ALWAYS">
                         <Label text="Heure :" styleClass="field-label"/>
@@ -143,7 +122,6 @@
                     </VBox>
                 </HBox>
 
-                <!-- ── Description ── -->
                 <VBox spacing="5">
                     <Label text="Description" styleClass="field-label"/>
                     <TextArea fx:id="fieldDescription"
@@ -153,9 +131,8 @@
                               prefHeight="75"/>
                 </VBox>
 
-                <!-- ── Zone Drag & Drop ── -->
                 <VBox spacing="5">
-                    <Label text="Pièces jointes" styleClass="field-label"/>
+                    <Label text="Pieces jointes" styleClass="field-label"/>
 
                     <VBox fx:id="dropZone"
                           styleClass="drop-zone"
@@ -164,57 +141,43 @@
                           prefHeight="95"
                           onDragOver="#handleDragOver"
                           onDragDropped="#handleDragDropped">
-                        <Label text="📎" style="-fx-font-size:22px;"/>
-                        <Label text="Glissez vos fichiers ici"
-                               styleClass="drop-hint"/>
-                        <Label text="PDF · DOCX · PPTX · MP4 · PNG · URL…"
-                               styleClass="drop-sub"/>
+                        <Label text="Glissez vos fichiers ici" styleClass="drop-hint"/>
+                        <Label text="PDF - DOCX - PPTX - MP4 - PNG - URL" styleClass="drop-sub"/>
                         <Button fx:id="btnParcourir"
-                                text="Parcourir…"
+                                text="Parcourir..."
                                 styleClass="btn-parcourir"
                                 onAction="#parcourirFichier"/>
                     </VBox>
 
-                    <!-- Liste des fichiers attachés -->
-                    <ListView fx:id="listFichiers"
-                              styleClass="files-list"
-                              prefHeight="72"/>
+                    <ListView fx:id="listFichiers" styleClass="files-list" prefHeight="72"/>
                 </VBox>
 
-                <!-- ── Bouton Ajouter ── -->
                 <Button fx:id="btnAjouter"
-                        text="+  Ajouter à ce jour"
+                        text="+ Ajouter a ce jour"
                         styleClass="btn-add"
                         maxWidth="Infinity"
                         onAction="#ajouterTodo"/>
 
                 <Separator styleClass="todo-sep"/>
 
-                <!-- ── Aperçu todos du jour ── -->
                 <VBox spacing="6" VBox.vgrow="ALWAYS">
                     <HBox alignment="CENTER_LEFT" spacing="5">
-                        <Label text="Prévu ce jour —" styleClass="preview-label"/>
-                        <Label fx:id="lblCount" text="0 éléments"
-                               styleClass="preview-count"/>
+                        <Label text="Prevu ce jour -" styleClass="preview-label"/>
+                        <Label fx:id="lblCount" text="0 elements" styleClass="preview-count"/>
                     </HBox>
 
                     <ScrollPane styleClass="scroll-todos"
                                 fitToWidth="true"
                                 prefHeight="130"
                                 VBox.vgrow="ALWAYS">
-                        <VBox fx:id="vboxTodos" spacing="6"
-                              styleClass="todos-container">
+                        <VBox fx:id="vboxTodos" spacing="6" styleClass="todos-container">
                             <padding>
                                 <Insets top="4" left="2" right="2" bottom="4"/>
                             </padding>
                         </VBox>
                     </ScrollPane>
                 </VBox>
-
             </VBox>
-            <!-- fin todo-panel -->
-
         </HBox>
     </center>
-
 </BorderPane>

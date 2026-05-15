@@ -3,6 +3,54 @@
     -fx-font-family: "Arial";
 }
 
+.sidebar {
+    -fx-background-color: #023047;
+    -fx-min-width: 220px;
+    -fx-max-width: 220px;
+}
+
+.logo {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #FFFFFF;
+    -fx-padding: 4 0 8 0;
+}
+
+.sidebar-section {
+    -fx-text-fill: #8ECBE6;
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+    -fx-padding: 12 0 2 4;
+}
+
+.menu-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #C8D6E0;
+    -fx-font-size: 13px;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 10 12 10 12;
+    -fx-cursor: hand;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+}
+
+.menu-button:hover {
+    -fx-background-color: rgba(255,255,255,0.09);
+    -fx-text-fill: #FFFFFF;
+}
+
+.menu-selected {
+    -fx-background-color: rgba(254,183,7,0.16);
+    -fx-text-fill: #FEB707;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 10 12 10 12;
+    -fx-cursor: hand;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+}
+
 .top-bar {
     -fx-background-color: #0f1c2e;
     -fx-padding: 18 22;

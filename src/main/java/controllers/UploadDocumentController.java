@@ -10,6 +10,7 @@ import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import util.DBConnection;
+import util.Navigator;
 import util.Session;
 
 import java.io.File;
@@ -49,6 +50,8 @@ public class UploadDocumentController {
         tbCours.setSelected(true);
 
         chargerModules();
+        tfChapitre.setDisable(true);
+        tfChapitre.setPromptText("Chapitre indisponible avec la table actuelle");
 
         if (Session.getModuleNom() != null) {
             cbModule.setValue(Session.getModuleNom());
@@ -113,37 +116,31 @@ public class UploadDocumentController {
         String moduleNom   = cbModule.getValue();
         String titre       = tfTitre.getText().trim();
         String description = tfDescription.getText().trim();
-        String chapitre    = tfChapitre.getText().trim();
         String type        = getTypeSelectionne();
-        String fichierNom  = fichier != null ? fichier.getName()         : null;
         String fichierUrl  = fichier != null ? fichier.getAbsolutePath() : "";
-        String fichierType = getExtension(fichierNom);
-        long   taille      = fichier != null ? fichier.length()          : 0;
 
         int moduleId = getModuleId(moduleNom);
         if (moduleId == -1) {
             showAlert(Alert.AlertType.ERROR, "Erreur", "Module introuvable en base.");
             return;
         }
+        if (!Session.isLoggedIn() || Session.getCurrentUser().getId() <= 0) {
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Utilisateur non connecté. Veuillez vous reconnecter.");
+            return;
+        }
 
-        // Colonnes fusionnées : id_module, fichier_url, fichier_nom, fichier_type,
-        //                       taille_fichier, chapitre, statut = 'en_attente'
         String sql =
                 "INSERT INTO documents " +
-                        "(titre, description, id_module, chapitre, type_document, " +
-                        " fichier_nom, fichier_url, fichier_type, taille_fichier, statut) " +
-                        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'en_attente')";
+                        "(titre, description, type_document, fichier_url, id_module, id_uploadeur, statut) " +
+                        "VALUES (?, ?, ?, ?, ?, ?, 'en_attente')";
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, titre);
             ps.setString(2, description.isEmpty() ? null : description);
-            ps.setInt   (3, moduleId);
-            ps.setString(4, chapitre.isEmpty()    ? null : chapitre);
-            ps.setString(5, type);
-            ps.setString(6, fichierNom);
-            ps.setString(7, fichierUrl);
-            ps.setString(8, fichierType);
-            ps.setLong  (9, taille);
+            ps.setString(3, type);
+            ps.setString(4, fichierUrl);
+            ps.setInt   (5, moduleId);
+            ps.setInt   (6, Session.getCurrentUser().getId());
             ps.executeUpdate();
 
             showAlert(Alert.AlertType.INFORMATION, "Succès",
@@ -171,12 +168,44 @@ public class UploadDocumentController {
 
     // ─────────────────── NAVIGATION SIDEBAR ──────────────────────────
 
-    @FXML public void handleDashboard()   { naviguerVers("Acceuil.fxml"); }
-    @FXML public void handleModules()     { naviguerVers("Modules.fxml"); }
-    @FXML public void handleDocuments()   { naviguerVers("Document.fxml"); }
-    @FXML public void handleUpload()      { /* déjà ici */ }
-    @FXML public void handleQuiz()        { naviguerVers("view/quiz.fxml"); }
-    @FXML public void handleFavoris()     { System.out.println("Favoris"); }
+    @FXML public void handleDashboard(ActionEvent event) {
+        Navigator.go((Node) event.getSource(), "/Acceuil.fxml", "Dashboard - SmarTounsi");
+    }
+    @FXML public void handleModules(ActionEvent event) {
+        Navigator.go((Node) event.getSource(), "/Modules.fxml", "Modules - SmarTounsi");
+    }
+    @FXML public void handleDocuments(ActionEvent event) {
+        Navigator.go((Node) event.getSource(), "/Document.fxml", "Documents - SmarTounsi");
+    }
+    @FXML public void handleUpload(ActionEvent event) {
+        Navigator.go((Node) event.getSource(), "/UploadDocument.fxml", "Upload - SmarTounsi");
+    }
+    @FXML public void handleQuiz(ActionEvent event) {
+        Navigator.go((Node) event.getSource(), "/quiz.fxml", "Quiz - SmarTounsi");
+    }
+    @FXML public void handleFavoris(ActionEvent event) {
+        Navigator.go((Node) event.getSource(), "/Favoris.fxml", "Favoris - SmarTounsi");
+    }
+
+    @FXML public void handlePlanning(ActionEvent event) {
+        Navigator.go((Node) event.getSource(), "/Planning.fxml", "Planning - SmarTounsi");
+    }
+
+    @FXML public void handleProjets(ActionEvent event) {
+        Navigator.go((Node) event.getSource(), "/ProjectView.fxml", "Projets - SmarTounsi");
+    }
+
+    @FXML public void handleEvenements(ActionEvent event) {
+        Navigator.go((Node) event.getSource(), "/Evenements.fxml", "Evenements - SmarTounsi");
+    }
+
+    @FXML public void handleProfil(ActionEvent event) {
+        Navigator.go((Node) event.getSource(), "/Profil.fxml", "Profil - SmarTounsi");
+    }
+
+    @FXML public void handleNotifications(ActionEvent event) {
+        Navigator.go((Node) event.getSource(), "/Notification.fxml", "Notifications - SmarTounsi");
+    }
 
     // ─── Helpers ─────────────────────────────────────────────────────
 
@@ -252,8 +281,7 @@ public class UploadDocumentController {
         alert.setContentText(message);
         alert.showAndWait();
     }
-    @FXML public void handleDeconnexion() {
-        Session.clear(); // si tu as cette méthode
-        naviguerVers("Connexion.fxml"); // ← mets le vrai nom ici
+    @FXML public void handleDeconnexion(ActionEvent event) {
+        Navigator.logout((Node) event.getSource());
     }
 }

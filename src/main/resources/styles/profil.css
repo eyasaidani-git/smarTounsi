@@ -192,3 +192,107 @@
     -fx-padding: 15px 32px;
     -fx-cursor: hand;
 }
+
+/* Common application shell */
+.app-root {
+    -fx-background-color: #F0F2F5;
+}
+
+.topbar {
+    -fx-background-color: #023047;
+    -fx-padding: 0 24 0 24;
+    -fx-min-height: 56px;
+    -fx-max-height: 56px;
+}
+
+.top-logo-icon {
+    -fx-font-size: 0px;
+    -fx-min-width: 0px;
+    -fx-min-height: 0px;
+    -fx-padding: 0px;
+}
+
+.top-logo-text {
+    -fx-text-fill: white;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+.role-header {
+    -fx-background-color: rgba(255,255,255,0.12);
+    -fx-background-radius: 20;
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-padding: 6 14 6 14;
+}
+
+.sidebar {
+    -fx-background-color: #023047;
+    -fx-min-width: 220px;
+    -fx-pref-width: 220px;
+    -fx-max-width: 220px;
+    -fx-padding: 20 10 20 10;
+}
+
+.sidebar-title {
+    -fx-text-fill: #8ECBE6;
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+    -fx-padding: 12 0 2 4;
+}
+
+.sidebar-button,
+.sidebar-button-active {
+    -fx-background-color: transparent;
+    -fx-text-fill: #C8D6E0;
+    -fx-font-size: 13px;
+    -fx-font-weight: normal;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 10 12 10 12;
+    -fx-pref-width: 200px;
+    -fx-cursor: hand;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+}
+
+.sidebar-button:hover {
+    -fx-background-color: rgba(255,255,255,0.09);
+    -fx-text-fill: white;
+}
+
+.sidebar-button-active {
+    -fx-background-color: rgba(254,183,7,0.16);
+    -fx-text-fill: #FEB707;
+    -fx-font-weight: bold;
+}
+
+.content {
+    -fx-padding: 28 34 28 34;
+    -fx-background-color: #F0F2F5;
+}
+
+.profile-header-card,
+.main-card,
+.stat-card {
+    -fx-background-color: white;
+    -fx-background-radius: 12;
+    -fx-border-color: #E0E3E8;
+    -fx-border-radius: 12;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.07), 10, 0, 0, 2);
+}
+
+.profile-name,
+.card-title,
+.stats-title {
+    -fx-text-fill: #023047;
+}
+
+.save-button {
+    -fx-background-color: #FEB707;
+    -fx-text-fill: #023047;
+    -fx-background-radius: 8;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-padding: 10 22 10 22;
+}

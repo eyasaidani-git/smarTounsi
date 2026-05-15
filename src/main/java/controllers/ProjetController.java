@@ -1,5 +1,6 @@
 package controllers;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
@@ -14,7 +15,10 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
 import models.Projet;
+import models.Utilisateur;
 import services.ProjetService;
+import util.Navigator;
+import util.Session;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -83,7 +87,13 @@ public class ProjetController {
             return;
         }
 
-        int idCreateur = 1; // TODO: remplacer par l'id de l'utilisateur connecté
+        Utilisateur currentUser = Session.getCurrentUser();
+        if (currentUser == null || currentUser.getId() <= 0) {
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Utilisateur non connecte. Veuillez vous reconnecter.");
+            return;
+        }
+
+        int idCreateur = currentUser.getId();
         Projet projet = new Projet(nom, description, idCreateur, contientCode, contientPresentation, contientRapport);
         projet.setStatut("en_cours");
 
@@ -304,5 +314,53 @@ public class ProjetController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    @FXML private void handleDashboard(ActionEvent event) {
+        Navigator.go((Node) event.getSource(), "/Acceuil.fxml", "Dashboard - SmarTounsi");
+    }
+
+    @FXML private void handleModules(ActionEvent event) {
+        Navigator.go((Node) event.getSource(), "/Modules.fxml", "Modules - SmarTounsi");
+    }
+
+    @FXML private void handleDocuments(ActionEvent event) {
+        Navigator.go((Node) event.getSource(), "/Document.fxml", "Documents - SmarTounsi");
+    }
+
+    @FXML private void handleUpload(ActionEvent event) {
+        Navigator.go((Node) event.getSource(), "/UploadDocument.fxml", "Upload - SmarTounsi");
+    }
+
+    @FXML private void handlePlanning(ActionEvent event) {
+        Navigator.go((Node) event.getSource(), "/Planning.fxml", "Planning - SmarTounsi");
+    }
+
+    @FXML private void handleFavoris(ActionEvent event) {
+        Navigator.go((Node) event.getSource(), "/Favoris.fxml", "Favoris - SmarTounsi");
+    }
+
+    @FXML private void handleQuiz(ActionEvent event) {
+        Navigator.go((Node) event.getSource(), "/quiz.fxml", "Quiz - SmarTounsi");
+    }
+
+    @FXML private void handleProjets(ActionEvent event) {
+        Navigator.go((Node) event.getSource(), "/ProjectView.fxml", "Projets - SmarTounsi");
+    }
+
+    @FXML private void handleEvenements(ActionEvent event) {
+        Navigator.go((Node) event.getSource(), "/Evenements.fxml", "Evenements - SmarTounsi");
+    }
+
+    @FXML private void handleProfil(ActionEvent event) {
+        Navigator.go((Node) event.getSource(), "/Profil.fxml", "Profil - SmarTounsi");
+    }
+
+    @FXML private void handleNotifications(ActionEvent event) {
+        Navigator.go((Node) event.getSource(), "/Notification.fxml", "Notifications - SmarTounsi");
+    }
+
+    @FXML private void handleDeconnexion(ActionEvent event) {
+        Navigator.logout((Node) event.getSource());
     }
 }

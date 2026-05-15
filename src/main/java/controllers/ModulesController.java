@@ -122,12 +122,14 @@ public class ModulesController {
         naviguerVers("Connexion.fxml", (Node) event.getSource());
     }
 
-    @FXML public void handleQuiz(MouseEvent event)         { naviguerVers("view/quiz.fxml", (Node) event.getSource()); }
-    @FXML public void handlePlanning(MouseEvent event)     { System.out.println("Planning"); }
+    @FXML public void handleQuiz(MouseEvent event)         { naviguerVers("quiz.fxml", (Node) event.getSource()); }
+    @FXML public void handleProjets(MouseEvent event)      { naviguerVers("ProjectView.fxml", (Node) event.getSource()); }
+    @FXML public void handlePlanning(MouseEvent event)     { naviguerVers("Planning.fxml", (Node) event.getSource()); }
     @FXML public void handleJira(MouseEvent event)         { System.out.println("Jira"); }
-    @FXML public void handleFavoris(MouseEvent event)      { System.out.println("Favoris"); }
+    @FXML public void handleFavoris(MouseEvent event)      { naviguerVers("Favoris.fxml", (Node) event.getSource()); }
+    @FXML public void handleEvenements(MouseEvent event)   { naviguerVers("Evenements.fxml", (Node) event.getSource()); }
     @FXML public void handleProfil(MouseEvent event)       { naviguerVers("Profil.fxml", (Node) event.getSource()); }
-    @FXML public void handleNotification(MouseEvent event) { System.out.println("Notification"); }
+    @FXML public void handleNotification(MouseEvent event) { naviguerVers("Notification.fxml", (Node) event.getSource()); }
 
     // ================= RECHERCHE (onAction sur Button) =================
     // Le bouton Rechercher utilise onAction → on garde ActionEvent ici uniquement

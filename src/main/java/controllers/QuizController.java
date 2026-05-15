@@ -12,6 +12,7 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import models.Quiz;
 import services.QuizService;
+import util.Navigator;
 
 import java.io.IOException;
 import java.net.URL;
@@ -132,7 +133,7 @@ public class QuizController implements Initializable {
     private void commencerQuizAvec(Quiz quiz, ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/view/quiz.play.fxml"));
+                    getClass().getResource("/quiz.play.fxml"));
             Parent root = loader.load();
 
             PlayQuizController ctrl = loader.getController();
@@ -140,7 +141,7 @@ public class QuizController implements Initializable {
 
             Scene scene = new Scene(root);
             scene.getStylesheets().add(
-                    getClass().getResource("/style/quiz.css").toExternalForm());
+                    getClass().getResource("/styles/quiz.css").toExternalForm());
 
             Stage stage = (Stage) ((javafx.scene.Node) event.getSource())
                     .getScene().getWindow();
@@ -164,10 +165,10 @@ public class QuizController implements Initializable {
     void creerQuiz(ActionEvent event) {
         try {
             Parent root = FXMLLoader.load(
-                    getClass().getResource("/view/quiz_create.fxml"));
+                    getClass().getResource("/quiz_create.fxml"));
             Scene scene = new Scene(root);
             scene.getStylesheets().add(
-                    getClass().getResource("/style/quiz.css").toExternalForm());
+                    getClass().getResource("/styles/quiz.css").toExternalForm());
             Stage stage = (Stage) ((javafx.scene.Node) event.getSource())
                     .getScene().getWindow();
             stage.setScene(scene);
@@ -175,5 +176,53 @@ public class QuizController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML void handleDashboard(ActionEvent event) {
+        Navigator.go((javafx.scene.Node) event.getSource(), "/Acceuil.fxml", "Dashboard - SmarTounsi");
+    }
+
+    @FXML void handleModules(ActionEvent event) {
+        Navigator.go((javafx.scene.Node) event.getSource(), "/Modules.fxml", "Modules - SmarTounsi");
+    }
+
+    @FXML void handleDocuments(ActionEvent event) {
+        Navigator.go((javafx.scene.Node) event.getSource(), "/Document.fxml", "Documents - SmarTounsi");
+    }
+
+    @FXML void handleUpload(ActionEvent event) {
+        Navigator.go((javafx.scene.Node) event.getSource(), "/UploadDocument.fxml", "Upload - SmarTounsi");
+    }
+
+    @FXML void handlePlanning(ActionEvent event) {
+        Navigator.go((javafx.scene.Node) event.getSource(), "/Planning.fxml", "Planning - SmarTounsi");
+    }
+
+    @FXML void handleFavoris(ActionEvent event) {
+        Navigator.go((javafx.scene.Node) event.getSource(), "/Favoris.fxml", "Favoris - SmarTounsi");
+    }
+
+    @FXML void handleQuiz(ActionEvent event) {
+        Navigator.go((javafx.scene.Node) event.getSource(), "/quiz.fxml", "Quiz - SmarTounsi");
+    }
+
+    @FXML void handleProjets(ActionEvent event) {
+        Navigator.go((javafx.scene.Node) event.getSource(), "/ProjectView.fxml", "Projets - SmarTounsi");
+    }
+
+    @FXML void handleEvenements(ActionEvent event) {
+        Navigator.go((javafx.scene.Node) event.getSource(), "/Evenements.fxml", "Evenements - SmarTounsi");
+    }
+
+    @FXML void handleProfil(ActionEvent event) {
+        Navigator.go((javafx.scene.Node) event.getSource(), "/Profil.fxml", "Profil - SmarTounsi");
+    }
+
+    @FXML void handleNotifications(ActionEvent event) {
+        Navigator.go((javafx.scene.Node) event.getSource(), "/Notification.fxml", "Notifications - SmarTounsi");
+    }
+
+    @FXML void handleDeconnexion(ActionEvent event) {
+        Navigator.logout((javafx.scene.Node) event.getSource());
     }
 }

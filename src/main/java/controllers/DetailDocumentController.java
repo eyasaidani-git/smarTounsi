@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 import util.DBConnection;
 import util.Session;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
@@ -93,11 +94,10 @@ public class DetailDocumentController {
             // comme "fichiers" du document cliqué.
             // Si tu as une relation parent/enfant, remplace par la vraie FK.
             PreparedStatement ps = conn.prepareStatement(
-                    "SELECT id_document AS id, titre, description, type_document, fichier_type, " +
-                            "taille_fichier, chapitre, fichier_nom, fichier_url " +
+                    "SELECT id_document AS id, titre, description, type_document, fichier_url " +
                             "FROM documents " +
                             "WHERE id_module = ? " +
-                            "ORDER BY chapitre, titre"
+                            "ORDER BY date_upload DESC, titre"
             );
             ps.setInt(1, Session.getModuleId());
             ResultSet rs = ps.executeQuery();
@@ -107,11 +107,11 @@ public class DetailDocumentController {
                 f.titre      = rs.getString("titre");
                 f.desc       = rs.getString("description");
                 f.typeDoc    = rs.getString("type_document");
-                f.fileType   = rs.getString("fichier_type");
-                f.taille     = rs.getLong("taille_fichier");
-                f.chapitre   = rs.getString("chapitre");
-                f.fichierNom = rs.getString("fichier_nom");
                 f.path       = rs.getString("fichier_url");
+                f.fileType   = getExtension(f.path);
+                f.taille     = getFileSize(f.path);
+                f.chapitre   = String.valueOf(f.id);
+                f.fichierNom = f.titre;
                 tousLesFichiers.add(f);
             }
             ps.close(); rs.close();
@@ -200,7 +200,7 @@ public class DetailDocumentController {
         String cardColor  = getCardColor(f.typeDoc);
         String badgeColor = getBadgeColor(f.fileType);
         String fileLabel  = (f.fileType != null) ? f.fileType.toUpperCase() : "FILE";
-        String chapNum    = (f.chapitre != null) ? f.chapitre : "";
+        String chapNum    = "";
 
         // Header coloré
         VBox header = new VBox(4);
@@ -395,17 +395,20 @@ public class DetailDocumentController {
     // ─────────────────────────────────────────
 
     @FXML public void handleRetour(ActionEvent e)       { naviguerVers("Document.fxml", e); }
-    @FXML public void handleDashboard(ActionEvent e)    { naviguerVers("Acceuil.fxml", e); }
-    @FXML public void handleModules(ActionEvent e)      { naviguerVers("Modules.fxml", e); }
-    @FXML public void handleDocuments(ActionEvent e)    { naviguerVers("Document.fxml", e); }
-    @FXML public void handleUpload(ActionEvent e)       { naviguerVers("UploadDocument.fxml", e); }
-    @FXML public void handleDeconnexion(ActionEvent e)  { Session.clear(); naviguerVers("Connexion.fxml", e); }
-    @FXML public void handleQuiz(ActionEvent e)         { naviguerVers("view/quiz.fxml", e); }
-    @FXML public void handlePlanning(ActionEvent e)     { }
-    @FXML public void handleJira(ActionEvent e)         { }
-    @FXML public void handleProfil(ActionEvent e)       { naviguerVers("Profil.fxml", e); }
-    @FXML public void handleFavoris(ActionEvent e)      { }
-    @FXML public void handleNotification(ActionEvent e) { }
+    @FXML public void handleDashboard(ActionEvent e)     { naviguerVers("Acceuil.fxml", e); }
+    @FXML public void handleModules(ActionEvent e)       { naviguerVers("Modules.fxml", e); }
+    @FXML public void handleDocuments(ActionEvent e)     { naviguerVers("Document.fxml", e); }
+    @FXML public void handleUpload(ActionEvent e)        { naviguerVers("UploadDocument.fxml", e); }
+    @FXML public void handleDeconnexion(ActionEvent e)   { Session.clear(); naviguerVers("Connexion.fxml", e); }
+    @FXML public void handleQuiz(ActionEvent e)          { naviguerVers("quiz.fxml", e); }
+    @FXML public void handlePlanning(ActionEvent e)      { naviguerVers("Planning.fxml", e); }
+    @FXML public void handleJira(ActionEvent e)          { }
+    @FXML public void handleFavoris(ActionEvent e)       { naviguerVers("Favoris.fxml", e); }
+    @FXML public void handleProjets(ActionEvent e)       { naviguerVers("ProjectView.fxml", e); }
+    @FXML public void handleEvenements(ActionEvent e)    { naviguerVers("Evenements.fxml", e); }
+    @FXML public void handleProfil(ActionEvent e)        { naviguerVers("Profil.fxml", e); }
+    @FXML public void handleNotification(ActionEvent e)  { naviguerVers("Notification.fxml", e); }
+    @FXML public void handleNotifications(ActionEvent e) { naviguerVers("Notification.fxml", e); }
 
     private void naviguerVers(String fxml, ActionEvent event) {
         try {
@@ -420,6 +423,17 @@ public class DetailDocumentController {
     // ─────────────────────────────────────────
     //  HELPERS
     // ─────────────────────────────────────────
+
+    private String getExtension(String path) {
+        if (path == null || path.isBlank() || !path.contains(".")) return "FILE";
+        return path.substring(path.lastIndexOf('.') + 1).toUpperCase();
+    }
+
+    private long getFileSize(String path) {
+        if (path == null || path.isBlank()) return 0;
+        File file = new File(path);
+        return file.exists() ? file.length() : 0;
+    }
 
     private String getIconType(String type) {
         if (type == null) return "📄";

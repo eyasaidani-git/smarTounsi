@@ -1,19 +1,18 @@
 package controllers;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 import models.Utilisateur;
 import services.UtilisateurService;
+import util.Navigator;
 import util.Session;
 
-import java.io.IOException;
-
 public class ProfilController {
+
+    @FXML
+    private BorderPane rootPane;
 
     @FXML
     private Label roleHeaderLabel;
@@ -52,7 +51,6 @@ public class ProfilController {
     private VBox numeroBox;
 
     private final UtilisateurService utilisateurService = new UtilisateurService();
-
     private Utilisateur currentUser;
 
     @FXML
@@ -60,7 +58,7 @@ public class ProfilController {
         currentUser = Session.getCurrentUser();
 
         if (currentUser == null) {
-            ouvrirPage("/Connexion.fxml", "Connexion - SmarTounsi");
+            Navigator.go(rootPane, "/Connexion.fxml", "Connexion - SmarTounsi");
             return;
         }
 
@@ -85,7 +83,8 @@ public class ProfilController {
             avatarLabel.setText("U");
         }
 
-        boolean isProf = "prof".equalsIgnoreCase(currentUser.getRole());
+        boolean isProf = "prof".equalsIgnoreCase(currentUser.getRole())
+                || "professeur".equalsIgnoreCase(currentUser.getRole());
 
         if (isProf) {
             roleHeaderLabel.setText("👨‍🏫 Professeur");
@@ -121,8 +120,8 @@ public class ProfilController {
             return;
         }
 
-        String nomComplet = nomCompletField.getText().trim();
-        String email = emailField.getText().trim();
+        String nomComplet = nomCompletField.getText() == null ? "" : nomCompletField.getText().trim();
+        String email = emailField.getText() == null ? "" : emailField.getText().trim();
 
         if (nomComplet.isBlank() || email.isBlank()) {
             afficherAlerte(Alert.AlertType.WARNING, "Champs manquants", "Le nom complet et l'email sont obligatoires.");
@@ -131,15 +130,18 @@ public class ProfilController {
 
         currentUser.setNomComplet(nomComplet);
         currentUser.setEmail(email);
-        currentUser.setFiliere(filiereField.getText().trim());
-        currentUser.setUniversite(universiteField.getText().trim());
+        currentUser.setFiliere(filiereField.getText() == null ? "" : filiereField.getText().trim());
+        currentUser.setUniversite(universiteField.getText() == null ? "" : universiteField.getText().trim());
 
-        if ("prof".equalsIgnoreCase(currentUser.getRole())) {
+        boolean isProf = "prof".equalsIgnoreCase(currentUser.getRole())
+                || "professeur".equalsIgnoreCase(currentUser.getRole());
+
+        if (isProf) {
             currentUser.setAnnee(null);
             currentUser.setNumeroEtudiant(null);
         } else {
-            currentUser.setAnnee(anneeField.getText().trim());
-            currentUser.setNumeroEtudiant(numeroEtudiantField.getText().trim());
+            currentUser.setAnnee(anneeField.getText() == null ? "" : anneeField.getText().trim());
+            currentUser.setNumeroEtudiant(numeroEtudiantField.getText() == null ? "" : numeroEtudiantField.getText().trim());
         }
 
         utilisateurService.update(currentUser);
@@ -151,29 +153,63 @@ public class ProfilController {
     }
 
     @FXML
-    private void deconnexion() {
-        Session.clear();
-        ouvrirPage("/Acceuil.fxml", "Accueil - SmarTounsi");
+    private void goDashboard() {
+        Navigator.go(rootPane, "/Acceuil.fxml", "Dashboard - SmarTounsi");
     }
 
-    private void ouvrirPage(String path, String title) {
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource(path));
-            Stage stage;
+    @FXML
+    private void goModules() {
+        Navigator.go(rootPane, "/Modules.fxml", "Modules - SmarTounsi");
+    }
 
-            if (nomCompletField != null && nomCompletField.getScene() != null) {
-                stage = (Stage) nomCompletField.getScene().getWindow();
-            } else {
-                stage = new Stage();
-            }
+    @FXML
+    private void goBibliotheque() {
+        Navigator.go(rootPane, "/Document.fxml", "Bibliothèque - SmarTounsi");
+    }
 
-            stage.setScene(new Scene(root, 1400, 850));
-            stage.setTitle(title);
-            stage.show();
+    @FXML
+    private void goUpload() {
+        Navigator.go(rootPane, "/UploadDocument.fxml", "Upload - SmarTounsi");
+    }
 
-        } catch (IOException e) {
-            afficherAlerte(Alert.AlertType.ERROR, "Erreur navigation", e.getMessage());
-        }
+    @FXML
+    private void goCalendrier() {
+        Navigator.go(rootPane, "/Planning.fxml", "Calendrier - SmarTounsi");
+    }
+
+    @FXML
+    private void goFavoris() {
+        Navigator.go(rootPane, "/Favoris.fxml", "Favoris - SmarTounsi");
+    }
+
+    @FXML
+    private void goQuiz() {
+        Navigator.go(rootPane, "/quiz.fxml", "Quiz - SmarTounsi");
+    }
+
+    @FXML
+    private void goProjets() {
+        Navigator.go(rootPane, "/ProjectView.fxml", "Projets - SmarTounsi");
+    }
+
+    @FXML
+    private void goEvenements() {
+        Navigator.go(rootPane, "/Evenements.fxml", "Événements - SmarTounsi");
+    }
+
+    @FXML
+    private void goProfil() {
+        Navigator.go(rootPane, "/Profil.fxml", "Profil - SmarTounsi");
+    }
+
+    @FXML
+    private void goNotifications() {
+        Navigator.go(rootPane, "/Notification.fxml", "Notifications - SmarTounsi");
+    }
+
+    @FXML
+    private void deconnexion() {
+        Navigator.logout(rootPane);
     }
 
     private void afficherAlerte(Alert.AlertType type, String titre, String message) {

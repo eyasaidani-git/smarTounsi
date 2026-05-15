@@ -4,14 +4,52 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="54dbdfd1-9d4c-4fc1-b340-9f85f3e08b28" name="Changes" comment="" />
+    <list default="true" id="54dbdfd1-9d4c-4fc1-b340-9f85f3e08b28" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controllers/CreateQuizController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controllers/CreateQuizController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controllers/DetailDocumentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controllers/DetailDocumentController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controllers/Documentcontroller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controllers/Documentcontroller.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controllers/EvenementsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controllers/EvenementsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controllers/FavorisController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controllers/FavorisController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controllers/ModulesController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controllers/ModulesController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controllers/NotificationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controllers/NotificationController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controllers/PlanningController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controllers/PlanningController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controllers/PlayQuizController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controllers/PlayQuizController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controllers/ProfilController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controllers/ProfilController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controllers/ProjetController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controllers/ProjetController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controllers/QuizController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controllers/QuizController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controllers/UploadDocumentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controllers/UploadDocumentController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/services/QuestionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/services/QuestionService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/services/QuizService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/services/QuizService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/util/DBConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/util/DBConnection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/util/Navigator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/util/Navigator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/DetailDocument.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/DetailDocument.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Document.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Document.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Modules.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Modules.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Planning.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Planning.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/ProjectView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/ProjectView.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/UploadDocument.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/UploadDocument.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/quiz.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/quiz.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/styles/planning.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/styles/planning.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/styles/profil.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/styles/profil.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/styles/stylesprojet.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/styles/stylesprojet.css" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="90" />
+    <option name="cachedIndexableFilesCount" value="104" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+        <option value="FxmlFile" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -46,6 +84,10 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Maven.smartounsi [clean].executor": "Run",
+    "Maven.smartounsi [compile].executor": "Run",
+    "Maven.smartounsi [org.apache.maven.plugins:maven-clean-plugin:3.2.0:clean].executor": "Run",
+    "Maven.smartounsi [org.apache.maven.plugins:maven-compiler-plugin:3.11.0:compile].executor": "Run",
     "Maven.smartounsi [org.openjfx:javafx-maven-plugin:0.0.8:run].executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.MCP Project settings loaded": "true",
@@ -66,11 +108,17 @@
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "preferences.keymap",
+    "settings.editor.selected.configurable": "ml.llm.agents.accounts",
     "to.speed.mode.migration.done": "true",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\eyasa\.jdks\jbr-17.0.14-2\bin\smarTounsi\src\main\resources\styles" />
+      <recent name="C:\Users\eyasa\.jdks\jbr-17.0.14-2\bin\smarTounsi\src\main\resources" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -87,6 +135,7 @@
       <option name="presentableId" value="Default" />
       <updated>1778791697629</updated>
       <workItem from="1778791700887" duration="2959000" />
+      <workItem from="1778797259869" duration="13130000" />
     </task>
     <servers />
   </component>

@@ -5,31 +5,39 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import models.Question;
 import models.Quiz;
 import models.Reponse;
+import models.Utilisateur;
 import services.QuestionService;
 import services.QuizService;
 import services.ReponseService;
+import util.DBConnection;
+import util.Session;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ResourceBundle;
+
 
 public class CreateQuizController implements Initializable {
 
-    @FXML private VBox      questionsContainer;
-    @FXML private ComboBox<String> matiereQuiz;
-    @FXML private TextField titreQuiz;
-    @FXML private TextArea  descriptionQuiz;
-    @FXML private Spinner<Integer> tempsLimiteSpinner;
-    @FXML private Label     compteurLabel;
+    @FXML private VBox               questionsContainer;
+    @FXML private ComboBox<String>   matiereQuiz;
+    @FXML private TextField          titreQuiz;
+    @FXML private TextArea           descriptionQuiz;
+    @FXML private Spinner<Integer>   tempsLimiteSpinner;  // ← valeur lue pour le timer
+    @FXML private Label              compteurLabel;
 
     private int questionNumber = 1;
 
@@ -37,20 +45,24 @@ public class CreateQuizController implements Initializable {
     private final QuestionService questionService = new QuestionService();
     private final ReponseService  reponseService  = new ReponseService();
 
-
+    // ================================================
+    // INITIALIZE
+    // ================================================
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
         matiereQuiz.getItems().addAll(
-                "Mathématiques",
-                "Java",
-                "Réseaux",
-                "Electronique",
-                "Base de données",
-                "Web"
-        );
+                "Mathématiques", "Java", "Réseaux",
+                "Electronique", "Base de données", "Web");
 
-        // Ajouter la première question automatiquement
+        // Initialiser le Spinner temps limite
+        if (tempsLimiteSpinner != null) {
+            SpinnerValueFactory<Integer> factory =
+                    new SpinnerValueFactory.IntegerSpinnerValueFactory(5, 180, 30);
+            tempsLimiteSpinner.setValueFactory(factory);
+            tempsLimiteSpinner.setEditable(true);
+        }
+
         ajouterBlocQuestion();
     }
 
@@ -68,22 +80,25 @@ public class CreateQuizController implements Initializable {
 
         VBox card = new VBox(10);
         card.getStyleClass().add("quiz-card");
-        card.setStyle("-fx-padding:15; -fx-background-color:white; -fx-background-radius:10;");
+        card.setStyle(
+                "-fx-padding:16; -fx-background-color:white; " +
+                        "-fx-background-radius:12; -fx-border-color:#E0E3E8; " +
+                        "-fx-border-width:1; -fx-border-radius:12;");
 
-        // En-tête : numéro + bouton supprimer
+        // ---- Header : numéro + supprimer ----
         HBox header = new HBox(10);
-        header.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
+        header.setAlignment(Pos.CENTER_LEFT);
 
         Label title = new Label("Question " + questionNumber);
-        title.getStyleClass().add("quiz-title");
         title.setStyle("-fx-font-size:14px; -fx-font-weight:bold; -fx-text-fill:#023047;");
 
-        javafx.scene.layout.Region spacer = new javafx.scene.layout.Region();
-        HBox.setHgrow(spacer, javafx.scene.layout.Priority.ALWAYS);
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
 
         Button btnSup = new Button("🗑 Supprimer");
-        btnSup.setStyle("-fx-background-color:#E74C3C; -fx-text-fill:white; " +
-                "-fx-background-radius:8; -fx-font-size:11px; -fx-cursor:hand;");
+        btnSup.setStyle(
+                "-fx-background-color:#E74C3C; -fx-text-fill:white; " +
+                        "-fx-background-radius:8; -fx-font-size:11px; -fx-cursor:hand; -fx-padding:6 12;");
         btnSup.setOnAction(e -> {
             questionsContainer.getChildren().remove(card);
             renumeroterQuestions();
@@ -91,29 +106,26 @@ public class CreateQuizController implements Initializable {
 
         header.getChildren().addAll(title, spacer, btnSup);
 
-        // Enoncé de la question
+        // ---- Enoncé ----
         TextField questionField = new TextField();
         questionField.setPromptText("Écrire la question ici...");
-        questionField.setStyle("-fx-background-radius:8; -fx-border-color:#D5D8E0; " +
-                "-fx-border-radius:8; -fx-padding:8;");
+        questionField.setStyle(
+                "-fx-background-radius:8; -fx-border-color:#D5D8E0; " +
+                        "-fx-border-radius:8; -fx-padding:9; -fx-font-size:13px;");
 
-        // Type de réponse
+        // ---- Type de réponse ----
         Label typeLabel = new Label("Type de réponse *");
         typeLabel.setStyle("-fx-font-size:12px; -fx-font-weight:bold; -fx-text-fill:#023047;");
 
         ComboBox<String> typeReponse = new ComboBox<>();
-        typeReponse.getItems().addAll(
-                "QCM",
-                "Vrai / Faux",
-                "Réponse Libre"
-        );
+        typeReponse.getItems().addAll("QCM", "Vrai / Faux", "Réponse Libre");
         typeReponse.setPromptText("Choisir le type...");
         typeReponse.setMaxWidth(Double.MAX_VALUE);
+        typeReponse.setStyle("-fx-background-radius:8; -fx-border-color:#D5D8E0; -fx-border-radius:8;");
 
-        // Zone des réponses (vide par défaut)
+        // ---- Zone réponses ----
         VBox reponsesBox = new VBox(10);
 
-        // Réaction au changement de type
         typeReponse.setOnAction(e -> {
             reponsesBox.getChildren().clear();
             buildReponsesZone(typeReponse.getValue(), reponsesBox);
@@ -125,63 +137,40 @@ public class CreateQuizController implements Initializable {
         majCompteur();
     }
 
+    // ================================================
+    // ZONE RÉPONSES SELON LE TYPE
+    // ================================================
     private void buildReponsesZone(String type, VBox reponsesBox) {
-
         if (type == null) return;
 
         switch (type) {
 
-            // ---- QCM : 4 options avec checkbox ----
             case "QCM" -> {
-                Label lbl = new Label("Cochez la (les) bonne(s) réponse(s) :");
+                Label lbl = new Label("Cochez ✔ la (les) bonne(s) réponse(s) :");
                 lbl.setStyle("-fx-font-size:12px; -fx-text-fill:#555870;");
                 reponsesBox.getChildren().add(lbl);
 
                 String[] lettres = {"A", "B", "C", "D"};
                 for (int i = 0; i < 4; i++) {
-                    HBox ligne = new HBox(10);
-                    ligne.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
-
-                    CheckBox correct = new CheckBox();
-                    correct.setTooltip(new Tooltip("Cocher = bonne réponse"));
-
-                    Label lettre = new Label(lettres[i]);
-                    lettre.setStyle("-fx-font-weight:bold; -fx-text-fill:#023047; -fx-min-width:16px;");
-
-                    TextField rep = new TextField();
-                    rep.setPromptText("Réponse " + lettres[i] + "...");
-                    rep.setStyle("-fx-background-radius:8; -fx-border-color:#D5D8E0; " +
-                            "-fx-border-radius:8; -fx-padding:8;");
-                    HBox.setHgrow(rep, javafx.scene.layout.Priority.ALWAYS);
-
-                    ligne.getChildren().addAll(correct, lettre, rep);
-                    reponsesBox.getChildren().add(ligne);
+                    reponsesBox.getChildren().add(buildOptionRow(lettres[i]));
                 }
 
-                // Bouton ajouter option
-                Button btnAjout = new Button("+ Ajouter une option");
-                btnAjout.setStyle("-fx-background-color:transparent; -fx-text-fill:#229DBC; " +
-                        "-fx-font-size:12px; -fx-cursor:hand;");
-                btnAjout.setOnAction(e -> {
-                    int n = reponsesBox.getChildren().size(); // lettres A, B, C...
-                    String l = n < 26 ? String.valueOf((char)('A' + n - 1)) : String.valueOf(n);
-                    HBox ligne = new HBox(10);
-                    ligne.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
-                    CheckBox correct2 = new CheckBox();
-                    Label lettre2 = new Label(l);
-                    lettre2.setStyle("-fx-font-weight:bold; -fx-text-fill:#023047; -fx-min-width:16px;");
-                    TextField rep2 = new TextField();
-                    rep2.setPromptText("Réponse " + l + "...");
-                    rep2.setStyle("-fx-background-radius:8; -fx-border-color:#D5D8E0; -fx-border-radius:8; -fx-padding:8;");
-                    HBox.setHgrow(rep2, javafx.scene.layout.Priority.ALWAYS);
-                    ligne.getChildren().addAll(correct2, lettre2, rep2);
-                    // insérer avant le bouton ajouter
-                    reponsesBox.getChildren().add(reponsesBox.getChildren().size() - 1, ligne);
+                Button btnPlus = new Button("+ Ajouter une option");
+                btnPlus.setStyle(
+                        "-fx-background-color:transparent; -fx-text-fill:#229DBC; " +
+                                "-fx-font-size:12px; -fx-cursor:hand;");
+                btnPlus.setOnAction(e -> {
+                    // nb de HBox déjà là (index 1..n, index 0 = label, dernier = bouton)
+                    int n = (int) reponsesBox.getChildren().stream()
+                            .filter(c -> c instanceof HBox).count();
+                    String l = n < 26 ? String.valueOf((char)('A' + n)) : String.valueOf(n + 1);
+                    reponsesBox.getChildren().add(
+                            reponsesBox.getChildren().size() - 1,  // avant le bouton
+                            buildOptionRow(l));
                 });
-                reponsesBox.getChildren().add(btnAjout);
+                reponsesBox.getChildren().add(btnPlus);
             }
 
-            // ---- VRAI / FAUX ----
             case "Vrai / Faux" -> {
                 Label lbl = new Label("Sélectionnez la bonne réponse :");
                 lbl.setStyle("-fx-font-size:12px; -fx-text-fill:#555870;");
@@ -191,24 +180,25 @@ public class CreateQuizController implements Initializable {
                 RadioButton faux = new RadioButton("✗  Faux");
                 vrai.setToggleGroup(tg);
                 faux.setToggleGroup(tg);
-                vrai.setStyle("-fx-font-size:14px; -fx-text-fill:#1A5E35;");
-                faux.setStyle("-fx-font-size:14px; -fx-text-fill:#922B21;");
+                vrai.setStyle("-fx-font-size:14px; -fx-text-fill:#1A5E35; -fx-font-weight:bold;");
+                faux.setStyle("-fx-font-size:14px; -fx-text-fill:#922B21; -fx-font-weight:bold;");
 
-                HBox ligne = new HBox(30);
-                ligne.getChildren().addAll(vrai, faux);
+                HBox ligne = new HBox(30, vrai, faux);
+                ligne.setAlignment(Pos.CENTER_LEFT);
                 reponsesBox.getChildren().addAll(lbl, ligne);
             }
 
-            // ---- RÉPONSE LIBRE ----
             case "Réponse Libre" -> {
-                Label lbl = new Label("Réponse correcte attendue (optionnel) :");
+                Label lbl = new Label("Réponse correcte de référence (optionnel) :");
                 lbl.setStyle("-fx-font-size:12px; -fx-text-fill:#555870;");
 
                 TextArea libre = new TextArea();
-                libre.setPromptText("Entrez la réponse correcte de référence...");
+                libre.setPromptText("Entrez la réponse attendue...");
                 libre.setPrefHeight(80);
-                libre.setStyle("-fx-background-radius:8; -fx-border-color:#D5D8E0; " +
-                        "-fx-border-radius:8; -fx-font-size:13px;");
+                libre.setWrapText(true);
+                libre.setStyle(
+                        "-fx-background-radius:8; -fx-border-color:#D5D8E0; " +
+                                "-fx-border-radius:8; -fx-font-size:13px;");
 
                 Label info = new Label("ℹ️ Les réponses libres sont évaluées par le professeur.");
                 info.setStyle("-fx-font-size:11px; -fx-text-fill:#229DBC;");
@@ -218,17 +208,39 @@ public class CreateQuizController implements Initializable {
         }
     }
 
+    private HBox buildOptionRow(String lettre) {
+        HBox ligne = new HBox(10);
+        ligne.setAlignment(Pos.CENTER_LEFT);
+
+        CheckBox correct = new CheckBox();
+        correct.setTooltip(new Tooltip("Cocher = bonne réponse"));
+
+        Label lLet = new Label(lettre);
+        lLet.setStyle("-fx-font-weight:bold; -fx-text-fill:#023047; -fx-min-width:18px;");
+
+        TextField rep = new TextField();
+        rep.setPromptText("Réponse " + lettre + "...");
+        rep.setStyle(
+                "-fx-background-radius:8; -fx-border-color:#D5D8E0; " +
+                        "-fx-border-radius:8; -fx-padding:8; -fx-font-size:13px;");
+        HBox.setHgrow(rep, Priority.ALWAYS);
+
+        ligne.getChildren().addAll(correct, lLet, rep);
+        return ligne;
+    }
+
+    // ================================================
+    // RENUMÉROTER APRÈS SUPPRESSION
+    // ================================================
     private void renumeroterQuestions() {
         int num = 1;
         for (javafx.scene.Node node : questionsContainer.getChildren()) {
-            if (node instanceof VBox card) {
-                if (!card.getChildren().isEmpty()
-                        && card.getChildren().get(0) instanceof HBox header
-                        && !header.getChildren().isEmpty()
-                        && header.getChildren().get(0) instanceof Label lbl) {
-                    lbl.setText("Question " + num);
-                    num++;
-                }
+            if (!(node instanceof VBox card)) continue;
+            if (card.getChildren().isEmpty()) continue;
+            if (!(card.getChildren().get(0) instanceof HBox header)) continue;
+            if (header.getChildren().isEmpty()) continue;
+            if (header.getChildren().get(0) instanceof Label lbl) {
+                lbl.setText("Question " + num++);
             }
         }
         questionNumber = num;
@@ -236,118 +248,109 @@ public class CreateQuizController implements Initializable {
     }
 
     private void majCompteur() {
-        if (compteurLabel != null) {
-            compteurLabel.setText(
-                    (questionNumber - 1) + " question(s)");
-        }
+        if (compteurLabel != null)
+            compteurLabel.setText((questionNumber - 1) + " question(s)");
     }
 
-
+    // ================================================
+    // ENREGISTRER LE QUIZ  ← CORRECTION TIMER ICI
+    // ================================================
     @FXML
     void enregistrerQuiz(ActionEvent event) {
-
         try {
-            // ------ Validation entête ------
+            // Validation
             String titre = titreQuiz.getText() == null ? "" : titreQuiz.getText().trim();
-            if (titre.isEmpty()) {
-                afficherErreur("Veuillez saisir le titre du quiz."); return;
-            }
+            if (titre.isEmpty()) { afficherErreur("Veuillez saisir le titre."); return; }
 
             String matiere = matiereQuiz.getValue();
-            if (matiere == null) {
-                afficherErreur("Veuillez choisir une matière."); return;
+            if (matiere == null) { afficherErreur("Veuillez choisir une matière."); return; }
+
+            Utilisateur currentUser = Session.getCurrentUser();
+            if (currentUser == null || currentUser.getId() <= 0) {
+                afficherErreur("Utilisateur non connecté. Veuillez vous reconnecter.");
+                return;
             }
 
             if (questionsContainer.getChildren().isEmpty()) {
                 afficherErreur("Ajoutez au moins une question."); return;
             }
 
-            // ------ Créer et sauvegarder le Quiz ------
-            int idModule = getIdModule(matiere);
-            int nbQ = questionsContainer.getChildren().size();
+            // ✅ CORRECTION : lire la vraie valeur du Spinner
+            int tempsLimite = 30; // valeur par défaut de sécurité
+            if (tempsLimiteSpinner != null && tempsLimiteSpinner.getValue() != null) {
+                tempsLimite = tempsLimiteSpinner.getValue();
+            }
 
+            int idModule = getIdModule(matiere, currentUser.getId());
+            int nbQTotal = questionsContainer.getChildren().size();
+
+            // Créer le Quiz
             Quiz quiz = new Quiz();
             quiz.setTitre(titre);
             quiz.setDescription(
                     descriptionQuiz.getText() == null ? "" : descriptionQuiz.getText().trim());
             quiz.setIdModule(idModule);
-            quiz.setIdCreateur(1);       // utilisateur connecté (id=1 par défaut)
-            int tempsLimite = tempsLimiteSpinner.getValue();
-            quiz.setTempsLimite(tempsLimite);// 30 minutes
-            quiz.setScoreTotal(nbQ);     // 1 point par question
+            quiz.setIdCreateur(currentUser.getId());
+            quiz.setTempsLimite(tempsLimite);  // ← ici la vraie valeur
+            quiz.setScoreTotal(nbQTotal);
             quiz.setEstActif(true);
 
             quizService.add(quiz);
 
             if (quiz.getId() == 0) {
-                afficherErreur("❌ Échec de la sauvegarde du quiz (vérifiez la BDD)."); return;
+                afficherErreur("❌ Échec de la sauvegarde du quiz."); return;
             }
 
             int idQuiz = quiz.getId();
             int ordre  = 1;
-            int nbEnregistrees = 0;
+            int nbSauvees = 0;
 
-            // ------ Parcourir les questions ------
+            // Parcourir les questions
             for (javafx.scene.Node node : questionsContainer.getChildren()) {
-
                 if (!(node instanceof VBox card)) continue;
-
-                // Structure : [0]=HBox(header), [1]=TextField, [2]=Label, [3]=ComboBox, [4]=VBox(reponses)
+                // structure : [0]=HBox(header), [1]=TextField, [2]=Label, [3]=ComboBox, [4]=VBox
                 if (card.getChildren().size() < 5) continue;
 
-                TextField questionField = (TextField) card.getChildren().get(1);
+                TextField questionField = (TextField)  card.getChildren().get(1);
                 ComboBox<String> typeBox = (ComboBox<String>) card.getChildren().get(3);
-                VBox reponsesBox = (VBox) card.getChildren().get(4);
+                VBox reponsesBox        = (VBox)       card.getChildren().get(4);
 
                 String enonce    = questionField.getText();
                 String typeChoisi = typeBox.getValue();
 
-                if (enonce == null || enonce.trim().isEmpty()) {
-                    System.out.println("⚠ Question " + ordre + " ignorée (enoncé vide).");
-                    continue;
-                }
-                if (typeChoisi == null) {
-                    System.out.println("⚠ Question " + ordre + " ignorée (type non sélectionné).");
-                    continue;
-                }
+                if (enonce == null || enonce.trim().isEmpty()) continue;
+                if (typeChoisi == null) continue;
 
-                // Déterminer le type enum
-                QuestionType typeQuestion = switch (typeChoisi) {
-                    case "QCM"           -> QuestionType.QCM;
-                    case "Vrai / Faux"   -> QuestionType.VRAI_FAUX;
-                    default              -> QuestionType.REPONSE_LIBRE;
+                QuestionType qt = switch (typeChoisi) {
+                    case "QCM"          -> QuestionType.QCM;
+                    case "Vrai / Faux"  -> QuestionType.VRAI_FAUX;
+                    default             -> QuestionType.REPONSE_LIBRE;
                 };
 
-                // ------ Créer et sauvegarder la Question ------
                 Question question = new Question();
                 question.setIdQuiz(idQuiz);
                 question.setEnonce(enonce.trim());
-                question.setTypeQuestion(typeQuestion);
+                question.setTypeQuestion(qt);
                 question.setPoints(1);
                 question.setOrdre(ordre);
-
                 questionService.add(question);
 
-                if (question.getId() == 0) {
-                    System.out.println("⚠ Échec sauvegarde question " + ordre);
-                    continue;
-                }
+                if (question.getId() == 0) continue;
 
-                int idQuestion = question.getId();
-
-                // ------ Sauvegarder les Réponses ------
-                sauvegarderReponses(typeQuestion, reponsesBox, idQuestion);
-
+                sauvegarderReponses(qt, reponsesBox, question.getId());
                 ordre++;
-                nbEnregistrees++;
+                nbSauvees++;
             }
 
-            // ------ Confirmation ------
+            // ✅ Mettre à jour scoreTotal avec le vrai nombre de questions sauvées
+            quiz.setScoreTotal(nbSauvees);
+            quizService.update(quiz);
+
             Alert ok = new Alert(Alert.AlertType.INFORMATION);
             ok.setHeaderText(null);
             ok.setContentText(
-                    "✅ Quiz \"" + titre + "\" enregistré avec succès !\n"
-                            + nbEnregistrees + " question(s) sauvegardée(s).");
+                    "✅ Quiz \"" + titre + "\" enregistré !\n"
+                            + nbSauvees + " question(s) | Temps : " + tempsLimite + " min");
             ok.showAndWait();
 
             retourQuiz(event);
@@ -358,97 +361,127 @@ public class CreateQuizController implements Initializable {
         }
     }
 
+    // ================================================
+    // SAUVEGARDER LES RÉPONSES
+    // ================================================
     private void sauvegarderReponses(QuestionType type, VBox reponsesBox, int idQuestion) {
-
         switch (type) {
 
             case QCM -> {
-                // Les enfants de reponsesBox : [0]=Label, [1..n-1]=HBox(ligne), [n]=Button ajouter
-                for (javafx.scene.Node repNode : reponsesBox.getChildren()) {
-                    if (!(repNode instanceof HBox ligne)) continue;
+                for (javafx.scene.Node n : reponsesBox.getChildren()) {
+                    if (!(n instanceof HBox ligne)) continue;
                     if (ligne.getChildren().size() < 3) continue;
-
-                    CheckBox correct  = (CheckBox) ligne.getChildren().get(0);
-                    TextField repField = (TextField) ligne.getChildren().get(2);
-                    String texte = repField.getText();
-
+                    CheckBox  cb    = (CheckBox)  ligne.getChildren().get(0);
+                    TextField tf    = (TextField) ligne.getChildren().get(2);
+                    String    texte = tf.getText();
                     if (texte != null && !texte.trim().isEmpty()) {
-                        Reponse rep = new Reponse();
-                        rep.setIdQuestion(idQuestion);
-                        rep.setTexteReponse(texte.trim());
-                        rep.setEstCorrecte(correct.isSelected());
-                        reponseService.add(rep);
+                        Reponse r = new Reponse();
+                        r.setIdQuestion(idQuestion);
+                        r.setTexteReponse(texte.trim());
+                        r.setEstCorrecte(cb.isSelected());
+                        reponseService.add(r);
                     }
                 }
             }
 
             case VRAI_FAUX -> {
-                // reponsesBox : [0]=Label, [1]=HBox(RadioButtons)
+                // reponsesBox: [0]=Label, [1]=HBox(RadioButtons)
                 if (reponsesBox.getChildren().size() < 2) return;
                 HBox ligne = (HBox) reponsesBox.getChildren().get(1);
                 if (ligne.getChildren().size() < 2) return;
-
                 RadioButton vraiBtn = (RadioButton) ligne.getChildren().get(0);
-                boolean vraiSelected = vraiBtn.isSelected();
+                boolean vraiOk = vraiBtn.isSelected();
 
                 Reponse r1 = new Reponse();
                 r1.setIdQuestion(idQuestion);
                 r1.setTexteReponse("Vrai");
-                r1.setEstCorrecte(vraiSelected);
+                r1.setEstCorrecte(vraiOk);
                 reponseService.add(r1);
 
                 Reponse r2 = new Reponse();
                 r2.setIdQuestion(idQuestion);
                 r2.setTexteReponse("Faux");
-                r2.setEstCorrecte(!vraiSelected);
+                r2.setEstCorrecte(!vraiOk);
                 reponseService.add(r2);
             }
 
             case REPONSE_LIBRE -> {
-                // reponsesBox : [0]=Label, [1]=TextArea, [2]=Label info
+                // reponsesBox: [0]=Label, [1]=TextArea, [2]=Label info
                 if (reponsesBox.getChildren().size() < 2) return;
-                TextArea libre = (TextArea) reponsesBox.getChildren().get(1);
-                String bonneRep = libre.getText();
-
-                if (bonneRep != null && !bonneRep.trim().isEmpty()) {
-                    Reponse rep = new Reponse();
-                    rep.setIdQuestion(idQuestion);
-                    rep.setTexteReponse(bonneRep.trim());
-                    rep.setEstCorrecte(true);
-                    reponseService.add(rep);
+                TextArea ta = (TextArea) reponsesBox.getChildren().get(1);
+                String texte = ta.getText();
+                if (texte != null && !texte.trim().isEmpty()) {
+                    Reponse r = new Reponse();
+                    r.setIdQuestion(idQuestion);
+                    r.setTexteReponse(texte.trim());
+                    r.setEstCorrecte(true);
+                    reponseService.add(r);
                 }
             }
         }
     }
 
-    private int getIdModule(String matiere) {
-        return switch (matiere) {
-            case "Mathématiques"  -> 1;
-            case "Réseaux"        -> 2;
-            case "Java"           -> 3;
-            case "Electronique"   -> 4;
-            case "Base de données"-> 5;
-            case "Web"            -> 6;
-            default               -> 1;
-        };
+    // ================================================
+    // HELPERS
+    // ================================================
+    private int getIdModule(String matiere, int idCreateur) {
+        if (matiere == null || matiere.isBlank()) {
+            throw new RuntimeException("Matière invalide.");
+        }
+
+        String selectSql = "SELECT id_module FROM modules WHERE LOWER(nom_module) = LOWER(?) LIMIT 1";
+
+        Connection conn = DBConnection.getInstance().getConn();
+
+        try (PreparedStatement ps = conn.prepareStatement(selectSql)) {
+
+            ps.setString(1, matiere.trim());
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("id_module");
+                }
+            }
+
+        } catch (Exception e) {
+            throw new RuntimeException("Erreur recherche module : " + e.getMessage());
+        }
+
+        String insertSql = "INSERT INTO modules (nom_module, description, id_createur) VALUES (?, ?, ?)";
+
+        try (PreparedStatement ps = conn.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS)) {
+
+            ps.setString(1, matiere.trim());
+            ps.setString(2, "Module créé automatiquement depuis la création du quiz.");
+            ps.setInt(3, idCreateur);
+            ps.executeUpdate();
+
+            try (ResultSet keys = ps.getGeneratedKeys()) {
+                if (keys.next()) {
+                    return keys.getInt(1);
+                }
+            }
+
+        } catch (Exception e) {
+            throw new RuntimeException("Erreur création module : " + e.getMessage());
+        }
+
+        throw new RuntimeException("Impossible de créer ou récupérer le module.");
     }
 
-
-    private void afficherErreur(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
+    private void afficherErreur(String msg) {
+        Alert a = new Alert(Alert.AlertType.ERROR);
+        a.setHeaderText(null);
+        a.setContentText(msg);
+        a.showAndWait();
     }
-
 
     @FXML
     void retourQuiz(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(
-                getClass().getResource("/view/quiz.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/quiz.fxml"));
         Scene scene = new Scene(root);
         scene.getStylesheets().add(
-                getClass().getResource("/style/quiz.css").toExternalForm());
+                getClass().getResource("/styles/quiz.css").toExternalForm());
         Stage stage = (Stage) questionsContainer.getScene().getWindow();
         stage.setScene(scene);
         stage.show();
