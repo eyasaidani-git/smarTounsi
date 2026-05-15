@@ -69,7 +69,7 @@ public class ConnexionController {
          * Si dans la base tu as role='prof', mets "prof".
          * Si dans la base tu as role='professeur', garde "professeur".
          */
-        selectedRole = "professeur";
+        selectedRole = "prof";
 
         if (btnEtudiant != null && btnProf != null) {
             btnProf.getStyleClass().removeAll("role-button", "role-button-selected");

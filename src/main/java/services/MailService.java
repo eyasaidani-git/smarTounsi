@@ -10,6 +10,7 @@ import jakarta.mail.Session;
 import jakarta.mail.Transport;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
+import util.AppConfig;
 
 import java.io.UnsupportedEncodingException;
 import java.time.Duration;
@@ -33,8 +34,7 @@ public class MailService {
 
     private static final String FROM_EMAIL = "smartounsi6@gmail.com";
 
-    // Ici on lit le mot de passe d'application depuis IntelliJ / variable d'environnement
-    private static final String APP_PASSWORD = System.getenv("SMARTOUNSI_MAIL_PASSWORD");
+    private static final String MAIL_PASSWORD_KEY = "SMARTOUNSI_MAIL_PASSWORD";
 
     private static final String SENDER_NAME = "smarTounsi";
     private static final String SMTP_HOST = "smtp.gmail.com";
@@ -158,11 +158,13 @@ public class MailService {
     }
 
     private Session createMailSession() {
-        if (APP_PASSWORD == null || APP_PASSWORD.isBlank()) {
-            throw new RuntimeException("SMARTOUNSI_MAIL_PASSWORD n'est pas configuré dans IntelliJ.");
+        String rawPassword = AppConfig.get(MAIL_PASSWORD_KEY);
+
+        if (rawPassword == null || rawPassword.isBlank()) {
+            throw new RuntimeException("SMARTOUNSI_MAIL_PASSWORD n'est pas configure dans IntelliJ ni dans le fichier .env.");
         }
 
-        String cleanPassword = APP_PASSWORD.replace(" ", "").trim();
+        String cleanPassword = AppConfig.cleanGmailAppPassword(rawPassword);
 
         System.out.println("[MailService] FROM_EMAIL = " + FROM_EMAIL);
         System.out.println("[MailService] APP_PASSWORD configuré = oui");

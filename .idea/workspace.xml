@@ -5,35 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="54dbdfd1-9d4c-4fc1-b340-9f85f3e08b28" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/controllers/CreateQuizController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controllers/CreateQuizController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/controllers/DetailDocumentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controllers/DetailDocumentController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/controllers/Documentcontroller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controllers/Documentcontroller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/controllers/EvenementsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controllers/EvenementsController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/controllers/FavorisController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controllers/FavorisController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/controllers/ModulesController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controllers/ModulesController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/controllers/NotificationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controllers/NotificationController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/controllers/PlanningController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controllers/PlanningController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/controllers/PlayQuizController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controllers/PlayQuizController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/controllers/ProfilController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controllers/ProfilController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/controllers/ProjetController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controllers/ProjetController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/controllers/QuizController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controllers/QuizController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/controllers/UploadDocumentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controllers/UploadDocumentController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/services/QuestionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/services/QuestionService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/services/QuizService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/services/QuizService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/util/DBConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/util/DBConnection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/util/Navigator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/util/Navigator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/DetailDocument.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/DetailDocument.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/Document.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Document.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/Modules.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Modules.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/Planning.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Planning.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/ProjectView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/ProjectView.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/UploadDocument.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/UploadDocument.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/quiz.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/quiz.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/styles/planning.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/styles/planning.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/styles/profil.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/styles/profil.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/styles/stylesprojet.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/styles/stylesprojet.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/controllers/ConnexionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/controllers/ConnexionController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/services/EmailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/services/EmailService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/services/MailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/services/MailService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,6 +60,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Application.smartounsi.executor": "Run",
     "Maven.smartounsi [clean].executor": "Run",
     "Maven.smartounsi [compile].executor": "Run",
     "Maven.smartounsi [org.apache.maven.plugins:maven-clean-plugin:3.2.0:clean].executor": "Run",
@@ -119,6 +96,18 @@
       <recent name="C:\Users\eyasa\.jdks\jbr-17.0.14-2\bin\smarTounsi\src\main\resources" />
     </key>
   </component>
+  <component name="RunManager">
+    <configuration name="smartounsi" type="Application" factoryName="Application">
+      <envs>
+        <env name="SMARTOUNSI_MAIL_PASSWORD" value="mhus fnge ulou fkqr" />
+      </envs>
+      <option name="MAIN_CLASS_NAME" value="tn.esprit.Main" />
+      <module name="smartounsi" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -135,7 +124,7 @@
       <option name="presentableId" value="Default" />
       <updated>1778791697629</updated>
       <workItem from="1778791700887" duration="2959000" />
-      <workItem from="1778797259869" duration="13130000" />
+      <workItem from="1778797259869" duration="19081000" />
     </task>
     <servers />
   </component>
