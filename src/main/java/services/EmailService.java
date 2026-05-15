@@ -97,27 +97,6 @@ public class EmailService {
     }
 
     private String readCleanAppPassword() {
-        String rawPassword = AppConfig.getRequired(
-                MAIL_PASSWORD_KEY,
-                "Ajoutez la variable dans IntelliJ : Run > Edit Configurations > Environment variables.\n" +
-                        "Ou creez un fichier .env a la racine du projet avec :\n" +
-                        MAIL_PASSWORD_KEY + "=votre_mot_de_passe_application_gmail"
-        );
-
-        String cleanPassword = AppConfig.cleanGmailAppPassword(rawPassword);
-        if (cleanPassword == null || cleanPassword.isBlank()) {
-            throw new RuntimeException(MAIL_PASSWORD_KEY + " est vide apres nettoyage.");
-        }
-
-        if (cleanPassword.length() != 16) {
-            throw new RuntimeException(
-                    "Le mot de passe d'application Gmail doit contenir exactement 16 caracteres apres nettoyage. " +
-                            "Longueur actuelle : " + cleanPassword.length() + ".\n" +
-                            "Utilisez uniquement le mot de passe d'application Gmail de 16 caracteres, " +
-                            "pas le mot de passe normal du compte Gmail."
-            );
-        }
-
-        return cleanPassword;
+        return AppConfig.getCleanGmailAppPassword(MAIL_PASSWORD_KEY);
     }
 }

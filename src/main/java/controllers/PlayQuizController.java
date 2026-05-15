@@ -15,11 +15,18 @@ import javafx.util.Duration;
 import models.Question;
 import models.Quiz;
 import models.Reponse;
+import models.ResultatQuiz;
+import models.Utilisateur;
+import services.MailService;
 import services.QuestionService;
 import services.ReponseService;
 import services.ResultatQuizService;
+import services.UtilisateurService;
+import util.Session;
 
+import java.io.UnsupportedEncodingException;
 import java.io.IOException;
+import jakarta.mail.MessagingException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
@@ -52,9 +59,12 @@ public class PlayQuizController implements Initializable {
     private int                    tempsRestant;
     private boolean                modeNavigation = false; // true si FXML mis à jour
 
+    private boolean                quizTermine = false;
+
     private final QuestionService  questionService = new QuestionService();
     private final ReponseService   reponseService  = new ReponseService();
     private final ResultatQuizService resultatService = new ResultatQuizService();
+    private final UtilisateurService utilisateurService = new UtilisateurService();
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -346,6 +356,12 @@ public class PlayQuizController implements Initializable {
     // ================================================
     @FXML
     void terminerQuiz(ActionEvent event) {
+        if (quizTermine) {
+            return;
+        }
+
+        quizTermine = true;
+
         if (timer != null) timer.stop();
 
         int score     = calculerScore();
@@ -353,6 +369,8 @@ public class PlayQuizController implements Initializable {
         int nbQ       = questions.size();
         int seuil     = (int) Math.ceil(nbQ * 0.6); // 60% pour valider
         boolean valide = score >= seuil;
+        enregistrerResultat(score);
+        notifierEnseignant(score, total, nbQ, valide);
 
         // Message selon résultat
         String statut = valide ? "✅ QUIZ VALIDÉ !" : "❌ Quiz non validé";
@@ -372,6 +390,58 @@ public class PlayQuizController implements Initializable {
         fermerQuiz(event);
     }
 
+
+    private void enregistrerResultat(int score) {
+        Utilisateur currentUser = Session.getCurrentUser();
+        if (currentUser == null || quiz == null) {
+            return;
+        }
+
+        int tempsPasse = calculerTempsPasse();
+        ResultatQuiz resultat = new ResultatQuiz(quiz.getId(), currentUser.getId(), score, tempsPasse);
+        resultatService.add(resultat);
+    }
+
+    private void notifierEnseignant(int score, int total, int nbQ, boolean valide) {
+        Utilisateur currentUser = Session.getCurrentUser();
+        if (currentUser == null || quiz == null || quiz.getIdCreateur() <= 0) {
+            return;
+        }
+
+        Thread mailThread = new Thread(() -> {
+            try {
+                Utilisateur enseignant = utilisateurService.getById(quiz.getIdCreateur());
+                if (enseignant == null || enseignant.getEmail() == null || enseignant.getEmail().isBlank()) {
+                    System.err.println("[Quiz] Email enseignant introuvable pour le quiz " + quiz.getId());
+                    return;
+                }
+
+                MailService.getInstance().sendQuizScoreEmail(
+                        enseignant.getEmail(),
+                        currentUser,
+                        quiz,
+                        score,
+                        total,
+                        nbQ,
+                        valide
+                );
+            } catch (MessagingException | UnsupportedEncodingException | RuntimeException e) {
+                System.err.println("[Quiz] Impossible d'envoyer le score a l'enseignant : " + e.getMessage());
+            }
+        }, "quiz-score-mail");
+
+        mailThread.setDaemon(true);
+        mailThread.start();
+    }
+
+    private int calculerTempsPasse() {
+        int tempsTotal = quiz == null ? 0 : Math.max(0, quiz.getTempsLimite()) * 60;
+        if (tempsTotal <= 0) {
+            return 0;
+        }
+
+        return Math.max(0, tempsTotal - Math.max(0, tempsRestant));
+    }
 
     private void fermerQuiz(ActionEvent event) {
         try {

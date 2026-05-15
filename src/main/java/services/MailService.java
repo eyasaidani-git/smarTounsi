@@ -10,6 +10,8 @@ import jakarta.mail.Session;
 import jakarta.mail.Transport;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
+import models.Quiz;
+import models.Utilisateur;
 import util.AppConfig;
 
 import java.io.UnsupportedEncodingException;
@@ -157,14 +159,29 @@ public class MailService {
         System.out.println("[MailService] Email de test envoyé à : " + toEmail);
     }
 
-    private Session createMailSession() {
-        String rawPassword = AppConfig.get(MAIL_PASSWORD_KEY);
-
-        if (rawPassword == null || rawPassword.isBlank()) {
-            throw new RuntimeException("SMARTOUNSI_MAIL_PASSWORD n'est pas configure dans IntelliJ ni dans le fichier .env.");
+    public void sendQuizScoreEmail(String teacherEmail, Utilisateur student, Quiz quiz, int score,
+                                   int total, int questionCount, boolean validated)
+            throws MessagingException, UnsupportedEncodingException {
+        if (teacherEmail == null || teacherEmail.isBlank()) {
+            throw new MessagingException("Email enseignant manquant.");
         }
 
-        String cleanPassword = AppConfig.cleanGmailAppPassword(rawPassword);
+        Session session = createMailSession();
+
+        MimeMessage message = new MimeMessage(session);
+        message.setFrom(new InternetAddress(FROM_EMAIL, SENDER_NAME, "UTF-8"));
+        message.setRecipient(Message.RecipientType.TO, new InternetAddress(teacherEmail));
+        message.setSubject("Score quiz smarTounsi - " + safeText(quiz == null ? "" : quiz.getTitre()), "UTF-8");
+        message.setSentDate(new Date());
+        message.setContent(buildQuizScoreHtmlBody(student, quiz, score, total, questionCount, validated),
+                "text/html; charset=UTF-8");
+
+        Transport.send(message);
+        System.out.println("[MailService] Score quiz envoye a : " + teacherEmail);
+    }
+
+    private Session createMailSession() {
+        String cleanPassword = AppConfig.getCleanGmailAppPassword(MAIL_PASSWORD_KEY);
 
         System.out.println("[MailService] FROM_EMAIL = " + FROM_EMAIL);
         System.out.println("[MailService] APP_PASSWORD configuré = oui");
@@ -265,6 +282,69 @@ public class MailService {
                 + "</div>";
     }
 
+    private String buildQuizScoreHtmlBody(Utilisateur student, Quiz quiz, int score, int total,
+                                          int questionCount, boolean validated) {
+        String studentName = student == null ? "Utilisateur" : student.getNomComplet();
+        String studentEmail = student == null ? "" : student.getEmail();
+        String quizTitle = quiz == null ? "Quiz" : quiz.getTitre();
+        String moduleName = quiz == null ? "" : quiz.getNomModule();
+        String status = validated ? "Valide" : "Non valide";
+        String statusColor = validated ? "#1A7F45" : "#C2410C";
+
+        return """
+                <!DOCTYPE html>
+                <html lang="fr">
+                <head>
+                    <meta charset="UTF-8">
+                </head>
+                <body style="margin:0;padding:0;background:#f4f7fb;font-family:Arial,sans-serif;color:#023047;">
+                    <table width="100%%" cellpadding="0" cellspacing="0" style="padding:28px 0;background:#f4f7fb;">
+                        <tr>
+                            <td align="center">
+                                <table width="600" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:10px;overflow:hidden;">
+                                    <tr>
+                                        <td style="background:#023047;color:#ffffff;padding:22px 28px;text-align:center;">
+                                            <div style="font-size:22px;font-weight:bold;">smarTounsi</div>
+                                            <div style="color:#FEB707;margin-top:6px;">Resultat de quiz</div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:24px 28px;">
+                                            <p style="margin:0 0 14px 0;">Bonjour,</p>
+                                            <p style="margin:0 0 18px 0;">Un etudiant vient de terminer votre quiz.</p>
+                                            <table width="100%%" cellpadding="0" cellspacing="0" style="border:1px solid #e5edf3;border-radius:8px;">
+                                                <tr><td style="padding:10px 12px;"><strong>Etudiant</strong></td><td style="padding:10px 12px;">%s</td></tr>
+                                                <tr><td style="padding:10px 12px;"><strong>Email</strong></td><td style="padding:10px 12px;">%s</td></tr>
+                                                <tr><td style="padding:10px 12px;"><strong>Quiz</strong></td><td style="padding:10px 12px;">%s</td></tr>
+                                                <tr><td style="padding:10px 12px;"><strong>Module</strong></td><td style="padding:10px 12px;">%s</td></tr>
+                                                <tr><td style="padding:10px 12px;"><strong>Score</strong></td><td style="padding:10px 12px;">%d / %d</td></tr>
+                                                <tr><td style="padding:10px 12px;"><strong>Questions</strong></td><td style="padding:10px 12px;">%d</td></tr>
+                                                <tr><td style="padding:10px 12px;"><strong>Statut</strong></td><td style="padding:10px 12px;color:%s;font-weight:bold;">%s</td></tr>
+                                            </table>
+                                            <p style="margin:18px 0 0 0;color:#556070;font-size:13px;">
+                                                Cet email a ete envoye automatiquement par smarTounsi.
+                                            </p>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </body>
+                </html>
+                """.formatted(
+                escapeHtml(safeText(studentName)),
+                escapeHtml(safeText(studentEmail)),
+                escapeHtml(safeText(quizTitle)),
+                escapeHtml(safeText(moduleName)),
+                score,
+                total,
+                questionCount,
+                statusColor,
+                escapeHtml(status)
+        );
+    }
+
     private String formatFiles(TodoItem item) {
         if (item.getFichiers() == null || item.getFichiers().isEmpty()) {
             return "";
@@ -305,6 +385,10 @@ public class MailService {
                 .replace(">", "&gt;")
                 .replace("\"", "&quot;")
                 .replace("'", "&#39;");
+    }
+
+    private String safeText(String value) {
+        return value == null ? "" : value;
     }
 
     private DateTimeFormatter dateFormat() {
